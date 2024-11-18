@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_bcscan/app_view.dart';
+// import 'package:ssnhi_app/app_view.dart';
+import 'package:ssnhi_app/screens/authentication/sign_in.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -8,12 +9,12 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Barcode Scanner',
+      title: 'SSNHI App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AppView(),
+      home: const SigninPage(),
     );
   }
 }
