@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "763661840962",
+    "project_id": "ssnhi-app",
+    "storage_bucket": "ssnhi-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763661840962:android:2f16c0202b3b261c4bf3db",
+        "android_client_info": {
+          "package_name": "com.example.ssnhi_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzxHNWIsyv18SzMJIKsW0hcQpC6rUzDaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

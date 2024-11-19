@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ssnhi_app/screens/authentication/sign_up.dart';
 import 'package:ssnhi_app/screens/authentication/widgets/sign_in/signin_form.dart';
 import 'package:ssnhi_app/screens/authentication/widgets/sign_in/signin_side_panel.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class SigninPage extends StatelessWidget {
@@ -22,13 +23,18 @@ class SigninPage extends StatelessWidget {
               flex: 3,
               child: Column(
                 children: [
-                  // Insert sign in form and widgets corresponding
+                  const SigninForm(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Responsive.isMobile(context)
-                          ? const Text('Already have an account?')
-                          : const Spacer(),
+                      // Responsive.isMobile(context)
+                      //     ? const Text('Already have an account?')
+                      //     : const Spacer(),
+                      const Text(
+                        'Already have an account?',
+                        style: titleText,
+                      ),
                       TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -36,10 +42,12 @@ class SigninPage extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => const SignUpPage()));
                           },
-                          child: const Text('Sign up')),
+                          child: const Text(
+                            'Sign up',
+                            style: TextStyle(color: Colors.blue, fontSize: 18),
+                          )),
                     ],
                   ),
-                  const SigninForm(),
                 ],
               ),
             )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key});
@@ -10,7 +11,9 @@ class SignUpForm extends StatelessWidget {
     //
 
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: Responsive.isDesktop(context)
+          ? const EdgeInsets.all(100)
+          : const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -66,7 +69,6 @@ class SignUpForm extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               OutlinedButton(
@@ -76,7 +78,7 @@ class SignUpForm extends StatelessWidget {
                   style: subtitleText,
                 ),
               ),
-              OutlinedButton(
+              TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },

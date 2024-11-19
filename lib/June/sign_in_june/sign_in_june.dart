@@ -1,27 +1,34 @@
 import 'package:june/state_manager/src/simple/controllers.dart';
 
 class SignInJune extends JuneState {
-  static bool obscured = true;
-  String email;
-  String passsword;
+  static final SignInJune instance = SignInJune._privateConstructor();
 
-  SignInJune({
-    required this.email,
-    required this.passsword,
-  });
+  bool obscured = true;
+  String? email;
+  String? password;
+
+  SignInJune._privateConstructor();
+
+  @override
+  void dispose() {
+    password = '';
+    email = '';
+    setState();
+    super.dispose();
+  }
 
   viewPassword() {
-    obscured != obscured;
+    obscured = !obscured;
     setState();
   }
 
   emailValue(String email) {
-    email = email;
+    this.email = email;
     setState();
   }
 
   passwordValue(String password) {
-    password = password;
+    this.password = password;
     setState();
   }
 }
