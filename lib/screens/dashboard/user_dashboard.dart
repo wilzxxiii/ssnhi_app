@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ssnhi_app/screens/authentication/widgets/sign_up/sign_up_form.dart';
-import 'package:ssnhi_app/screens/authentication/widgets/sign_up/sign_up_side_panel.dart';
+import 'package:ssnhi_app/screens/barcode_scanner.dart';
+import 'package:ssnhi_app/screens/dashboard/user_dashboard_side_panel.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class UserDashboard extends StatelessWidget {
+  const UserDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class SignUpPage extends StatelessWidget {
             if (!Responsive.isMobile(context))
               Expanded(
                 flex: Responsive.isTablet(context) ? 2 : 1,
-                child: const SignUpSidePanel(),
+                child: const UserDashboardSidePanel(),
               ),
             const Expanded(
               flex: 3,
@@ -38,7 +39,7 @@ class SignUpPage extends StatelessWidget {
                   //         child: const Text('Sign up')),
                   //   ],
                   // ),
-                  SignUpForm(),
+                  BarcodeScannerScreen(),
                 ],
               ),
             )

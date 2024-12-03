@@ -1,18 +1,17 @@
+//all user calls and firebase calls
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:ssnhi_app/data/models/user_model.dart';
 
-import '../user_repository.dart';
-
-class FirebaseUserRepo implements UserRepository {
-  FirebaseUserRepo({FirebaseAuth? firebaseAuth})
+class UserFirebaseRepository extends ChangeNotifier {
+  UserFirebaseRepository({FirebaseAuth? firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   final FirebaseAuth _firebaseAuth;
   final _userCollection = FirebaseFirestore.instance.collection('users');
 
-  @override
   Stream<User?> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       final user = firebaseUser;
@@ -20,7 +19,6 @@ class FirebaseUserRepo implements UserRepository {
     });
   }
 
-  @override
   Future<void> logOut() async {
     try {
       await _firebaseAuth.signOut();
@@ -30,18 +28,19 @@ class FirebaseUserRepo implements UserRepository {
     }
   }
 
-  @override
+  // @override
   Future<void> signIn(String email, String password) async {
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-    } catch (e) {
-      log(e.toString());
-      rethrow;
-    }
+    await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    // try {
+
+    // } catch (e) {
+    //   log(e.toString());
+    //   rethrow;
+    // }
   }
 
-  @override
+  // @override
   Future<MyUser> signUp(
     MyUser myUser,
     String password,
@@ -52,7 +51,7 @@ class FirebaseUserRepo implements UserRepository {
 
       myUser = myUser.copyWith(id: user.user!.uid);
       await _userCollection.doc(user.user!.uid).set(myUser.toEntity().toJson());
-
+      await _firebaseAuth.currentUser!.sendEmailVerification();
       return myUser;
     } catch (e) {
       log(e.toString());
@@ -60,7 +59,7 @@ class FirebaseUserRepo implements UserRepository {
     }
   }
 
-  @override
+  // @override
   Future<void> resetPassword(String email) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
@@ -70,11 +69,13 @@ class FirebaseUserRepo implements UserRepository {
     }
   }
 
-  @override
+  // @override
   Future<MyUser> getMyUser(String myUserId) {
     try {
-      return _userCollection.doc(myUserId).get().then(
-          (value) => MyUser.fromEntity(MyUserEntity.fromJson(value.data()!)));
+      return _userCollection
+          .doc(myUserId)
+          .get()
+          .then((value) => MyUser.fromEntity(MyUser.fromJson(value.data()!)));
       // await _userCollection.doc(user.id).set(user.toEntity().toJson());
     } catch (e) {
       log(e.toString());
@@ -82,7 +83,7 @@ class FirebaseUserRepo implements UserRepository {
     }
   }
 
-  @override
+  // @override
   Future<void> setUserData(MyUser user) async {
     try {
       await _userCollection.doc(user.id).set(user.toEntity().toJson());

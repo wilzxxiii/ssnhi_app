@@ -3,16 +3,27 @@ import 'package:june/state_manager/src/simple/controllers.dart';
 class SignUpJune extends JuneState {
   static final SignUpJune instance = SignUpJune._privateConstructor();
 
-  bool obscured = true;
+  bool passwordObs = true;
+  bool confirmPasswordObs = true;
   String? email;
   String? name;
-  String? passsword;
+  String? password;
   String? confirmPassword;
 
   SignUpJune._privateConstructor();
 
   void viewPassword() {
-    obscured = !obscured;
+    passwordObs = !passwordObs;
+    setState();
+  }
+
+  void viewConfirmPassword() {
+    confirmPasswordObs = !confirmPasswordObs;
+    setState();
+  }
+
+  void nameValue(String name) {
+    this.name = name;
     setState();
   }
 
@@ -22,12 +33,20 @@ class SignUpJune extends JuneState {
   }
 
   void passwordValue(String password) {
-    this.passsword = password;
+    this.password = password;
     setState();
   }
 
   void confirmPasswordValue(String confirmPassword) {
     this.confirmPassword = confirmPassword;
     setState();
+  }
+
+  void disposeSignUp() {
+    email = "";
+    name = "";
+    password = '';
+    confirmPassword = '';
+    super.dispose();
   }
 }

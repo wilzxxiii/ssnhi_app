@@ -1,1 +1,39 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"ssnhi-app","appId":"1:763661840962:android:2f16c0202b3b261c4bf3db","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"ssnhi-app","configurations":{"android":"1:763661840962:android:2f16c0202b3b261c4bf3db","ios":"1:763661840962:ios:edacac8c44b58b284bf3db","macos":"1:763661840962:ios:edacac8c44b58b284bf3db","web":"1:763661840962:web:1d0629cafa8e52414bf3db","windows":"1:763661840962:web:4510de67abee54004bf3db"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "ssnhi-app",
+          "appId": "1:763661840962:android:2f16c0202b3b261c4bf3db",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "ssnhi-app",
+          "configurations": {
+            "android": "1:763661840962:android:2f16c0202b3b261c4bf3db",
+            "ios": "1:763661840962:ios:edacac8c44b58b284bf3db",
+            "macos": "1:763661840962:ios:edacac8c44b58b284bf3db",
+            "web": "1:763661840962:web:1d0629cafa8e52414bf3db",
+            "windows": "1:763661840962:web:4510de67abee54004bf3db"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

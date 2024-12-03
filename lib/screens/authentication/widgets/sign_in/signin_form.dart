@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/June/sign_in_june/sign_in_june.dart';
+import 'package:ssnhi_app/data/repo/user_firebase.dart';
+import 'package:ssnhi_app/screens/authentication/user_check.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
+import 'package:toasty_box/toast_enums.dart';
+import 'package:toasty_box/toast_service.dart';
 
 class SigninForm extends StatelessWidget {
   const SigninForm({super.key});
@@ -16,6 +20,7 @@ class SigninForm extends StatelessWidget {
     final TextEditingController emailCtrl = TextEditingController();
     final TextEditingController passwordCtrl = TextEditingController();
     final formKey = GlobalKey<FormState>();
+    final firebaseRepo = UserFirebaseRepository();
 
     return Padding(
       // padding: const EdgeInsets.all(20.0),
@@ -82,15 +87,52 @@ class SigninForm extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               OutlinedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    print('form valid');
-                    // SignInJune.instance.dispose();
-                    // passwordCtrl.dispose();
-                    // emailCtrl.dispose();
-                    // print(vm.email);
+                    try {
+                      await firebaseRepo
+                          .signIn(emailCtrl.text, passwordCtrl.text)
+                          .then((value) {
+                        emailCtrl.dispose();
+                        passwordCtrl.dispose();
+                        if (context.mounted) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserChecker()));
+                        }
+                      });
+                    } on FirebaseAuthException catch (e) {
+                      if (context.mounted) {
+                        ToastService.showToast(
+                          context,
+                          isClosable: true,
+                          backgroundColor: Colors.red,
+                          shadowColor: Colors.teal.shade200,
+                          length: ToastLength.medium,
+                          expandedHeight: 100,
+                          message: e.toString(),
+                          leading: const Icon(Icons.error),
+                          slideCurve: Curves.elasticInOut,
+                          positionCurve: Curves.bounceOut,
+                          dismissDirection: DismissDirection.none,
+                        );
+                      }
+                    }
                   } else {
-                    print('form invalid');
+                    ToastService.showToast(
+                      context,
+                      isClosable: true,
+                      backgroundColor: Colors.red,
+                      shadowColor: Colors.teal.shade200,
+                      length: ToastLength.medium,
+                      expandedHeight: 100,
+                      message: "Form is invalid",
+                      leading: const Icon(Icons.error),
+                      slideCurve: Curves.elasticInOut,
+                      positionCurve: Curves.bounceOut,
+                      dismissDirection: DismissDirection.none,
+                    );
                   }
                 },
                 child: const Text(
