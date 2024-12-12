@@ -56,12 +56,14 @@ class MyUser {
         name: doc['name'] as String);
   }
 
-  @override
-  String toString() {
-    return '''UserEntity:{
-    id: $id,
-    name: $name,
-    email: $email,
-  }''';
-  }
+  // @override
+  // String toString() {
+  //   return '''UserEntity:{
+  //   id: $id,
+  //   name: $name,
+  //   email: $email,
+  // }''';
+  // }
+
+  //save user state
 }

@@ -36,7 +36,7 @@ class SigninForm extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'SIGN IN KA DAW MUNA ',
+                'SIGN IN',
                 style: titleText,
               ),
               // const Spacer(),
@@ -52,13 +52,15 @@ class SigninForm extends StatelessWidget {
                 validator: EmailValidator(
                   errorText: 'Please enter a valid email address',
                 ).call,
-                decoration: const InputDecoration(
-                  label: Text('E-mail address'),
-                  prefixIcon: Icon(Icons.email),
+                decoration: InputDecoration(
+                  label: const Text('E-mail address'),
+                  prefixIcon: const Icon(Icons.email),
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, style: BorderStyle.solid),
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide:
+                        const BorderSide(width: 20, style: BorderStyle.solid),
                   ),
                 ),
               ),
@@ -75,8 +77,10 @@ class SigninForm extends StatelessWidget {
                   label: const Text('Password'),
                   prefixIcon: const Icon(Icons.password_outlined),
                   contentPadding: const EdgeInsets.all(20),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(width: 10, style: BorderStyle.solid),
+                  border: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(width: 20, style: BorderStyle.solid),
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
                   suffixIcon: IconButton(
                       onPressed: () {
@@ -139,7 +143,7 @@ class SigninForm extends StatelessWidget {
                   'Log in',
                   style: titleText,
                 ),
-              )
+              ),
             ],
           ),
         ),

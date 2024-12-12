@@ -14,37 +14,10 @@ class EmailVerificationScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Verify your Email Address',
+                'Please verify your Email Address',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 15),
-
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   children: [
-              //     MaterialButton(
-              //       height: kButtonHeight,
-              //       minWidth: kButtonWidth,
-              //       shape: kButtonShape,
-              //       onPressed: () async {
-              //         await authService.resendVerificationLink(context);
-              //       },
-              //       color: kLightTheme,
-              //       child: const Text('Resend Verification Link'),
-              //     ),
-              //     const SizedBox(
-              //       width: 15,
-              //     ),
-              //     MaterialButton(
-              //       height: kButtonHeight,
-              //       minWidth: kButtonWidth,
-              //       shape: kButtonShape,
-              //       onPressed: () {},
-              //       child: const Text('Log out'),
-              //     ),
-              //   ],
-              // )
             ],
           ),
         ),

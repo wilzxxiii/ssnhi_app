@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/screens/authentication/widgets/sign_up/sign_up_form.dart';
-import 'package:ssnhi_app/screens/barcode_scanner.dart';
+import 'package:ssnhi_app/screens/dashboard/user_dashboard_menu.dart';
 import 'package:ssnhi_app/screens/dashboard/user_dashboard_side_panel.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
@@ -9,6 +8,7 @@ class UserDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(GetUserInfo.instance.name!);
     return Scaffold(
       body: SafeArea(
         child: Row(
@@ -39,7 +39,7 @@ class UserDashboard extends StatelessWidget {
                   //         child: const Text('Sign up')),
                   //   ],
                   // ),
-                  BarcodeScannerScreen(),
+                  UserDashboardMenu(),
                 ],
               ),
             )
