@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/screens/authentication/widgets/sign_up/sign_up_form.dart';
-import 'package:ssnhi_app/screens/authentication/widgets/sign_up/sign_up_side_panel.dart';
+import 'package:ssnhi_app/widgets/sign_up/sign_up_form.dart';
+import 'package:ssnhi_app/widgets/sign_up/sign_up_side_panel.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class SignUpPage extends StatelessWidget {

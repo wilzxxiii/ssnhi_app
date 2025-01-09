@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/screens/authentication/sign_up.dart';
-import 'package:ssnhi_app/screens/authentication/widgets/sign_in/signin_form.dart';
-import 'package:ssnhi_app/screens/authentication/widgets/sign_in/signin_side_panel.dart';
+import 'package:ssnhi_app/screens/authentication/sign%20up/sign_up.dart';
+import 'package:ssnhi_app/widgets/sign_in/signin_form.dart';
+import 'package:ssnhi_app/widgets/sign_in/signin_side_panel.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
@@ -33,7 +33,7 @@ class SigninPage extends StatelessWidget {
                       //     : const Spacer(),
                       const Text(
                         'Already have an account?',
-                        style: titleText,
+                        style: titleStyle,
                       ),
                       TextButton(
                           onPressed: () {

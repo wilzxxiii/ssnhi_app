@@ -23,7 +23,7 @@ class SignUpForm extends StatelessWidget {
     final TextEditingController passwordCtrl = TextEditingController();
     final TextEditingController confirmPasswordCtrl = TextEditingController();
     final formKey = GlobalKey<FormState>();
-    final userFirebaseRepository = UserFirebaseRepository();
+    // final userFirebaseRepository = UserFirebaseRepository();
 
     return DelayedDisplay(
       delay: const Duration(seconds: 1),
@@ -139,67 +139,67 @@ class SignUpForm extends StatelessWidget {
                         backgroundColor: Colors.black, //<-- SEE HERE
                       ),
                       onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          if (confirmPasswordCtrl.text != passwordCtrl.text) {
-                            ToastService.showToast(
-                              context,
-                              isClosable: true,
-                              backgroundColor: Colors.red,
-                              shadowColor: Colors.teal.shade200,
-                              length: ToastLength.medium,
-                              expandedHeight: 100,
-                              message: 'Password does not match',
-                              leading: const Icon(Icons.error),
-                              slideCurve: Curves.elasticInOut,
-                              positionCurve: Curves.bounceOut,
-                              dismissDirection: DismissDirection.none,
-                            );
-                          } else {
-                            try {
-                              MyUser myUser = MyUser.empty;
-                              myUser = myUser.copyWith(
-                                email: emailCtrl.text,
-                                name: nameCtrl.text,
-                              );
+                        // if (formKey.currentState!.validate()) {
+                        //   if (confirmPasswordCtrl.text != passwordCtrl.text) {
+                        //     ToastService.showToast(
+                        //       context,
+                        //       isClosable: true,
+                        //       backgroundColor: Colors.red,
+                        //       shadowColor: Colors.teal.shade200,
+                        //       length: ToastLength.medium,
+                        //       expandedHeight: 100,
+                        //       message: 'Password does not match',
+                        //       leading: const Icon(Icons.error),
+                        //       slideCurve: Curves.elasticInOut,
+                        //       positionCurve: Curves.bounceOut,
+                        //       dismissDirection: DismissDirection.none,
+                        //     );
+                        //   } else {
+                        //     // try {
+                        //     //   MyUser myUser = MyUser.empty;
+                        //     //   myUser = myUser.copyWith(
+                        //     //     email: emailCtrl.text,
+                        //     //     name: nameCtrl.text,
+                        //     //   );
 
-                              userFirebaseRepository.signUp(
-                                  myUser, confirmPasswordCtrl.text);
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const UserChecker()));
-                            } on FirebaseAuthException catch (e) {
-                              ToastService.showToast(
-                                context,
-                                isClosable: true,
-                                backgroundColor: Colors.teal.shade500,
-                                shadowColor: Colors.teal.shade200,
-                                length: ToastLength.medium,
-                                expandedHeight: 100,
-                                message: e.toString(),
-                                leading: const Icon(Icons.messenger),
-                                slideCurve: Curves.elasticInOut,
-                                positionCurve: Curves.bounceOut,
-                                dismissDirection: DismissDirection.none,
-                              );
-                            }
-                          }
-                        } else {
-                          ToastService.showToast(
-                            context,
-                            isClosable: true,
-                            backgroundColor: Colors.red,
-                            shadowColor: Colors.teal.shade200,
-                            length: ToastLength.medium,
-                            expandedHeight: 100,
-                            message: 'Form not valid',
-                            leading: const Icon(Icons.messenger),
-                            slideCurve: Curves.elasticInOut,
-                            positionCurve: Curves.bounceOut,
-                            dismissDirection: DismissDirection.none,
-                          );
-                        }
+                        //     //   userFirebaseRepository.signUp(
+                        //     //       myUser, confirmPasswordCtrl.text);
+                        //     //   Navigator.pushReplacement(
+                        //     //       context,
+                        //     //       MaterialPageRoute(
+                        //     //           builder: (context) =>
+                        //     //               const UserChecker()));
+                        //     } on FirebaseAuthException catch (e) {
+                        //       ToastService.showToast(
+                        //         context,
+                        //         isClosable: true,
+                        //         backgroundColor: Colors.teal.shade500,
+                        //         shadowColor: Colors.teal.shade200,
+                        //         length: ToastLength.medium,
+                        //         expandedHeight: 100,
+                        //         message: e.toString(),
+                        //         leading: const Icon(Icons.messenger),
+                        //         slideCurve: Curves.elasticInOut,
+                        //         positionCurve: Curves.bounceOut,
+                        //         dismissDirection: DismissDirection.none,
+                        //       );
+                        //     }
+                        //   }
+                        // } else {
+                        //   ToastService.showToast(
+                        //     context,
+                        //     isClosable: true,
+                        //     backgroundColor: Colors.red,
+                        //     shadowColor: Colors.teal.shade200,
+                        //     length: ToastLength.medium,
+                        //     expandedHeight: 100,
+                        //     message: 'Form not valid',
+                        //     leading: const Icon(Icons.messenger),
+                        //     slideCurve: Curves.elasticInOut,
+                        //     positionCurve: Curves.bounceOut,
+                        //     dismissDirection: DismissDirection.none,
+                        //   );
+                        // }
                       },
                       child: const Text(
                         'Register',
@@ -211,11 +211,11 @@ class SignUpForm extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        emailCtrl.dispose();
-                        nameCtrl.dispose();
-                        passwordCtrl.dispose();
-                        confirmPasswordCtrl.dispose();
-                        Navigator.pop(context);
+                        // emailCtrl.dispose();
+                        // nameCtrl.dispose();
+                        // passwordCtrl.dispose();
+                        // confirmPasswordCtrl.dispose();
+                        // Navigator.pop(context);
                       },
                       child: const Text(
                         'Cancel',

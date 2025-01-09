@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/shared/utils/responsive.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
 
 class UserDashboardMenu extends StatelessWidget {
   const UserDashboardMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: Responsive.isDesktop(context)
-          ? const EdgeInsets.all(100)
-          : const EdgeInsets.all(20),
-      child: const SafeArea(
-        child: Column(
-          children: [],
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.90,
+      height: MediaQuery.of(context).size.height * 0.8,
+      decoration: const BoxDecoration(
+        color: mainColor,
+        borderRadius: BorderRadius.all(
+          Radius.circular(40),
         ),
       ),
     );

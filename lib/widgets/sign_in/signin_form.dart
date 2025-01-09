@@ -20,7 +20,7 @@ class SigninForm extends StatelessWidget {
     final TextEditingController emailCtrl = TextEditingController();
     final TextEditingController passwordCtrl = TextEditingController();
     final formKey = GlobalKey<FormState>();
-    final firebaseRepo = UserFirebaseRepository();
+    // final firebaseRepo = UserFirebaseRepository();
 
     return Padding(
       // padding: const EdgeInsets.all(20.0),
@@ -92,52 +92,52 @@ class SigninForm extends StatelessWidget {
               const SizedBox(height: 20),
               OutlinedButton(
                 onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    try {
-                      await firebaseRepo
-                          .signIn(emailCtrl.text, passwordCtrl.text)
-                          .then((value) {
-                        emailCtrl.dispose();
-                        passwordCtrl.dispose();
-                        if (context.mounted) {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UserChecker()));
-                        }
-                      });
-                    } on FirebaseAuthException catch (e) {
-                      if (context.mounted) {
-                        ToastService.showToast(
-                          context,
-                          isClosable: true,
-                          backgroundColor: Colors.red,
-                          shadowColor: Colors.teal.shade200,
-                          length: ToastLength.medium,
-                          expandedHeight: 100,
-                          message: e.toString(),
-                          leading: const Icon(Icons.error),
-                          slideCurve: Curves.elasticInOut,
-                          positionCurve: Curves.bounceOut,
-                          dismissDirection: DismissDirection.none,
-                        );
-                      }
-                    }
-                  } else {
-                    ToastService.showToast(
-                      context,
-                      isClosable: true,
-                      backgroundColor: Colors.red,
-                      shadowColor: Colors.teal.shade200,
-                      length: ToastLength.medium,
-                      expandedHeight: 100,
-                      message: "Form is invalid",
-                      leading: const Icon(Icons.error),
-                      slideCurve: Curves.elasticInOut,
-                      positionCurve: Curves.bounceOut,
-                      dismissDirection: DismissDirection.none,
-                    );
-                  }
+                  // if (formKey.currentState!.validate()) {
+                  //   try {
+                  //     await firebaseRepo
+                  //         .signIn(emailCtrl.text, passwordCtrl.text)
+                  //         .then((value) {
+                  //       emailCtrl.dispose();
+                  //       passwordCtrl.dispose();
+                  //       if (context.mounted) {
+                  //         Navigator.pushReplacement(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) => const UserChecker()));
+                  //       }
+                  //     });
+                  //   } on FirebaseAuthException catch (e) {
+                  //     if (context.mounted) {
+                  //       ToastService.showToast(
+                  //         context,
+                  //         isClosable: true,
+                  //         backgroundColor: Colors.red,
+                  //         shadowColor: Colors.teal.shade200,
+                  //         length: ToastLength.medium,
+                  //         expandedHeight: 100,
+                  //         message: e.toString(),
+                  //         leading: const Icon(Icons.error),
+                  //         slideCurve: Curves.elasticInOut,
+                  //         positionCurve: Curves.bounceOut,
+                  //         dismissDirection: DismissDirection.none,
+                  //       );
+                  //     }
+                  //   }
+                  // } else {
+                  //   ToastService.showToast(
+                  //     context,
+                  //     isClosable: true,
+                  //     backgroundColor: Colors.red,
+                  //     shadowColor: Colors.teal.shade200,
+                  //     length: ToastLength.medium,
+                  //     expandedHeight: 100,
+                  //     message: "Form is invalid",
+                  //     leading: const Icon(Icons.error),
+                  //     slideCurve: Curves.elasticInOut,
+                  //     positionCurve: Curves.bounceOut,
+                  //     dismissDirection: DismissDirection.none,
+                  //   );
+                  // }
                 },
                 child: const Text(
                   'Log in',
