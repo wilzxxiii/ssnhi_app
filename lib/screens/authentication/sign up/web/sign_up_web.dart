@@ -12,15 +12,17 @@ class SignUpWebPage extends StatelessWidget {
       body: SafeArea(
         child: Row(
           children: [
-            if (!Responsive.isMobile(context))
-              Expanded(
-                flex: Responsive.isTablet(context) ? 2 : 1,
-                child: const SidePannel(),
-              ),
+            Expanded(
+              flex: Responsive.isTablet(context) ? 2 : 1,
+              child: const SidePannel(),
+            ),
             const Expanded(
               flex: 3,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  //
                   // Insert sign in form and widgets corresponding
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -4,7 +4,6 @@ import 'package:june/june.dart';
 import 'package:ssnhi_app/June/sign_in_june/sign_in_june.dart';
 import 'package:ssnhi_app/screens/authentication/sign%20up/sign_up.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class SigninForm extends StatelessWidget {
   const SigninForm({super.key});
@@ -16,16 +15,14 @@ class SigninForm extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     // final firebaseRepo = UserFirebaseRepository();
 
-    return Padding(
-      // padding: const EdgeInsets.all(20.0),
-      padding: Responsive.isDesktop(context)
-          ? const EdgeInsets.all(100)
-          : const EdgeInsets.all(20),
-      child: Form(
-        key: formKey,
-        child: JuneBuilder(
-          () => SignInJune.instance,
-          builder: (vm) => Column(
+    return Form(
+      key: formKey,
+      child: JuneBuilder(
+        () => SignInJune.instance,
+        builder: (vm) => SizedBox(
+          height: 400,
+          width: 500,
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -70,7 +67,8 @@ class SigninForm extends StatelessWidget {
                 decoration: InputDecoration(
                   label: const Text('Password'),
                   prefixIcon: const Icon(Icons.password_outlined),
-                  contentPadding: const EdgeInsets.all(20),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                   border: OutlineInputBorder(
                     borderSide:
                         const BorderSide(width: 20, style: BorderStyle.solid),

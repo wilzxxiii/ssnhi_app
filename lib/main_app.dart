@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ssnhi_app/screens/welcome/welcome_screen.dart';
+import 'package:ssnhi_app/screens/authentication/email_verification_screen.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: GoogleFonts.forumTextTheme(),
       ),
-      home: const WelcomeScreen(),
+      home: const EmailVerificationScreen(),
     );
   }
 }
