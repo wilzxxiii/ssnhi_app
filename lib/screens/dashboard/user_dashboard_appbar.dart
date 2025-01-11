@@ -21,24 +21,42 @@ class UserDashboardAppbar extends StatelessWidget {
         ),
         child: Row(
           children: [
+            // DelayedDisplay(
+            //   delay: const Duration(milliseconds: 300),
+            //   child: SizedBox(
+            //     height: 80,
+            //     child: CircleAvatar(
+            //       backgroundColor: lightBackground,
+            //       radius: 80,
+            //       child: Image.asset('ssnhinc.png'),
+            //     ),
+            //   ),
+            // ),
             DelayedDisplay(
               delay: const Duration(milliseconds: 300),
               child: SizedBox(
-                height: 80,
-                child: CircleAvatar(
-                  backgroundColor: lightBackground,
-                  radius: 80,
-                  child: Image.asset('ssnhinc.png'),
+                height: 95,
+                child: Image.asset(
+                  'brando_white.png',
+                  fit: BoxFit.fitHeight,
+                  height: 93,
                 ),
               ),
             ),
-            const SizedBox(
-              width: 500,
-            ),
-            const Text(
-              'Keep Building',
-              style: titleStyle,
-            )
+            // const SizedBox(
+            //   width: 300,
+            // ),
+            // const Text(
+            //   'Brando, by Joemarie',
+            //   style: titleStyle,
+            // ),
+            // const SizedBox(
+            //   width: 300,
+            // ),
+            // const Text(
+            //   'Keep on building',
+            //   style: titleStyle,
+            // ),
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:ssnhi_app/screens/chat/chat_agent.dart';
+import 'package:ssnhi_app/screens/dashboard/mobile/user_dashboard_mobile_drawer.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
 class UserDashboardMobileView extends StatelessWidget {
@@ -20,12 +22,21 @@ class UserDashboardMobileView extends StatelessWidget {
           color: Colors.white,
         ),
       ),
+      drawer: const UserDashboardMobileDrawer(),
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: iconColor),
+        centerTitle: true,
+        title: SizedBox(
+          height: 95,
+          child: Image.asset(
+            'brando_white.png',
+            height: 93,
+          ),
+        ),
         toolbarHeight: 100,
         elevation: 10,
         backgroundColor: mainColor,
       ),
-      drawer: const Drawer(),
     );
   }
 }

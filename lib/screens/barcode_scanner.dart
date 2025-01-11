@@ -15,34 +15,36 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: Responsive.isDesktop(context)
-          ? const EdgeInsets.all(100)
-          : const EdgeInsets.all(20),
-      child: SafeArea(
-        child: Column(
-          children: [
-            Text(scanResult == null ? 'Scan Barcode' : scanResult!),
-            const SizedBox(
-              height: 20,
-            ),
-            BarcodeWidget(
-              barcode: Barcode.code128(), // Barcode type and settings
-              data: barcodeResult.toString(), // Content
-              width: 200,
-              height: 200,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              onChanged: (value) {
-                setState(() {
-                  barcodeResult = value;
-                });
-              },
-            ),
-          ],
+    return Scaffold(
+      body: Padding(
+        padding: Responsive.isDesktop(context)
+            ? const EdgeInsets.all(100)
+            : const EdgeInsets.all(20),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Text(scanResult == null ? 'Scan Barcode' : scanResult!),
+              const SizedBox(
+                height: 20,
+              ),
+              BarcodeWidget(
+                barcode: Barcode.code128(), // Barcode type and settings
+                data: barcodeResult.toString(), // Content
+                width: 200,
+                height: 200,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                onChanged: (value) {
+                  setState(() {
+                    barcodeResult = value;
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

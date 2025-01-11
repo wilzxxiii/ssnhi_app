@@ -1,8 +1,6 @@
-import 'package:equatable/equatable.dart';
-
 import '../entities/entities.dart';
 
-class MyUser extends Equatable {
+class MyUser {
   final String id;
   final String email;
   final String name;

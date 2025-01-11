@@ -1,15 +1,9 @@
 import 'package:delayed_display/delayed_display.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/June/sign_up_june/sign_up_june.dart';
-import 'package:ssnhi_app/data/models/user_model.dart';
-import 'package:ssnhi_app/data/repo/user_firebase.dart';
-import 'package:ssnhi_app/screens/authentication/user_check.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
-import 'package:toasty_box/toast_enums.dart';
-import 'package:toasty_box/toast_service.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key});

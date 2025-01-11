@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/screens/chat/chat_agent.dart';
+import 'package:ssnhi_app/screens/barcode/barcode_screen.dart';
 import 'package:ssnhi_app/screens/dashboard/user_dashboard_appbar.dart';
 import 'package:ssnhi_app/screens/dashboard/web/user_dashboard_web_body.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
@@ -14,7 +14,7 @@ class UserDashboardWebView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ChatAgentSreen()));
+              MaterialPageRoute(builder: (context) => const BarcodeScreen()));
         },
         backgroundColor: mainColor,
         tooltip: 'Chat with AI',

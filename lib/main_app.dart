@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ssnhi_app/screens/dashboard/user_dashboard.dart';
+import 'package:ssnhi_app/screens/welcome/welcome_screen.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -9,13 +9,13 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'SSNHI App',
+      title: 'Brando 🖤',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlueAccent),
         useMaterial3: true,
         textTheme: GoogleFonts.forumTextTheme(),
       ),
-      home: const UserDashboard(),
+      home: const WelcomeScreen(),
     );
   }
 }

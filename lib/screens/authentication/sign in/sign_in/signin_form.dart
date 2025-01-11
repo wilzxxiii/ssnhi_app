@@ -1,22 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/June/sign_in_june/sign_in_june.dart';
-import 'package:ssnhi_app/data/repo/user_firebase.dart';
-import 'package:ssnhi_app/screens/authentication/user_check.dart';
+import 'package:ssnhi_app/screens/authentication/sign%20up/sign_up.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
-import 'package:toasty_box/toast_enums.dart';
-import 'package:toasty_box/toast_service.dart';
 
 class SigninForm extends StatelessWidget {
   const SigninForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //
-
     final TextEditingController emailCtrl = TextEditingController();
     final TextEditingController passwordCtrl = TextEditingController();
     final formKey = GlobalKey<FormState>();
@@ -37,7 +31,7 @@ class SigninForm extends StatelessWidget {
             children: [
               const Text(
                 'SIGN IN',
-                style: titleText,
+                style: titleStyleDark,
               ),
               // const Spacer(),
               const SizedBox(height: 20),
@@ -141,8 +135,31 @@ class SigninForm extends StatelessWidget {
                 },
                 child: const Text(
                   'Log in',
-                  style: titleText,
+                  style: titleStyleDark,
                 ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Already have an account?',
+                    style: titleStyleDark,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUpPage()));
+                    },
+                    child: const Text(
+                      'Sign up',
+                      style: TextStyle(color: Colors.blue, fontSize: 22),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

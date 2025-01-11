@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
-class ChatAgentMobilescreen extends StatelessWidget {
+class ChatAgentMobilescreen extends StatefulWidget {
   const ChatAgentMobilescreen({super.key});
 
+  @override
+  State<ChatAgentMobilescreen> createState() => _ChatAgentMobilescreenState();
+}
+
+class _ChatAgentMobilescreenState extends State<ChatAgentMobilescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,16 +17,18 @@ class ChatAgentMobilescreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.arrow_back_ios)),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: iconColor,
+            )),
         toolbarHeight: 100,
         elevation: 10,
         title: const Text(
-          'Pit Senyor AI',
+          'Chat with Brando, your AI assistant',
           style: titleStyle,
         ),
         backgroundColor: mainColor,
       ),
-      drawer: const Drawer(),
     );
   }
 }
