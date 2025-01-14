@@ -8,20 +8,25 @@ class SignUpMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Center(
-              child: SizedBox(
-                height: 200,
-                width: 200,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 95,
                 child: Image.asset(
                   'logo.png',
-                  colorBlendMode: BlendMode.clear,
+
+                  // height: 93,
                 ),
               ),
-            ),
-            const SignUpForm(),
-          ],
+              const Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: SignUpForm(),
+              ),
+            ],
+          ),
         ),
       ),
     );

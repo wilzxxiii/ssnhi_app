@@ -19,7 +19,7 @@ class LoadingScreen extends StatelessWidget {
               height: 250,
               width: 250,
               child: Image.asset(
-                'assets/ssnhinc.png',
+                'assets/logo.png',
                 colorBlendMode: BlendMode.clear,
               ),
             ),

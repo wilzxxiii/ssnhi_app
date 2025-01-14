@@ -8,20 +8,25 @@ class SignInMobilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Center(
-              child: SizedBox(
-                height: 200,
-                width: 200,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 95,
                 child: Image.asset(
                   'logo.png',
-                  colorBlendMode: BlendMode.clear,
+
+                  // height: 93,
                 ),
               ),
-            ),
-            const SigninForm(),
-          ],
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: SigninForm(),
+              ),
+            ],
+          ),
         ),
       ),
     );

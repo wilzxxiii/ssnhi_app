@@ -1,6 +1,6 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/screens/authentication/sign%20in/sign_in.dart';
+import 'package:ssnhi_app/screens/authentication/user_check.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:typewritertext/typewritertext.dart';
 
@@ -10,19 +10,12 @@ class WelcomeScreenMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 90,
-        leading: Image.asset(
-          'assets/logo.png',
-          height: 80,
-        ),
-      ),
       floatingActionButton: DelayedDisplay(
         delay: const Duration(seconds: 5),
         child: FloatingActionButton.extended(
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const SigninPage()));
+                  MaterialPageRoute(builder: (_) => const UserChecker()));
             },
             backgroundColor: mainColor,
             label: const Text(
@@ -35,6 +28,9 @@ class WelcomeScreenMobile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(
+              height: 50,
+            ),
             TypeWriter.text(
               "I asked Joemarie for a name, and he said",
               maintainSize: true,
@@ -47,8 +43,8 @@ class WelcomeScreenMobile extends StatelessWidget {
             ),
             Center(
               child: SizedBox(
-                height: 400,
-                width: 400,
+                height: 300,
+                width: 300,
                 child: DelayedDisplay(
                   delay: const Duration(seconds: 3),
                   fadeIn: true,

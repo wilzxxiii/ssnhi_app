@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/June/sign_up_june/sign_up_june.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key});
@@ -25,6 +26,8 @@ class SignUpForm extends StatelessWidget {
           height: 400,
           width: 500,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('REGISTER ACCOUNT',
                   style: TextStyle(
@@ -207,6 +210,7 @@ class SignUpForm extends StatelessWidget {
                       'Cancel',
                       style: TextStyle(
                         fontSize: 20,
+                        color: mainColor,
                       ),
                     ),
                   ),

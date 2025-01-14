@@ -4,6 +4,59 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:ssnhi_app/data/models/user_model.dart';
 
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ssnhi_app/data/models/user_model.dart';
+
+class AuthService {
+  final _firebaseAuth = FirebaseAuth.instance;
+  final _userCollection = FirebaseFirestore.instance.collection('users');
+
+  Stream<User?> get user {
+    return _firebaseAuth.authStateChanges().map((firebaseUser) {
+      final user = firebaseUser;
+      return user;
+    });
+  }
+
+  Future<void> signInUser(String email, String password) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> logOut() async {
+    try {
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<MyUserModel> signUpUser(
+      MyUserModel myUserModel, String password) async {
+    try {
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
+              email: myUserModel.email, password: password);
+
+      myUserModel = myUserModel.copyWith(id: userCredential.user!.uid);
+
+      return myUserModel;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+}
+
 // class UserFirebaseRepository {
 //   UserFirebaseRepository({FirebaseAuth? firebaseAuth})
 //       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
@@ -11,12 +64,12 @@
 //   final FirebaseAuth _firebaseAuth;
 //   final _userCollection = FirebaseFirestore.instance.collection('users');
 
-//   Stream<User?> get user {
-//     return _firebaseAuth.authStateChanges().map((firebaseUser) {
-//       final user = firebaseUser;
-//       return user;
-//     });
-//   }
+  // Stream<User?> get user {
+  //   return _firebaseAuth.authStateChanges().map((firebaseUser) {
+  //     final user = firebaseUser;
+  //     return user;
+  //   });
+  // }
 
 //   Future<void> logOut() async {
 //     try {

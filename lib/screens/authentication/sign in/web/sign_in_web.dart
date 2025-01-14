@@ -14,17 +14,19 @@ class SigninWebPage extends StatelessWidget {
           children: [
             // if (!Responsive.isMobile(context))
             Expanded(
-              flex: Responsive.isTablet(context) ? 2 : 1,
+              flex: Responsive.isTablet(context) ? 3 : 2,
               child: const SidePannel(),
             ),
             const Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SigninForm(),
-                ],
+              flex: 5,
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 300, width: 500, child: SigninForm()),
+                  ],
+                ),
               ),
             )
           ],
