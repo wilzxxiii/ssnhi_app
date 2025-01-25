@@ -1,6 +1,6 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/screens/authentication/user_check.dart';
+import 'package:ssnhi_app/screens/authentication/sign%20in/sign_in.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:typewritertext/typewritertext.dart';
 
@@ -15,7 +15,7 @@ class WelcomeScreenWeb extends StatelessWidget {
         child: FloatingActionButton.extended(
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const UserChecker()));
+                  MaterialPageRoute(builder: (_) => const SigninPage()));
             },
             backgroundColor: mainColor,
             label: const Text(

@@ -1,25 +1,12 @@
-// //all user calls and firebase calls
-// import 'dart:developer';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:ssnhi_app/data/models/user_model.dart';
-
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ssnhi_app/data/models/user_model.dart';
+import 'package:ssnhi_app/data/user/database/user_database_service.dart';
+import 'package:ssnhi_app/data/user/model/user_model.dart';
 
 class AuthService {
   final _firebaseAuth = FirebaseAuth.instance;
-  final _userCollection = FirebaseFirestore.instance.collection('users');
-
-  Stream<User?> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      final user = firebaseUser;
-      return user;
-    });
-  }
+  // final _userCollection = FirebaseFirestore.instance.collection('users');
+  final userdb = UserDatabaseService();
 
   Future<void> signInUser(String email, String password) async {
     try {
@@ -48,6 +35,8 @@ class AuthService {
               email: myUserModel.email, password: password);
 
       myUserModel = myUserModel.copyWith(id: userCredential.user!.uid);
+
+      await userdb.saveUserData(myUserModel);
 
       return myUserModel;
     } catch (e) {

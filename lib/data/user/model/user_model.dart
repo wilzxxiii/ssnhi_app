@@ -2,18 +2,20 @@ class MyUserModel {
   final String userId;
   final String email;
   final String name;
+  final bool emailVerified;
 
-  const MyUserModel({
-    required this.userId,
-    required this.email,
-    required this.name,
-  });
+  const MyUserModel(
+      {required this.userId,
+      required this.email,
+      required this.name,
+      this.emailVerified = false});
 
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
       'email': email,
       'name': name,
+      'emailVerified': emailVerified,
       // 'profilePictureUrl': profilePictureUrl,
       // 'dateOfBirth': dateOfBirth?.toIso8601String(),
     };
@@ -25,6 +27,7 @@ class MyUserModel {
       // username: map['username'] as String,
       email: map['email'] as String,
       name: map['name'] as String,
+      emailVerified: map['emailVerified'] as bool? ?? false,
       // profilePictureUrl: map['profilePictureUrl'] as String?,
       // dateOfBirth: map['dateOfBirth'] != null ? DateTime.parse(map['dateOfBirth']) : null,
     );
