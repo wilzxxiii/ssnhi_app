@@ -14,14 +14,21 @@ class UserChecker extends StatelessWidget {
     return JuneBuilder(
       () => AuthState(),
       builder: (authState) {
-        if (authState.user == null) {
-          return const WelcomeScreen();
-        } else {
+        if (authState.user != null) {
+          // return const WelcomeScreen();
           if (authState.user!.emailVerified) {
             return const UserDashboard();
           } else {
             return const EmailVerificationScreen();
           }
+        } else {
+          // print('UserChecker build, user: ${authState.user?.email ?? "null"}');
+          // if (authState.user!.emailVerified) {
+          //   return const UserDashboard();
+          // } else {
+          //   return const EmailVerificationScreen();
+          // }
+          return const WelcomeScreen();
         }
       },
     );

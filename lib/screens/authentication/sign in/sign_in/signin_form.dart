@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+
+import 'package:ssnhi_app/app_status.dart';
 import 'package:ssnhi_app/data/user/auth/user_firebase.dart';
 import 'package:ssnhi_app/screens/authentication/sign%20up/sign_up.dart';
-import 'package:ssnhi_app/screens/authentication/user_check.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:toasty_box/toast_enums.dart';
 import 'package:toasty_box/toast_service.dart';
@@ -28,7 +29,7 @@ class _SigninFormState extends State<SigninForm> {
     return Form(
       key: formKey,
       child: SizedBox(
-        height: 400,
+        height: 500,
         width: 500,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,18 +92,23 @@ class _SigninFormState extends State<SigninForm> {
                 backgroundColor: Colors.black, //<-- SEE HERE
               ),
               onPressed: () async {
+                // June.getState(() => AppState()).startLoading();
+
                 if (formKey.currentState!.validate()) {
                   try {
                     await authService
                         .signInUser(emailCtrl.text, passwordCtrl.text)
                         .then((value) {
-                      emailCtrl.dispose();
-                      passwordCtrl.dispose();
                       if (context.mounted) {
                         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const UserChecker()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AppStateCheck(),
+                          ),
+                        ).then((_) {
+                          emailCtrl.dispose();
+                          passwordCtrl.dispose();
+                        });
                       }
                     });
                   } on FirebaseAuthException catch (e) {
@@ -122,20 +128,6 @@ class _SigninFormState extends State<SigninForm> {
                       );
                     }
                   }
-                } else {
-                  ToastService.showToast(
-                    context,
-                    isClosable: true,
-                    backgroundColor: Colors.red,
-                    shadowColor: Colors.teal.shade200,
-                    length: ToastLength.medium,
-                    expandedHeight: 100,
-                    message: "Form is invalid",
-                    leading: const Icon(Icons.error),
-                    slideCurve: Curves.elasticInOut,
-                    positionCurve: Curves.bounceOut,
-                    dismissDirection: DismissDirection.none,
-                  );
                 }
               },
               child: const Text(
@@ -149,7 +141,7 @@ class _SigninFormState extends State<SigninForm> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'Already have an account?',
+                  'Don\'t have an account?',
                   style: titleStyleDark,
                 ),
                 TextButton(

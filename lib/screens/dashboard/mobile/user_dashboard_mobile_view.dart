@@ -16,6 +16,7 @@ class UserDashboardMobileView extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const ChatAgentSreen()));
         },
         backgroundColor: mainColor,
+        hoverColor: hoverColor,
         tooltip: 'Chat with AI',
         child: const Icon(
           Icons.chat,
@@ -33,7 +34,7 @@ class UserDashboardMobileView extends StatelessWidget {
             height: 93,
           ),
         ),
-        toolbarHeight: 100,
+        toolbarHeight: 80,
         elevation: 10,
         backgroundColor: mainColor,
       ),

@@ -7,6 +7,7 @@ const subtitleText = TextStyle(fontSize: 14);
 const mainColor = Colors.black;
 const lightBackground = Colors.white;
 const darkBackground = Colors.black;
+const hoverColor = Colors.blue;
 
 const iconColor = Colors.white70;
 

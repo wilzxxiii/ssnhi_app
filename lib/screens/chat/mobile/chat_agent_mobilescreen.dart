@@ -24,7 +24,7 @@ class _ChatAgentMobilescreenState extends State<ChatAgentMobilescreen> {
         toolbarHeight: 100,
         elevation: 10,
         title: const Text(
-          'Chat with Brando, your AI assistant',
+          'Brando, your AI assistant ✨',
           style: titleStyle,
         ),
         backgroundColor: mainColor,

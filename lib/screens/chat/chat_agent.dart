@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ssnhi_app/screens/chat/mobile/chat_agent_mobilescreen.dart';
-import 'package:ssnhi_app/screens/chat/web/chat_agent_webscreen.dart';
 
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
@@ -12,7 +11,14 @@ class ChatAgentSreen extends StatelessWidget {
     if (Responsive.isMobile(context) == true) {
       return const ChatAgentMobilescreen();
     } else {
-      return const ChatAgentWebscreen();
+      return const SafeArea(
+        child: Padding(
+            padding: EdgeInsets.only(
+              left: 150,
+              right: 150,
+            ),
+            child: ChatAgentMobilescreen()),
+      );
     }
   }
 }

@@ -18,8 +18,11 @@ class AuthState extends JuneState {
     FirebaseAuth.instance.authStateChanges().listen((firebaseUser) {
       if (firebaseUser == null) {
         _user = null;
+        setState();
       } else {
         _fetchAndUpdateUser(firebaseUser);
+
+        setState();
       }
       setState(); // Notify listeners that the state has changed
     }, onError: (error) {
@@ -38,6 +41,8 @@ class AuthState extends JuneState {
           'email': firebaseUser.email ?? "",
           'emailVerified': firebaseUser.emailVerified, //
         });
+
+        setState();
       } else {
         _user = MyUserModel(
           userId: firebaseUser.uid,
@@ -46,6 +51,7 @@ class AuthState extends JuneState {
           emailVerified: firebaseUser
               .emailVerified, // // Fallback to Firebase if not in Firestore
         );
+        setState();
         // Optionally, you might want to save this new user to Firestore here
       }
     } catch (e) {
@@ -57,6 +63,7 @@ class AuthState extends JuneState {
         name: firebaseUser.displayName ?? "Unknown",
         emailVerified: firebaseUser.emailVerified, //
       );
+      setState();
     }
   }
 
