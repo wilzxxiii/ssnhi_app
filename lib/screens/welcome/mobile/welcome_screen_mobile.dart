@@ -1,6 +1,6 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/screens/authentication/sign%20in/sign_in.dart';
+import 'package:ssnhi_app/guest/screens/guest_dashboard/guest_dashboard.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:typewritertext/typewritertext.dart';
 
@@ -13,9 +13,10 @@ class WelcomeScreenMobile extends StatelessWidget {
       floatingActionButton: DelayedDisplay(
         delay: const Duration(seconds: 5),
         child: FloatingActionButton.extended(
+            hoverColor: hoverColor,
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const SigninPage()));
+                  MaterialPageRoute(builder: (_) => const GuestDashboard()));
             },
             backgroundColor: mainColor,
             label: const Text(
@@ -58,7 +59,7 @@ class WelcomeScreenMobile extends StatelessWidget {
             DelayedDisplay(
               delay: const Duration(seconds: 4),
               child: TypeWriter.text(
-                "And that's where the story begins 🖤",
+                "Then this project was made 🖤",
                 maintainSize: true,
                 textAlign: TextAlign.center,
                 style: const TextStyle(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ssnhi_app/screens/for%20id/add%20for%20id/mobile/add_for_id_mobile_body.dart';
 // import 'package:ssnhi_app/screens/chat/chat_agent.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
@@ -38,6 +39,7 @@ class AddForIdMobile extends StatelessWidget {
         elevation: 10,
         backgroundColor: mainColor,
       ),
+      body: const AddForIdMobileBody(),
     );
   }
 }
