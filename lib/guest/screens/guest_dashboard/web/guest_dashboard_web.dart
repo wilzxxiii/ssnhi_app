@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/screens/authentication/sign%20in/sign_in.dart';
+import 'package:ssnhi_app/users/screens/authentication/sign%20in/sign_in.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
 class GuestDashboardWeb extends StatelessWidget {
