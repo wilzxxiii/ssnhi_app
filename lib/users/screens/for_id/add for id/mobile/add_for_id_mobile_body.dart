@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:signature/signature.dart';
@@ -15,6 +14,8 @@ class AddForIdMobileBody extends StatefulWidget {
 }
 
 class _AddForIdMobileBodyState extends State<AddForIdMobileBody> {
+  //
+
   // initialize the signature controller
   final SignatureController _controller = SignatureController(
     penStrokeWidth: 2,
@@ -25,17 +26,17 @@ class _AddForIdMobileBodyState extends State<AddForIdMobileBody> {
     onDrawEnd: () => log('onDrawEnd called!'),
   );
 
-  @override
-  void initState() {
-    super.initState();
-    _controller
-      ..addListener(() => log('Value changed'))
-      ..onDrawEnd = () => setState(
-            () {
-              // setState for build to update value of "empty label" in gui
-            },
-          );
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _controller
+  //     ..addListener(() => log('Value changed'))
+  //     ..onDrawEnd = () => setState(
+  //           () {
+  //             // setState for build to update value of "empty label" in gui
+  //           },
+  //         );
+  // }
 
   @override
   void dispose() {

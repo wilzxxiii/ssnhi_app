@@ -6,6 +6,7 @@ class ForIdModel {
   final String ecAdd;
   final String ecPhone;
   final String signature;
+  final String status;
 
   const ForIdModel({
     required this.empNo,
@@ -15,6 +16,7 @@ class ForIdModel {
     required this.ecAdd,
     required this.ecPhone,
     required this.signature,
+    required this.status,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +28,7 @@ class ForIdModel {
       'ecAdd': ecAdd,
       'ecPhone': ecPhone,
       'signature': signature,
+      'status': status,
 
       // 'profilePictureUrl': profilePictureUrl,
       // 'dateOfBirth': dateOfBirth?.toIso8601String(),
@@ -42,6 +45,7 @@ class ForIdModel {
       ecAdd: map['ecAdd'] as String,
       ecPhone: map['ecPhone'] as String,
       signature: map['signature'] as String,
+      status: map['status'] as String,
 
       // emailVerified: map['emailVerified'] as bool? ?? false,
       // profilePictureUrl: map['profilePictureUrl'] as String?,
@@ -57,6 +61,7 @@ class ForIdModel {
     String? ecAdd,
     String? ecPhone,
     String? signature,
+    String? status,
   }) {
     return ForIdModel(
       empNo: empNo ?? this.empNo,
@@ -66,6 +71,7 @@ class ForIdModel {
       ecAdd: ecAdd ?? this.ecAdd,
       ecPhone: ecPhone ?? this.ecPhone,
       signature: signature ?? this.signature,
+      status: status ?? this.status,
     );
   }
 }

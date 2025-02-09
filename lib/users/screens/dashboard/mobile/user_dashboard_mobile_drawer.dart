@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
+import 'package:ssnhi_app/app_status.dart';
 import 'package:ssnhi_app/data/user/auth/user_firebase.dart';
 import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/users/screens/for_id/for_id_screen.dart';
@@ -25,19 +26,19 @@ class UserDashboardMobileDrawer extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Are you sure you want to log out cutie? 🌙'),
-            content: const SingleChildScrollView(
-                // child: ListBody(
-                //   children: <Widget>[
-
-                //     Text('Would you like to approve of this message?'),
-                //   ],
-                // ),
-                ),
+            content: const SingleChildScrollView(),
             actions: <Widget>[
               TextButton(
                 child: const Text('Yes'),
                 onPressed: () async {
-                  await authService.logOut();
+                  await authService.logOut().then((_) {
+                    if (context.mounted) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AppStateCheck()));
+                    }
+                  });
                 },
               ),
               TextButton(
