@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:june/june.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,7 +28,7 @@ class AuthState extends JuneState {
       }
       setState(); // Notify listeners that the state has changed
     }, onError: (error) {
-      print('AuthState listener error: $error');
+      log('AuthState listener error: $error');
     });
   }
 
@@ -55,7 +57,7 @@ class AuthState extends JuneState {
         // Optionally, you might want to save this new user to Firestore here
       }
     } catch (e) {
-      print('Error fetching user data: $e');
+      log('Error fetching user data: $e');
       // Fallback to only firebase data if Firestore fetch fails
       _user = MyUserModel(
         userId: firebaseUser.uid,

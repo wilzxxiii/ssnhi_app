@@ -11,9 +11,8 @@ class AuthService {
   final userdb = UserDatabaseService();
 
   Future<void> signInUser(String email, String password) async {
+    June.getState(() => AppState()).startLoading();
     try {
-      June.getState(() => AppState()).startLoading();
-
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 

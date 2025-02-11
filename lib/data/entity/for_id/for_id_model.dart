@@ -6,6 +6,7 @@ class ForIdModel {
   final String ecAdd;
   final String ecPhone;
   final String signature;
+  final String position;
   final String status;
 
   const ForIdModel({
@@ -13,6 +14,7 @@ class ForIdModel {
     required this.empName,
     required this.empDept,
     required this.ecName,
+    required this.position,
     required this.ecAdd,
     required this.ecPhone,
     required this.signature,
@@ -28,6 +30,7 @@ class ForIdModel {
       'ecAdd': ecAdd,
       'ecPhone': ecPhone,
       'signature': signature,
+      'position': position,
       'status': status,
 
       // 'profilePictureUrl': profilePictureUrl,
@@ -40,6 +43,7 @@ class ForIdModel {
       empNo: map['empNo'] as String,
       // username: map['username'] as String,
       empName: map['empName'] as String,
+      position: map['position'] as String,
       empDept: map['empDept'] as String,
       ecName: map['ecName'] as String,
       ecAdd: map['ecAdd'] as String,
@@ -62,6 +66,7 @@ class ForIdModel {
     String? ecPhone,
     String? signature,
     String? status,
+    String? position,
   }) {
     return ForIdModel(
       empNo: empNo ?? this.empNo,
@@ -72,6 +77,7 @@ class ForIdModel {
       ecPhone: ecPhone ?? this.ecPhone,
       signature: signature ?? this.signature,
       status: status ?? this.status,
+      position: position ?? this.position,
     );
   }
 }
