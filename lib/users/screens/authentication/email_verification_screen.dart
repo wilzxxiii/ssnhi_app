@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ssnhi_app/app_status.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/users/screens/authentication/user_check.dart';
 import 'package:typewritertext/typewritertext.dart';
 
 class EmailVerificationScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class EmailVerificationScreen extends StatelessWidget {
           backgroundColor: darkBackground,
           onPressed: () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const AppStateCheck()));
+                MaterialPageRoute(builder: (context) => const UserChecker()));
           },
           label: const Text(
             'Done ✨',
@@ -48,7 +48,7 @@ class EmailVerificationScreen extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             TypeWriter.text(
-              "Please verify your email address then click done, thanks cute one.",
+              "Please verify your email address then refresh the page.",
               maintainSize: true,
               textAlign: TextAlign.center,
               style: const TextStyle(

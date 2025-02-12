@@ -11,7 +11,7 @@ import 'package:ssnhi_app/shared/utils/responsive.dart';
 // const AddForIdMobileBody({super.key, required this.vm});
 
 class AddForIdMobileBody extends StatelessWidget {
-  final ForIdFormVM vm;
+  final ForIdState vm;
   const AddForIdMobileBody({super.key, required this.vm});
 
   @override
@@ -32,6 +32,7 @@ class AddForIdMobileBody extends StatelessWidget {
               const SizedBox(height: 20),
               TextFormField(
                 controller: vm.empNameController,
+                keyboardType: TextInputType.name,
                 decoration: InputDecoration(
                   label: const Text('Name'),
                   contentPadding: const EdgeInsets.all(20),
@@ -49,6 +50,8 @@ class AddForIdMobileBody extends StatelessWidget {
                         SizedBox(
                           width: 200,
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.number,
                             controller: vm.empNoController,
                             validator: MinLengthValidator(0,
                                     errorText: 'Shouldn\'t be empty.')
@@ -70,6 +73,8 @@ class AddForIdMobileBody extends StatelessWidget {
                         SizedBox(
                           width: 300,
                           child: TextFormField(
+                            keyboardType: TextInputType.name,
+                            textInputAction: TextInputAction.next,
                             controller: vm.empDepartmentController,
                             validator: MinLengthValidator(0,
                                     errorText: 'Shouldn\'t be empty.')
@@ -91,6 +96,8 @@ class AddForIdMobileBody extends StatelessWidget {
                         SizedBox(
                           width: 300,
                           child: TextFormField(
+                            keyboardType: TextInputType.name,
+                            textInputAction: TextInputAction.next,
                             controller: vm.empPositionController,
                             validator: MinLengthValidator(0,
                                     errorText: 'Shouldn\'t be empty.')
@@ -112,6 +119,8 @@ class AddForIdMobileBody extends StatelessWidget {
                       children: [
                         TextFormField(
                           controller: vm.empNoController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
                           validator: MinLengthValidator(0,
                                   errorText: 'Shouldn\'t be empty.')
                               .call,
@@ -129,6 +138,8 @@ class AddForIdMobileBody extends StatelessWidget {
                           height: 20,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.next,
                           controller: vm.empDepartmentController,
                           validator: MinLengthValidator(0,
                                   errorText: 'Shouldn\'t be empty.')
@@ -147,6 +158,8 @@ class AddForIdMobileBody extends StatelessWidget {
                           height: 20,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.next,
                           controller: vm.empPositionController,
                           validator: MinLengthValidator(0,
                                   errorText: 'Shouldn\'t be empty.')
@@ -170,6 +183,8 @@ class AddForIdMobileBody extends StatelessWidget {
                   )),
               TextFormField(
                 controller: vm.ecNameController,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.name,
                 decoration: InputDecoration(
                   label: const Text('Name'),
                   prefixIcon: const Icon(Icons.person_2_rounded),
@@ -184,6 +199,8 @@ class AddForIdMobileBody extends StatelessWidget {
               const SizedBox(height: 20),
               TextFormField(
                 controller: vm.ecAddController,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.streetAddress,
                 decoration: InputDecoration(
                   label: const Text('Address'),
                   prefixIcon: const Icon(Icons.pin_drop_rounded),
@@ -198,6 +215,8 @@ class AddForIdMobileBody extends StatelessWidget {
               const SizedBox(height: 20),
               TextFormField(
                 controller: vm.ecPhoneController,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   label: const Text('Contact Number'),
                   prefixIcon: const Icon(Icons.phone),

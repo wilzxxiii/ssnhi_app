@@ -157,23 +157,19 @@ class _SignUpFormState extends State<SignUpForm> {
                         );
                       } else {
                         try {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AppStateCheck()));
+
                           MyUserModel newUser = MyUserModel(
                             userId: "", // This will be updated by the function
                             email: emailCtrl.text,
                             name: nameCtrl.text,
                           );
 
-                          authService
-                              .signUpUser(newUser, confirmPasswordCtrl.text)
-                              .then((_) {
-                            if (context.mounted) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AppStateCheck()));
-                            }
-                          });
+                          authService.signUpUser(
+                              newUser, confirmPasswordCtrl.text);
                         } on FirebaseAuthException catch (e) {
                           ToastService.showToast(
                             context,

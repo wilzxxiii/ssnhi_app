@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
@@ -15,7 +17,7 @@ class AddForIdMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return JuneBuilder(
-      () => ForIdFormVM(),
+      () => ForIdState(),
       builder: (vm) {
         return Scaffold(
           floatingActionButton: FloatingActionButton.extended(
@@ -23,12 +25,11 @@ class AddForIdMobile extends StatelessWidget {
               if (vm.formKey.currentState!.validate()) {
                 try {
                   await vm.saveData();
-                  print('successful');
                 } catch (e) {
-                  print(e.toString());
+                  log(e.toString());
                 }
               } else {
-                print('Something is wrong');
+                log('Something is wrong');
               }
             },
             hoverColor: hoverColor,
@@ -44,6 +45,7 @@ class AddForIdMobile extends StatelessWidget {
             leading: IconButton(
               onPressed: () {
                 vm.clearControllers();
+                vm.clearForIdModel();
                 Navigator.pop(context);
               },
               icon: const FaIcon(Icons.arrow_back_ios_new),

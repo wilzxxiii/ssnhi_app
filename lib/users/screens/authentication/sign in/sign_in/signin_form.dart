@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-
 import 'package:ssnhi_app/app_status.dart';
 import 'package:ssnhi_app/data/user/auth/user_firebase.dart';
 import 'package:ssnhi_app/users/screens/authentication/sign%20up/sign_up.dart';
@@ -62,8 +61,8 @@ class _SigninFormState extends State<SigninForm> {
             TextFormField(
               obscureText: showPassword,
               controller: passwordCtrl,
-              validator: MinLengthValidator(8,
-                      errorText: 'Password should be atleast 8 characters')
+              validator: MinLengthValidator(1,
+                      errorText: 'Password should not be empty')
                   .call,
               decoration: InputDecoration(
                 label: const Text('Password'),
@@ -92,25 +91,20 @@ class _SigninFormState extends State<SigninForm> {
                 backgroundColor: Colors.black, //<-- SEE HERE
               ),
               onPressed: () async {
-                // June.getState(() => AppState()).startLoading();
-
                 if (formKey.currentState!.validate()) {
                   try {
-                    await authService
-                        .signInUser(emailCtrl.text, passwordCtrl.text)
-                        .then((value) {
-                      if (context.mounted) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AppStateCheck(),
-                          ),
-                        ).then((_) {
-                          emailCtrl.dispose();
-                          passwordCtrl.dispose();
-                        });
-                      }
-                    });
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AppStateCheck(),
+                      ),
+                    );
+
+                    await authService.signInUser(
+                        emailCtrl.text, passwordCtrl.text);
+
+                    emailCtrl.dispose();
+                    passwordCtrl.dispose();
                   } on FirebaseAuthException catch (e) {
                     if (context.mounted) {
                       ToastService.showToast(

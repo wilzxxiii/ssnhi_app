@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:june/june.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,14 +13,16 @@ class AuthState extends JuneState {
   // Constructor initializes the state
   AuthState() {
     _initializeAuthListener();
+    setState();
   }
 
   void _initializeAuthListener() {
-    FirebaseAuth.instance.authStateChanges().listen((firebaseUser) {
+    FirebaseAuth.instance.authStateChanges().listen((firebaseUser) async {
       if (firebaseUser == null) {
         _user = null;
         setState();
       } else {
+        await firebaseUser.reload();
         _fetchAndUpdateUser(firebaseUser);
 
         setState();

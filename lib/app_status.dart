@@ -10,11 +10,9 @@ class AppStateCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return JuneBuilder(() => AppState(), builder: (appState) {
-      if (appState.isLoading) {
-        print('loading');
+      if (appState.isLoading == true) {
         return const LoadingScreen();
       } else {
-        print('loaded');
         return const UserChecker();
       }
     });

@@ -41,7 +41,7 @@ class ForIdModel {
   factory ForIdModel.fromMap(Map<String, dynamic> map) {
     return ForIdModel(
       empNo: map['empNo'] as String,
-      // username: map['username'] as String,
+
       empName: map['empName'] as String,
       position: map['position'] as String,
       empDept: map['empDept'] as String,
@@ -67,6 +67,7 @@ class ForIdModel {
     String? signature,
     String? status,
     String? position,
+    String? docId,
   }) {
     return ForIdModel(
       empNo: empNo ?? this.empNo,

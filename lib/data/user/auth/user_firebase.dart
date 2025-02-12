@@ -11,8 +11,9 @@ class AuthService {
   final userdb = UserDatabaseService();
 
   Future<void> signInUser(String email, String password) async {
-    June.getState(() => AppState()).startLoading();
     try {
+      June.getState(() => AppState()).startLoading();
+      print('loading');
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
@@ -23,6 +24,7 @@ class AuthService {
       rethrow;
     } finally {
       June.getState(() => AppState()).stopLoading();
+      print('stop loading');
     }
   }
 
@@ -40,6 +42,7 @@ class AuthService {
 
   Future<MyUserModel> signUpUser(MyUserModel newUser, String password) async {
     try {
+      June.getState(() => AppState()).startLoading();
       UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: newUser.email, password: password);
@@ -55,6 +58,8 @@ class AuthService {
     } catch (e) {
       log(e.toString());
       rethrow;
+    } finally {
+      June.getState(() => AppState()).stopLoading();
     }
   }
 }
