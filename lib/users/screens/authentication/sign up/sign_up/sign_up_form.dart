@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:ssnhi_app/app_status.dart';
-import 'package:ssnhi_app/data/user/auth/user_firebase.dart';
+import 'package:june/june.dart';
 import 'package:ssnhi_app/data/user/model/user_model.dart';
+import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:toasty_box/toast_enums.dart';
 import 'package:toasty_box/toast_service.dart';
@@ -23,7 +22,8 @@ class _SignUpFormState extends State<SignUpForm> {
   final formKey = GlobalKey<FormState>();
   bool showPassword = true;
   bool showConfirmPW = true;
-  final authService = AuthService();
+
+  final authState = June.getState(() => AuthState());
 
   @override
   Widget build(BuildContext context) {
@@ -156,35 +156,14 @@ class _SignUpFormState extends State<SignUpForm> {
                           dismissDirection: DismissDirection.none,
                         );
                       } else {
-                        try {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AppStateCheck()));
+                        MyUserModel newUser = MyUserModel(
+                          userId: "", // This will be updated by the function
+                          email: emailCtrl.text,
+                          name: nameCtrl.text,
+                        );
 
-                          MyUserModel newUser = MyUserModel(
-                            userId: "", // This will be updated by the function
-                            email: emailCtrl.text,
-                            name: nameCtrl.text,
-                          );
-
-                          authService.signUpUser(
-                              newUser, confirmPasswordCtrl.text);
-                        } on FirebaseAuthException catch (e) {
-                          ToastService.showToast(
-                            context,
-                            isClosable: true,
-                            backgroundColor: Colors.teal.shade500,
-                            shadowColor: Colors.teal.shade200,
-                            length: ToastLength.medium,
-                            expandedHeight: 100,
-                            message: e.toString(),
-                            leading: const Icon(Icons.messenger),
-                            slideCurve: Curves.elasticInOut,
-                            positionCurve: Curves.bounceOut,
-                            dismissDirection: DismissDirection.none,
-                          );
-                        }
+                        await authState.userRegister(
+                            newUser, confirmPasswordCtrl.text, context);
                       }
                     } else {
                       ToastService.showToast(

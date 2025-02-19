@@ -1,9 +1,8 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:june/june.dart';
+
 import 'package:ssnhi_app/data/user/database/user_database_service.dart';
 import 'package:ssnhi_app/data/user/model/user_model.dart';
-import 'package:ssnhi_app/data/user/state/app_state_june.dart';
 
 class AuthService {
   final _firebaseAuth = FirebaseAuth.instance;
@@ -12,8 +11,6 @@ class AuthService {
 
   Future<void> signInUser(String email, String password) async {
     try {
-      June.getState(() => AppState()).startLoading();
-      print('loading');
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
@@ -22,27 +19,25 @@ class AuthService {
     } catch (e) {
       log(e.toString());
       rethrow;
-    } finally {
-      June.getState(() => AppState()).stopLoading();
-      print('stop loading');
     }
+    // finally {
+    //   loadMe.stopLoading();
+    //   print(loadMe.isLoading.toString());
+    // }
   }
 
   Future<void> logOut() async {
     try {
-      June.getState(() => AppState()).startLoading();
       await _firebaseAuth.signOut();
     } catch (e) {
       log(e.toString());
       rethrow;
-    } finally {
-      June.getState(() => AppState()).stopLoading();
     }
   }
 
   Future<MyUserModel> signUpUser(MyUserModel newUser, String password) async {
     try {
-      June.getState(() => AppState()).startLoading();
+      // loadMe.startLoading();
       UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: newUser.email, password: password);
@@ -53,14 +48,15 @@ class AuthService {
           email: newUser.email);
       await _firebaseAuth.currentUser!.sendEmailVerification();
       await userdb.saveUserData(newUser);
-
       return newUser;
     } catch (e) {
       log(e.toString());
       rethrow;
-    } finally {
-      June.getState(() => AppState()).stopLoading();
     }
+
+    // finally {
+    //   loadMe.stopLoading();
+    // }
   }
 }
 

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
-import 'package:ssnhi_app/app_status.dart';
-import 'package:ssnhi_app/data/user/auth/user_firebase.dart';
 import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/users/screens/for_id/for_id_screen.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
@@ -15,7 +13,7 @@ class UserDashboardMobileDrawer extends StatelessWidget {
     //
     final authState = June.getState(() => AuthState());
     //
-    final AuthService authService = AuthService();
+
     //
 
     //
@@ -31,14 +29,7 @@ class UserDashboardMobileDrawer extends StatelessWidget {
               TextButton(
                 child: const Text('Yes'),
                 onPressed: () async {
-                  await authService.logOut().then((_) {
-                    if (context.mounted) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AppStateCheck()));
-                    }
-                  });
+                  await authState.userLogOut(context);
                 },
               ),
               TextButton(

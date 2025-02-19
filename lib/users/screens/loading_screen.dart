@@ -8,8 +8,8 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return Center(
+      child: SingleChildScrollView(
         child: Column(
           // crossAxisAlignment: CrossA,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

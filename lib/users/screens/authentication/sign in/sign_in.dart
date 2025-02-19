@@ -8,6 +8,14 @@ class SigninPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return JuneBuilder(() => AppState(), builder: (appState) {
+
+    //   if (Responsive.isMobile(context) == true) {
+    //     return const SignInMobilePage();
+    //   } else {
+    //     return const SigninWebPage();
+    //   }
+    // },);
     if (Responsive.isMobile(context) == true) {
       return const SignInMobilePage();
     } else {

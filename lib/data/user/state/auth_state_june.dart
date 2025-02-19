@@ -1,33 +1,41 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:june/june.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ssnhi_app/data/user/auth/user_firebase.dart';
 import 'package:ssnhi_app/data/user/model/user_model.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/user_check.dart';
 
 class AuthState extends JuneState {
   MyUserModel? _user;
   final _firestore = FirebaseFirestore.instance;
+  final _userAuth = AuthService();
 
   MyUserModel? get user => _user;
+
+  final myCurrentUser = FirebaseAuth.instance.currentUser;
 
   // Constructor initializes the state
   AuthState() {
     _initializeAuthListener();
-    setState();
   }
 
   void _initializeAuthListener() {
     FirebaseAuth.instance.authStateChanges().listen((firebaseUser) async {
-      if (firebaseUser == null) {
-        _user = null;
-        setState();
-      } else {
+      if (firebaseUser != null) {
         await firebaseUser.reload();
+
         _fetchAndUpdateUser(firebaseUser);
+        // updateUserEmailVerification();
 
         setState();
+      } else {
+        _user = null;
+        setState();
       }
-      setState(); // Notify listeners that the state has changed
+      // Notify listeners that the state has changed
     }, onError: (error) {
       log('AuthState listener error: $error');
     });
@@ -38,12 +46,18 @@ class AuthState extends JuneState {
       final doc =
           await _firestore.collection('users').doc(firebaseUser.uid).get();
       if (doc.exists) {
+        firebaseUser.reload();
         _user = MyUserModel.fromMap({
           ...doc.data()!,
           'userId': firebaseUser.uid,
           'email': firebaseUser.email ?? "",
           'emailVerified': firebaseUser.emailVerified, //
         });
+
+        // await _firestore
+        //     .collection('users')
+        //     .doc(myCurrentUser!.uid)
+        //     .update({'emailVerified': myCurrentUser!.emailVerified});
 
         setState();
       } else {
@@ -54,6 +68,7 @@ class AuthState extends JuneState {
           emailVerified: firebaseUser
               .emailVerified, // // Fallback to Firebase if not in Firestore
         );
+
         setState();
         // Optionally, you might want to save this new user to Firestore here
       }
@@ -66,13 +81,149 @@ class AuthState extends JuneState {
         name: firebaseUser.displayName ?? "Unknown",
         emailVerified: firebaseUser.emailVerified, //
       );
-      setState();
     }
   }
 
-  void updateUser(MyUserModel userDetails) {
-    _user = userDetails;
-    setState(); // Notify listeners
+  Future<void> userLogin(
+      String email, String password, BuildContext context) async {
+    try {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Row(
+          children: [
+            Text(
+              'Logging in ✨',
+              style: titleStyle,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            CircularProgressIndicator(),
+          ],
+        )),
+      );
+      await _userAuth.signInUser(email, password);
+
+      _fetchAndUpdateUser(FirebaseAuth.instance.currentUser!);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              backgroundColor: darkBackground,
+              content: Text(
+                'Logged in successfully 🌙',
+                style: titleStyle,
+              )),
+        );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UserChecker(),
+            ),
+            (r) => false);
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(
+                'Login failed: $e',
+                style: titleStyle,
+              )),
+        );
+      }
+    }
+  }
+
+  Future<void> userRegister(
+      MyUserModel? newUser, String password, BuildContext context) async {
+    try {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Row(
+          children: [
+            Text(
+              'Registering account ✨',
+              style: titleStyle,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            CircularProgressIndicator(),
+          ],
+        )),
+      );
+
+      await _userAuth.signUpUser(newUser!, password);
+      _fetchAndUpdateUser(FirebaseAuth.instance.currentUser!);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              backgroundColor: darkBackground,
+              content: Text(
+                'Registered successfully 🌙',
+                style: titleStyle,
+              )),
+        );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UserChecker(),
+            ),
+            (r) => false);
+      }
+    } catch (e) {
+      log(e.toString());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(
+                e.toString(),
+                style: titleStyle,
+              )),
+        );
+      }
+    }
+  }
+
+  Future<void> userLogOut(BuildContext context) async {
+    try {
+      await _userAuth.logOut();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.black,
+            content: Text(
+              'Please come back. ✨',
+              style: titleStyle,
+            ),
+          ),
+        );
+
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UserChecker(),
+            ),
+            (r) => false);
+      }
+    } catch (e) {
+      log(e.toString());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              e.toString(),
+              style: titleStyle,
+            ),
+          ),
+        );
+      }
+    } finally {
+      clearUser();
+    }
   }
 
   void clearUser() {

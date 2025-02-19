@@ -28,7 +28,7 @@ class SigninWebPage extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

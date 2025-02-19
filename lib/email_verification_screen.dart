@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:june/june.dart';
+import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/users/screens/authentication/user_check.dart';
+
 import 'package:typewritertext/typewritertext.dart';
 
 class EmailVerificationScreen extends StatelessWidget {
@@ -9,15 +11,17 @@ class EmailVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = June.getState(() => AuthState());
+
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
+          hoverColor: Colors.blue,
           backgroundColor: darkBackground,
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const UserChecker()));
+          onPressed: () async {
+            await authState.userLogOut(context);
           },
           label: const Text(
-            'Done ✨',
+            'Got it. ✨',
             style: titleStyle,
           )),
       body: Padding(
@@ -47,15 +51,14 @@ class EmailVerificationScreen extends StatelessWidget {
               duration: const Duration(milliseconds: 50),
             ),
             const SizedBox(height: 15),
-            TypeWriter.text(
-              "Please verify your email address then refresh the page.",
-              maintainSize: true,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 25.0,
-                fontWeight: FontWeight.bold,
-              ),
-              duration: const Duration(milliseconds: 50),
+            Text(
+              'An e-mail was sent to ${authState.user!.email}',
+              style: titleStyleDark,
+            ),
+            const SizedBox(height: 15),
+            Text(
+              'Please verify it. Thanks ${authState.user!.name}',
+              style: titleStyleDark,
             ),
             const SizedBox(height: 15),
             const SpinKitPumpingHeart(

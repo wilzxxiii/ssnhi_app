@@ -1,12 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:ssnhi_app/app_status.dart';
-import 'package:ssnhi_app/data/user/auth/user_firebase.dart';
+import 'package:june/june.dart';
+
 import 'package:ssnhi_app/users/screens/authentication/sign%20up/sign_up.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:toasty_box/toast_enums.dart';
-import 'package:toasty_box/toast_service.dart';
+
+import '../../../../../data/user/state/auth_state_june.dart';
 
 class SigninForm extends StatefulWidget {
   const SigninForm({super.key});
@@ -21,7 +20,16 @@ class _SigninFormState extends State<SigninForm> {
   final formKey = GlobalKey<FormState>();
   bool showPassword = true;
   // final firebaseRepo = UserFirebaseRepository();
-  final authService = AuthService();
+  // final authService = AuthService();
+
+  final authState = June.getState(() => AuthState());
+
+  @override
+  void dispose() {
+    emailCtrl.dispose();
+    passwordCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,36 +100,8 @@ class _SigninFormState extends State<SigninForm> {
               ),
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
-                  try {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AppStateCheck(),
-                      ),
-                    );
-
-                    await authService.signInUser(
-                        emailCtrl.text, passwordCtrl.text);
-
-                    emailCtrl.dispose();
-                    passwordCtrl.dispose();
-                  } on FirebaseAuthException catch (e) {
-                    if (context.mounted) {
-                      ToastService.showToast(
-                        context,
-                        isClosable: true,
-                        backgroundColor: Colors.red,
-                        shadowColor: Colors.teal.shade200,
-                        length: ToastLength.medium,
-                        expandedHeight: 100,
-                        message: e.toString(),
-                        leading: const Icon(Icons.error),
-                        slideCurve: Curves.elasticInOut,
-                        positionCurve: Curves.bounceOut,
-                        dismissDirection: DismissDirection.none,
-                      );
-                    }
-                  }
+                  await authState.userLogin(
+                      emailCtrl.text, passwordCtrl.text, context);
                 }
               },
               child: const Text(
