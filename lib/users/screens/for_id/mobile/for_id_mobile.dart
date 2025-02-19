@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:june/june.dart';
+import 'package:ssnhi_app/data/entity/for_id/for_id_model.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/users/screens/for_id/add%20for%20id/add_for_id.dart';
-// import 'package:ssnhi_app/screens/chat/chat_agent.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
 class ForIdMobile extends StatelessWidget {
@@ -41,30 +40,29 @@ class ForIdMobile extends StatelessWidget {
         elevation: 10,
         backgroundColor: mainColor,
       ),
-      body: JuneBuilder(
-        () => ForIdState(),
-        builder: (ForIdState state) {
-          // Handle loading state
-          if (state.isLoading) {
+      body: StreamBuilder<List<ForIdModel>>(
+        stream:
+            ForIdState().forIdState(), // Assuming this method returns a Stream
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // Handle error state
-          if (state.errorMessage != null) {
-            return Center(child: Text('Error: ${state.errorMessage}'));
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
 
-          // Handle no data
-          if (state.forIdList.isEmpty) {
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No records found.'));
           }
 
-          // Data is available, display the list
+          final forIdList = snapshot.data!;
+
           return ListView.builder(
             padding: const EdgeInsets.all(8.0),
-            itemCount: state.forIdList.length,
+            itemCount: forIdList.length,
             itemBuilder: (context, index) {
-              final forId = state.forIdList[index];
+              final forId = forIdList[index];
               return Card(
                 elevation: 4,
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -92,7 +90,6 @@ class ForIdMobile extends StatelessWidget {
                       Text('Status: ${forId.status}'),
                     ],
                   ),
-                  // Optionally, add onTap to view/edit details
                   onTap: () {
                     // Navigate to a detail screen or edit screen
                     // Example:

@@ -72,7 +72,6 @@ class GuestDashboardWeb extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               width: MediaQuery.of(context).size.width,
-              height: 70,
               color: Colors.black,
               child: Center(
                 child: Row(

@@ -9,7 +9,7 @@ class GuestDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (Responsive.isMobile(context) == true) {
-      return const GuestDashboardMobile();
+      return const GuestDashboarMobile();
     } else {
       return const GuestDashboardWeb();
     }
