@@ -1,7 +1,7 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/guest/screens/guest_dashboard/guest_dashboard.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/user_check.dart';
 import 'package:typewritertext/typewritertext.dart';
 
 class WelcomeScreenMobile extends StatelessWidget {
@@ -16,7 +16,7 @@ class WelcomeScreenMobile extends StatelessWidget {
             hoverColor: hoverColor,
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const GuestDashboard()));
+                  MaterialPageRoute(builder: (_) => const UserChecker()));
             },
             backgroundColor: mainColor,
             label: const Text(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ssnhi_app/users/screens/authentication/sign%20in/sign_in.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/users/screens/for_id/for_id_screen.dart';
 import 'package:universal_html/html.dart' as html;
 
 class GuestDashboarMobile extends StatelessWidget {
@@ -57,11 +60,42 @@ class GuestDashboarMobile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(40),
                 child: Container(
+                  padding: const EdgeInsets.all(20),
                   decoration: const BoxDecoration(
                     color: Colors.black26,
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
                     ),
+                  ),
+                  child: Column(
+                    children: [
+                      Card(
+                        color: darkBackground,
+                        child: ListTile(
+                          trailing:
+                              const SpinKitWaveSpinner(color: Colors.white),
+                          leading: const FaIcon(
+                            FontAwesomeIcons.idBadge,
+                            color: Colors.white,
+                          ),
+                          minTileHeight: 100,
+                          title: const Text(
+                            'For ID\'s 💫',
+                            style: titleStyle,
+                          ),
+                          subtitle: const Text(
+                            'List of for ID\'s',
+                            style: subtitleText,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ForID()));
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

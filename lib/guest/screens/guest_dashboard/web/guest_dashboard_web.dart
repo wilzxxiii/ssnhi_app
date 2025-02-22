@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:june/june.dart';
+import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/users/screens/authentication/sign%20in/sign_in.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/users/screens/for_id/for_id_card.dart';
 import 'package:universal_html/html.dart' as html;
 
 class GuestDashboardWeb extends StatelessWidget {
@@ -60,11 +63,100 @@ class GuestDashboardWeb extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(40),
                 child: Container(
+                  padding: const EdgeInsets.all(40),
                   decoration: const BoxDecoration(
                     color: Colors.black26,
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
                     ),
+                  ),
+                  child: GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // 2 columns
+                      mainAxisExtent: MediaQuery.of(context).size.height * 0.5,
+                      crossAxisSpacing: 16, // Horizontal spacing between cards
+                      mainAxisSpacing: 16, // Vertical spacing between cards
+                      childAspectRatio: 0.75, // Adjust card height/width ratio
+                    ),
+                    children: [
+                      //Report
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                      ),
+                      //For ID
+                      Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'For ID\'s 💫',
+                                style: titleStyleDark,
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                width: MediaQuery.of(context).size.width,
+                                child: JuneBuilder(() => ForIdState(),
+                                    builder: (forIdState) {
+                                  return forIdState.isLoading
+                                      ? const Center(
+                                          child: CircularProgressIndicator())
+                                      : forIdState.errorMessage != null
+                                          ? Center(
+                                              child: Text(
+                                                  'Error: ${forIdState.errorMessage}'))
+                                          : forIdState.forIdList.isEmpty
+                                              ? const Center(
+                                                  child:
+                                                      Text('No records found'))
+                                              : ListView.builder(
+                                                  itemCount: forIdState
+                                                      .forIdList.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final forId = forIdState
+                                                        .forIdList[index];
+                                                    return ForIdCard(
+                                                      forId: forId,
+                                                      vm: forIdState,
+                                                    );
+                                                  },
+                                                );
+                                }),
+                              )
+                            ],
+                          )),
+                      //IT Report
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                      ),
+                      //To be decided
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -81,14 +173,15 @@ class GuestDashboardWeb extends StatelessWidget {
                       style: titleStyle,
                     ),
                     TextButton(
-                        onPressed: () {
-                          _openInNewTab(
-                              'https://echow.xyz/user/0xa5e2460c562438a47f385322b8e1108A4DC788a9');
-                        },
-                        child: const Text(
-                          'Echow.xyz',
-                          style: titleStyle,
-                        ))
+                      onPressed: () {
+                        _openInNewTab(
+                            'https://echow.xyz/user/0xa5e2460c562438a47f385322b8e1108A4DC788a9');
+                      },
+                      child: const Text(
+                        'Echow.xyz',
+                        style: titleStyle,
+                      ),
+                    ),
                   ],
                 ),
               ),

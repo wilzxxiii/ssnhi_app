@@ -10,7 +10,11 @@ class ForIdDbService {
   // Save user data to Firestore
   Future<void> saveForID(ForIdModel forIdModel) async {
     try {
-      await forIdCollection.add(forIdModel.toMap());
+      // Add the document and get the DocumentReference
+      DocumentReference docRef = await forIdCollection.add(forIdModel.toMap());
+
+      // Update the document with its own ID
+      await docRef.update({'id': docRef.id});
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -80,12 +84,13 @@ class ForIdDbService {
     });
   }
 
-  // Optional: Stream for real-time updates of all ForIdModels
   Stream<List<ForIdModel>> getAllForIDsStream() {
     return forIdCollection.snapshots().map((snapshot) {
-      return snapshot.docs
-          .map((doc) => ForIdModel.fromMap(doc.data() as Map<String, dynamic>))
-          .toList();
+      return snapshot.docs.map((doc) {
+        return ForIdModel.fromMap(doc.data() as Map<String, dynamic>);
+      }).toList();
+    }).handleError((error) {
+      throw error; // Pass to onError in listen
     });
   }
 }

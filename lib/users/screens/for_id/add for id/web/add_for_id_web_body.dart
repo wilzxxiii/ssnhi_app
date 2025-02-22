@@ -4,15 +4,14 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:june/june.dart';
 import 'package:signature/signature.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
-import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 // final ForIdFormVM vm;
 
 // const AddForIdMobileBody({super.key, required this.vm});
 
-class AddForIdMobileBody extends StatelessWidget {
+class AddForIdWebBody extends StatelessWidget {
   final ForIdState vm;
-  const AddForIdMobileBody({super.key, required this.vm});
+  const AddForIdWebBody({super.key, required this.vm});
 
   @override
   Widget build(BuildContext context) {
@@ -47,119 +46,66 @@ class AddForIdMobileBody extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Responsive.isDesktop(context)
-                  ? Row(
-                      children: [
-                        SizedBox(
-                          width: 200,
-                          child: TextFormField(
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.number,
-                            controller: forIdState.empNoController,
-                            validator: MinLengthValidator(0,
-                                    errorText: 'Shouldn\'t be empty.')
-                                .call,
-                            decoration: InputDecoration(
-                              label: const Text('Employee Number'),
-                              contentPadding: const EdgeInsets.all(20),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: const BorderSide(
-                                    width: 20, style: BorderStyle.solid),
-                              ),
-                            ),
-                          ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      controller: forIdState.empNoController,
+                      validator: MinLengthValidator(0,
+                              errorText: 'Shouldn\'t be empty.')
+                          .call,
+                      decoration: InputDecoration(
+                        label: const Text('Employee Number'),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: const BorderSide(
+                              width: 20, style: BorderStyle.solid),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        SizedBox(
-                          width: 300,
-                          child: CustomDropdown<String>(
-                              items: forIdState.department,
-                              hintText: 'Department',
-                              onChanged: (value) {
-                                vm.empDept = value!;
-                              }),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        SizedBox(
-                          width: 300,
-                          child: TextFormField(
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.next,
-                            controller: forIdState.empPositionController,
-                            validator: MinLengthValidator(0,
-                                    errorText: 'Shouldn\'t be empty.')
-                                .call,
-                            decoration: InputDecoration(
-                              label: const Text('Position'),
-                              contentPadding: const EdgeInsets.all(20),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: const BorderSide(
-                                    width: 20, style: BorderStyle.solid),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        TextFormField(
-                          controller: forIdState.empNoController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          validator: MinLengthValidator(0,
-                                  errorText: 'Shouldn\'t be empty.')
-                              .call,
-                          decoration: InputDecoration(
-                            label: const Text('Employee Number'),
-                            contentPadding: const EdgeInsets.all(20),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: const BorderSide(
-                                  width: 20, style: BorderStyle.solid),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          width: 300,
-                          child: CustomDropdown<String>(
-                              items: forIdState.department,
-                              hintText: 'Department',
-                              onChanged: (value) {
-                                vm.empDept = value!;
-                              }),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          keyboardType: TextInputType.name,
-                          textInputAction: TextInputAction.next,
-                          controller: forIdState.empPositionController,
-                          validator: MinLengthValidator(0,
-                                  errorText: 'Shouldn\'t be empty.')
-                              .call,
-                          decoration: InputDecoration(
-                            label: const Text('Position'),
-                            contentPadding: const EdgeInsets.all(20),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: const BorderSide(
-                                  width: 20, style: BorderStyle.solid),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    child: CustomDropdown<String>(
+                        items: forIdState.department,
+                        hintText: 'Department',
+                        onChanged: (value) {
+                          vm.empDept = value!;
+                        }),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    child: TextFormField(
+                      keyboardType: TextInputType.name,
+                      textInputAction: TextInputAction.next,
+                      controller: forIdState.empPositionController,
+                      validator: MinLengthValidator(0,
+                              errorText: 'Shouldn\'t be empty.')
+                          .call,
+                      decoration: InputDecoration(
+                        label: const Text('Position'),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: const BorderSide(
+                              width: 20, style: BorderStyle.solid),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
               const SizedBox(height: 20),
               const Text('Emergency Contact Person Details',
                   style: TextStyle(
@@ -214,9 +160,7 @@ class AddForIdMobileBody extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               SizedBox(
-                width: Responsive.isDesktop(context)
-                    ? MediaQuery.of(context).size.width * 0.3
-                    : MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width * 0.3,
                 child: Signature(
                   key: const Key('signature'),
                   controller: forIdState.sigController,

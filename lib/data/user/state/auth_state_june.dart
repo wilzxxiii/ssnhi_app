@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+
 import 'package:june/june.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +8,7 @@ import 'package:ssnhi_app/data/user/auth/user_firebase.dart';
 import 'package:ssnhi_app/data/user/model/user_model.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/user_check.dart';
+import 'package:ssnhi_app/users/screens/loading_screen.dart';
 
 class AuthState extends JuneState {
   MyUserModel? _user;
@@ -16,6 +18,7 @@ class AuthState extends JuneState {
   MyUserModel? get user => _user;
 
   final myCurrentUser = FirebaseAuth.instance.currentUser;
+  final loadingScreen = LoadingScreen();
 
   // Constructor initializes the state
   AuthState() {
@@ -87,24 +90,11 @@ class AuthState extends JuneState {
   Future<void> userLogin(
       String email, String password, BuildContext context) async {
     try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Row(
-          children: [
-            Text(
-              'Logging in ✨',
-              style: titleStyle,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            CircularProgressIndicator(),
-          ],
-        )),
-      );
+      loadingScreen.showLoading(context);
       await _userAuth.signInUser(email, password);
 
       _fetchAndUpdateUser(FirebaseAuth.instance.currentUser!);
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -123,11 +113,12 @@ class AuthState extends JuneState {
       }
     } catch (e) {
       if (context.mounted) {
+        Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               backgroundColor: Colors.red,
               content: Text(
-                'Login failed: $e',
+                'Login failed: $e 💀',
                 style: titleStyle,
               )),
         );
@@ -138,21 +129,7 @@ class AuthState extends JuneState {
   Future<void> userRegister(
       MyUserModel? newUser, String password, BuildContext context) async {
     try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Row(
-          children: [
-            Text(
-              'Registering account ✨',
-              style: titleStyle,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            CircularProgressIndicator(),
-          ],
-        )),
-      );
+      loadingScreen.showLoading(context);
 
       await _userAuth.signUpUser(newUser!, password);
       _fetchAndUpdateUser(FirebaseAuth.instance.currentUser!);
@@ -175,11 +152,12 @@ class AuthState extends JuneState {
     } catch (e) {
       log(e.toString());
       if (context.mounted) {
+        Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               backgroundColor: Colors.red,
               content: Text(
-                e.toString(),
+                'Can not register: $e 💀',
                 style: titleStyle,
               )),
         );
@@ -189,6 +167,7 @@ class AuthState extends JuneState {
 
   Future<void> userLogOut(BuildContext context) async {
     try {
+      loadingScreen.showLoading(context);
       await _userAuth.logOut();
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -211,11 +190,12 @@ class AuthState extends JuneState {
     } catch (e) {
       log(e.toString());
       if (context.mounted) {
+        Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
             content: Text(
-              e.toString(),
+              'Unable to logout: $e 💀',
               style: titleStyle,
             ),
           ),

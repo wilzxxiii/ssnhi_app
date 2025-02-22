@@ -1,4 +1,5 @@
 class ForIdModel {
+  final String id;
   final String empNo;
   final String empName;
   final String empDept;
@@ -10,6 +11,7 @@ class ForIdModel {
   final String status;
 
   const ForIdModel({
+    required this.id,
     required this.empNo,
     required this.empName,
     required this.empDept,
@@ -24,6 +26,7 @@ class ForIdModel {
   Map<String, dynamic> toMap() {
     return {
       'empNo': empNo,
+      'id': id,
       'empName': empName,
       'empDept': empDept,
       'ecName': ecName,
@@ -41,7 +44,7 @@ class ForIdModel {
   factory ForIdModel.fromMap(Map<String, dynamic> map) {
     return ForIdModel(
       empNo: map['empNo'] as String,
-
+      id: map['id'] as String,
       empName: map['empName'] as String,
       position: map['position'] as String,
       empDept: map['empDept'] as String,
@@ -59,6 +62,7 @@ class ForIdModel {
 
   ForIdModel copyWith({
     String? empNo,
+    String? id,
     String? empName,
     String? empDept,
     String? ecName,
@@ -70,6 +74,7 @@ class ForIdModel {
     String? docId,
   }) {
     return ForIdModel(
+      id: id ?? this.id,
       empNo: empNo ?? this.empNo,
       empName: empName ?? this.empName,
       empDept: empDept ?? this.empDept,

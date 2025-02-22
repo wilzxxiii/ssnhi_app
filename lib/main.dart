@@ -10,11 +10,13 @@ Future<void> main() async {
 
   //Firebase initialization
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyDGsSqyeWAg5chK4CLiSxoEktJmURHMn-s",
-          appId: "1:763661840962:web:1d0629cafa8e52414bf3db",
-          messagingSenderId: "763661840962",
-          projectId: "ssnhi-app"));
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyDGsSqyeWAg5chK4CLiSxoEktJmURHMn-s",
+      appId: "1:763661840962:web:1d0629cafa8e52414bf3db",
+      messagingSenderId: "763661840962",
+      projectId: "ssnhi-app",
+    ),
+  );
 
 //Google Gemini AI
 

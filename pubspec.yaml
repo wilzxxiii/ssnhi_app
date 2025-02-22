@@ -56,6 +56,7 @@ dependencies:
   typewritertext: ^3.0.9
   google_fonts: ^6.2.1
   signature: ^5.5.0
+  animated_custom_dropdown: ^3.1.1
 
 
   #Barcode Scanner
