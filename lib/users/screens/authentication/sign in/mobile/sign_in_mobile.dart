@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/users/screens/authentication/sign%20in/sign_in/signin_form.dart';
 
 class SignInMobilePage extends StatelessWidget {
@@ -8,21 +9,30 @@ class SignInMobilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: darkBackground,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: const FaIcon(
+          Icons.arrow_back_ios_new_outlined,
+          color: iconColor,
+        ),
+      ),
       appBar: AppBar(
-        title: SizedBox(
-          height: 95,
-          child: Image.asset(
-            'logo.png',
+        leading: Image.asset(
+          'logo_white.png',
 
-            // height: 93,
-          ),
+          // height: 93,
+        ),
+        title: const Text(
+          'Believe in something 🌙',
+          style: titleStyle,
         ),
         centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const FaIcon(Icons.arrow_back_ios_new_outlined)),
+        backgroundColor: darkBackground,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 80,
       ),
       body: const SingleChildScrollView(
         child: Center(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/users/screens/authentication/sign%20in/sign_in.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/users/screens/for_id/for_id_card.dart';
+import 'package:ssnhi_app/users/screens/for_id/for_id_screen.dart';
 import 'package:universal_html/html.dart' as html;
 
 class GuestDashboardWeb extends StatelessWidget {
@@ -106,13 +108,16 @@ class GuestDashboardWeb extends StatelessWidget {
                               ),
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.3,
+                                    MediaQuery.of(context).size.height * 0.35,
                                 width: MediaQuery.of(context).size.width,
                                 child: JuneBuilder(() => ForIdState(),
                                     builder: (forIdState) {
                                   return forIdState.isLoading
                                       ? const Center(
-                                          child: CircularProgressIndicator())
+                                          child: SpinKitFoldingCube(
+                                            color: Colors.black,
+                                          ),
+                                        )
                                       : forIdState.errorMessage != null
                                           ? Center(
                                               child: Text(
@@ -122,8 +127,7 @@ class GuestDashboardWeb extends StatelessWidget {
                                                   child:
                                                       Text('No records found'))
                                               : ListView.builder(
-                                                  itemCount: forIdState
-                                                      .forIdList.length,
+                                                  itemCount: 3,
                                                   itemBuilder:
                                                       (context, index) {
                                                     final forId = forIdState
@@ -135,6 +139,20 @@ class GuestDashboardWeb extends StatelessWidget {
                                                   },
                                                 );
                                 }),
+                              ),
+                              Center(
+                                child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const ForID()));
+                                    },
+                                    child: const Text(
+                                      'View all 👀',
+                                      style: titleStyleDark,
+                                    )),
                               )
                             ],
                           )),

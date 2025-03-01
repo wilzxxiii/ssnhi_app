@@ -166,44 +166,106 @@ class AuthState extends JuneState {
   }
 
   Future<void> userLogOut(BuildContext context) async {
-    try {
-      loadingScreen.showLoading(context);
-      await _userAuth.logOut();
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.black,
-            content: Text(
-              'Please come back. ✨',
-              style: titleStyle,
-            ),
-          ),
-        );
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure you want to log out cutie? 🌙'),
+          content: const SingleChildScrollView(),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () async {
+                try {
+                  loadingScreen.showLoading(context);
+                  await _userAuth.logOut();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.black,
+                        content: Text(
+                          'Please come back. ✨',
+                          style: titleStyle,
+                        ),
+                      ),
+                    );
 
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const UserChecker(),
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UserChecker(),
+                        ),
+                        (r) => false);
+                  }
+                } catch (e) {
+                  log(e.toString());
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text(
+                          'Unable to logout: $e 💀',
+                          style: titleStyle,
+                        ),
+                      ),
+                    );
+                  }
+                } finally {
+                  clearUser();
+                }
+              },
             ),
-            (r) => false);
-      }
-    } catch (e) {
-      log(e.toString());
-      if (context.mounted) {
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              'Unable to logout: $e 💀',
-              style: titleStyle,
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
-          ),
+          ],
         );
-      }
-    } finally {
-      clearUser();
-    }
+      },
+    );
+
+    // try {
+    //   loadingScreen.showLoading(context);
+    //   await _userAuth.logOut();
+    //   if (context.mounted) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(
+    //         backgroundColor: Colors.black,
+    //         content: Text(
+    //           'Please come back. ✨',
+    //           style: titleStyle,
+    //         ),
+    //       ),
+    //     );
+
+    //     Navigator.pushAndRemoveUntil(
+    //         context,
+    //         MaterialPageRoute(
+    //           builder: (context) => const UserChecker(),
+    //         ),
+    //         (r) => false);
+    //   }
+    // } catch (e) {
+    //   log(e.toString());
+    //   if (context.mounted) {
+    //     Navigator.of(context).pop();
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(
+    //         backgroundColor: Colors.red,
+    //         content: Text(
+    //           'Unable to logout: $e 💀',
+    //           style: titleStyle,
+    //         ),
+    //       ),
+    //     );
+    //   }
+    // } finally {
+    //   clearUser();
+    // }
   }
 
   void clearUser() {

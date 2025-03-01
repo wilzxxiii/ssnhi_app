@@ -29,6 +29,9 @@ class EditForIdMobile extends StatelessWidget {
           iconTheme: const IconThemeData(color: iconColor),
           leading: IconButton(
             onPressed: () {
+              forIdState.canEdit = false;
+              forIdState.clearForIdModel();
+              forIdState.clearControllers();
               Navigator.pop(context);
             },
             icon: const FaIcon(Icons.arrow_back_ios_new),
@@ -62,9 +65,28 @@ class EditForIdMobile extends StatelessWidget {
                 :
                 // if (forIdState.canEdit == true)
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await forIdState.updateData(context, forIdModel.id);
+                    },
                     icon: const Icon(Icons.save, color: lightBackground)),
             const SizedBox(width: 10),
+            IconButton(
+                onPressed: () async {
+                  if (authState.user == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text(
+                          'You need an account to delete data. 💀',
+                          style: titleStyle,
+                        ),
+                      ),
+                    );
+                  } else {
+                    forIdState.deleteData(context, forIdModel.id);
+                  }
+                },
+                icon: const Icon(Icons.delete, color: lightBackground)),
           ],
         ),
         body: SingleChildScrollView(
@@ -294,33 +316,39 @@ class EditForIdMobile extends StatelessWidget {
                     width: Responsive.isDesktop(context)
                         ? MediaQuery.of(context).size.width * 0.3
                         : MediaQuery.of(context).size.width,
-                    child: Signature(
-                      key: const Key('signature'),
-                      controller: forIdState.sigController,
-                      height: 300,
-                      backgroundColor: Colors.blue[200]!,
-                    ),
+                    child: forIdState.canEdit
+                        ? Signature(
+                            key: const Key('signature'),
+                            controller: forIdState.sigController,
+                            height: 300,
+                            backgroundColor: Colors.blue[200]!,
+                          )
+                        : forIdState.signatureToImage(forIdModel.signature),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      OutlinedButton(
-                        onPressed: () {
-                          forIdState.sigController.clear();
-                        },
-                        child: const Text('Clear Signature'),
-                      ),
-                      const SizedBox(width: 20),
-                      OutlinedButton(
-                        onPressed: () {
-                          forIdState.sigController.undo();
-                        },
-                        child: const Text('Undo'),
-                      ),
-                    ],
-                  ),
+                  forIdState.canEdit
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () {
+                                forIdState.sigController.clear();
+                              },
+                              child: const Text('Clear Signature'),
+                            ),
+                            const SizedBox(width: 20),
+                            OutlinedButton(
+                              onPressed: () {
+                                forIdState.sigController.undo();
+                              },
+                              child: const Text('Undo'),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(
+                          height: 5,
+                        ),
                   const SizedBox(
                     height: 10,
                   ),

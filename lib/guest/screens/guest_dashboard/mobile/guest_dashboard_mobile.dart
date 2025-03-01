@@ -72,8 +72,10 @@ class GuestDashboarMobile extends StatelessWidget {
                       Card(
                         color: darkBackground,
                         child: ListTile(
-                          trailing:
-                              const SpinKitWaveSpinner(color: Colors.white),
+                          trailing: const SpinKitPumpingHeart(
+                            color: Colors.white,
+                            size: 15,
+                          ),
                           leading: const FaIcon(
                             FontAwesomeIcons.idBadge,
                             color: Colors.white,

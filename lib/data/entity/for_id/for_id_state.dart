@@ -60,7 +60,7 @@ class ForIdState extends JuneState {
 
   //Signature controller
   final SignatureController sigController = SignatureController(
-    penStrokeWidth: 2,
+    penStrokeWidth: 5,
     penColor: Colors.black,
     exportBackgroundColor: Colors.transparent,
     exportPenColor: Colors.black,
@@ -128,14 +128,27 @@ class ForIdState extends JuneState {
       final Uint8List? data =
           await sigController.toPngBytes(height: 1000, width: 1000);
       if (data == null) {
-        // Convert Uint8List to Base64 string
-
         return;
       }
       final String base64String = base64Encode(data);
       signature = base64String;
 
       setState();
+    }
+  }
+
+  Widget signatureToImage(String base64String) {
+    try {
+      final Uint8List bytes = base64Decode(base64String);
+      return Image.memory(
+        bytes,
+        width: 300, // Adjust size as needed
+        height: 300, // Adjust size as needed
+        fit: BoxFit.contain, // Preserve aspect ratio
+        scale: 20,
+      );
+    } catch (e) {
+      return const Text('Invalid signature data');
     }
   }
 
@@ -185,6 +198,133 @@ class ForIdState extends JuneState {
       }
     }
   }
+
+  Future<void> updateData(BuildContext context, String documentId) async {
+    try {
+      loading.showLoading(context);
+      await convertSignatureToString();
+      final updateForIdModel = ForIdModel(
+          id: documentId,
+          empNo: empNoController.text,
+          empName: empNameController.text,
+          empDept: empDept,
+          ecName: ecNameController.text,
+          position: empPositionController.text,
+          ecAdd: ecAddController.text,
+          ecPhone: ecPhoneController.text,
+          signature: signature,
+          status: status);
+
+      await dbForId.updateForID(documentId, updateForIdModel);
+      if (context.mounted) {
+        Navigator.pop(context);
+        clearControllers();
+        clearForIdModel();
+        canEdit = false;
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Record updated ^_^',
+              style: titleStyle,
+            ),
+          ),
+        );
+      }
+
+      setState();
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              e.toString(),
+              style: titleStyle,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> deleteData(BuildContext context, String documentId) async {
+    try {
+      loading.showLoading(context);
+
+      final updateForIdModel = ForIdModel(
+          id: documentId,
+          empNo: '',
+          empName: '',
+          empDept: '',
+          ecName: '',
+          position: '',
+          ecAdd: '',
+          ecPhone: '',
+          signature: '',
+          status: '');
+
+      await dbForId.deleteForID(updateForIdModel.id);
+      if (context.mounted) {
+        Navigator.pop(context);
+        clearControllers();
+        clearForIdModel();
+        canEdit = false;
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Record deleted ^_^',
+              style: titleStyle,
+            ),
+          ),
+        );
+      }
+
+      setState();
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              e.toString(),
+              style: titleStyle,
+            ),
+          ),
+        );
+      }
+    }
+  }
+  // Future<void> updateData(BuildContext context, String documentId) async {
+  //   try {
+  //     await convertSignatureToString();
+  //     final updatedForIdModel = ForIdModel(
+  //       id: documentId,
+  //       empNo: empNoController.text,
+  //       empName: empNameController.text,
+  //       empDept: empDept,
+  //       ecName: ecNameController.text,
+  //       status: status,
+  //       signature: signature,
+  //     );
+  //     await dbForId.updateForID(documentId, updatedForIdModel);
+  //     if (context.mounted) {
+  //       Navigator.pop(context);
+  //       clearControllers();
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text('Record updated ^_^')),
+  //       );
+  //     }
+  //     setState();
+  //   } catch (e) {
+  //     if (context.mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Error: $e')),
+  //       );
+  //     }
+  //   }
+  // }
 
   ForIdModel clearForIdModel() {
     return const ForIdModel(

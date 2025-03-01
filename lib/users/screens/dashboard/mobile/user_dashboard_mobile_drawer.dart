@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
-import 'package:ssnhi_app/users/screens/for_id/for_id_screen.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/users/screens/dashboard/mobile/user_dashboard_mobile.dart';
+import 'package:ssnhi_app/users/screens/dashboard/state/dashboard_state.dart';
 
 class UserDashboardMobileDrawer extends StatelessWidget {
   const UserDashboardMobileDrawer({super.key});
@@ -12,37 +13,12 @@ class UserDashboardMobileDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     //
     final authState = June.getState(() => AuthState());
+    final webState = June.getState(() => DashboardState());
     //
 
     //
 
     //
-    Future<void> logOutDialog() async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Are you sure you want to log out cutie? 🌙'),
-            content: const SingleChildScrollView(),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Yes'),
-                onPressed: () async {
-                  await authState.userLogOut(context);
-                },
-              ),
-              TextButton(
-                child: const Text('No'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
 
     return Drawer(
       backgroundColor: Colors.black,
@@ -50,35 +26,50 @@ class UserDashboardMobileDrawer extends StatelessWidget {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.2,
-            color: Colors.white,
             width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                    'assets/moon.jpg',
+                  ),
+                  fit: BoxFit.fill),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
                   minRadius: 50,
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.white,
                   child: Text(
                     authState.user!.name[0],
-                    style: const TextStyle(fontSize: 50, color: Colors.white),
+                    style: const TextStyle(fontSize: 50, color: Colors.black),
                   ),
                 ),
-                Text(authState.user!.name)
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  authState.user!.name,
+                  style: titleStyle,
+                )
               ],
             ),
           ),
-          const ListTile(
-            leading: FaIcon(FontAwesomeIcons.idBadge),
-            contentPadding: EdgeInsets.all(15),
-            title: Text(
-              'IT Report Form (Coming soon)',
+          ListTile(
+            leading: const FaIcon(FontAwesomeIcons.computer),
+            contentPadding: const EdgeInsets.all(15),
+            title: const Text(
+              'IT Report ',
               style: titleStyle,
             ),
-            // onTap: () {
-            //   Navigator.push(
-            //       context, MaterialPageRoute(builder: (_) => const ForID()));
-            // },
+            onTap: () {
+              webState.showMoonForItReport();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const UserDashboardMobile()));
+            },
           ),
           ListTile(
             leading: const FaIcon(FontAwesomeIcons.idBadge),
@@ -88,17 +79,27 @@ class UserDashboardMobileDrawer extends StatelessWidget {
               style: titleStyle,
             ),
             onTap: () {
+              webState.showMoonForId();
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => const ForID()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const UserDashboardMobile()));
             },
           ),
-          const ListTile(
-            leading: Icon(Icons.note),
-            contentPadding: EdgeInsets.all(15),
-            title: Text(
-              'Notebook (Coming soon)',
+          ListTile(
+            leading: const FaIcon(FontAwesomeIcons.toolbox),
+            contentPadding: const EdgeInsets.all(15),
+            title: const Text(
+              'Maintenance Job Order',
               style: titleStyle,
             ),
+            onTap: () {
+              webState.showMoonForJo();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const UserDashboardMobile()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout),
@@ -108,7 +109,7 @@ class UserDashboardMobileDrawer extends StatelessWidget {
               style: titleStyle,
             ),
             onTap: () async {
-              await logOutDialog();
+              await authState.userLogOut(context);
             },
           ),
         ],

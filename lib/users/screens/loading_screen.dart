@@ -28,9 +28,38 @@ class LoadingScreen {
               ),
               const SpinKitFoldingCube(
                 color: Colors.black,
-              )
+              ),
             ],
           );
         });
+  }
+}
+
+class MyDialog {
+  Future<void> logOutDialog(BuildContext context, Function function) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure you want to log out cutie? 🌙'),
+          content: const SingleChildScrollView(),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () async {
+                function;
+              },
+            ),
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
