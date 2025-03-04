@@ -3,8 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/users/screens/dashboard/mobile/user_dashboard_mobile.dart';
-import 'package:ssnhi_app/users/screens/dashboard/state/dashboard_state.dart';
+import 'package:ssnhi_app/users/screens/dashboard/jo/maintenance_jo.dart';
+import 'package:ssnhi_app/users/screens/for_id/for_id_screen.dart';
+import 'package:ssnhi_app/users/screens/it_report_form/it_report.dart';
+
+// import 'package:ssnhi_app/users/screens/dashboard/state/dashboard_state.dart';
 
 class UserDashboardMobileDrawer extends StatelessWidget {
   const UserDashboardMobileDrawer({super.key});
@@ -13,7 +16,7 @@ class UserDashboardMobileDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     //
     final authState = June.getState(() => AuthState());
-    final webState = June.getState(() => DashboardState());
+    // final webState = June.getState(() => DashboardState());
     //
 
     //
@@ -64,11 +67,9 @@ class UserDashboardMobileDrawer extends StatelessWidget {
               style: titleStyle,
             ),
             onTap: () {
-              webState.showMoonForItReport();
+              // webState.showMoonForItReport();
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const UserDashboardMobile()));
+                  context, MaterialPageRoute(builder: (_) => const ItReport()));
             },
           ),
           ListTile(
@@ -79,11 +80,9 @@ class UserDashboardMobileDrawer extends StatelessWidget {
               style: titleStyle,
             ),
             onTap: () {
-              webState.showMoonForId();
+              // webState.showMoonForId();
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const UserDashboardMobile()));
+                  context, MaterialPageRoute(builder: (_) => const ForID()));
             },
           ),
           ListTile(
@@ -94,11 +93,9 @@ class UserDashboardMobileDrawer extends StatelessWidget {
               style: titleStyle,
             ),
             onTap: () {
-              webState.showMoonForJo();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const UserDashboardMobile()));
+              // webState.showMoonForJo();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const MaintenanceJo()));
             },
           ),
           ListTile(

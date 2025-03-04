@@ -17,9 +17,8 @@ class AuthState extends JuneState {
 
   MyUserModel? get user => _user;
 
-  final myCurrentUser = FirebaseAuth.instance.currentUser;
   final loadingScreen = LoadingScreen();
-
+  bool isLoading = true;
   // Constructor initializes the state
   AuthState() {
     _initializeAuthListener();
@@ -30,12 +29,15 @@ class AuthState extends JuneState {
       if (firebaseUser != null) {
         await firebaseUser.reload();
 
-        _fetchAndUpdateUser(firebaseUser);
-        // updateUserEmailVerification();
+        await _fetchAndUpdateUser(firebaseUser);
 
+        // updateUserEmailVerification();
+        isLoading = false;
         setState();
       } else {
         _user = null;
+
+        isLoading = false;
         setState();
       }
       // Notify listeners that the state has changed
@@ -49,18 +51,12 @@ class AuthState extends JuneState {
       final doc =
           await _firestore.collection('users').doc(firebaseUser.uid).get();
       if (doc.exists) {
-        firebaseUser.reload();
         _user = MyUserModel.fromMap({
           ...doc.data()!,
           'userId': firebaseUser.uid,
           'email': firebaseUser.email ?? "",
-          'emailVerified': firebaseUser.emailVerified, //
+          'emailVerified': firebaseUser.emailVerified,
         });
-
-        // await _firestore
-        //     .collection('users')
-        //     .doc(myCurrentUser!.uid)
-        //     .update({'emailVerified': myCurrentUser!.emailVerified});
 
         setState();
       } else {
@@ -68,21 +64,18 @@ class AuthState extends JuneState {
           userId: firebaseUser.uid,
           email: firebaseUser.email ?? "",
           name: firebaseUser.displayName ?? "Unknown",
-          emailVerified: firebaseUser
-              .emailVerified, // // Fallback to Firebase if not in Firestore
+          emailVerified: firebaseUser.emailVerified,
         );
 
         setState();
-        // Optionally, you might want to save this new user to Firestore here
       }
     } catch (e) {
       log('Error fetching user data: $e');
-      // Fallback to only firebase data if Firestore fetch fails
       _user = MyUserModel(
         userId: firebaseUser.uid,
         email: firebaseUser.email ?? "",
         name: firebaseUser.displayName ?? "Unknown",
-        emailVerified: firebaseUser.emailVerified, //
+        emailVerified: firebaseUser.emailVerified,
       );
     }
   }
@@ -92,8 +85,7 @@ class AuthState extends JuneState {
     try {
       loadingScreen.showLoading(context);
       await _userAuth.signInUser(email, password);
-
-      _fetchAndUpdateUser(FirebaseAuth.instance.currentUser!);
+      await _fetchAndUpdateUser(FirebaseAuth.instance.currentUser!);
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -132,7 +124,7 @@ class AuthState extends JuneState {
       loadingScreen.showLoading(context);
 
       await _userAuth.signUpUser(newUser!, password);
-      _fetchAndUpdateUser(FirebaseAuth.instance.currentUser!);
+      await _fetchAndUpdateUser(FirebaseAuth.instance.currentUser!);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -180,6 +172,7 @@ class AuthState extends JuneState {
                 try {
                   loadingScreen.showLoading(context);
                   await _userAuth.logOut();
+
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

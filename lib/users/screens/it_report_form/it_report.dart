@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
-import 'package:ssnhi_app/users/screens/dashboard/web/user_dashboard_web.dart';
-import 'package:ssnhi_app/users/screens/it_report_form/mobile/it_report_form_mobile.dart';
+
+import 'package:ssnhi_app/users/screens/it_report_form/mobile/it_report__mobile.dart';
+import 'package:ssnhi_app/users/screens/it_report_form/web/it_report_form_web.dart';
 
 class ItReport extends StatelessWidget {
   const ItReport({super.key});
@@ -11,7 +12,7 @@ class ItReport extends StatelessWidget {
     if (Responsive.isMobile(context) == true) {
       return const ItReportMobile();
     } else {
-      return const UserDashboardWebView();
+      return const ItReportWeb();
     }
   }
 }

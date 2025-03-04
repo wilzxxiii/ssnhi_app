@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_model.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/users/screens/for_id/edit_for_id/edit_for_id.dart';
+import 'package:ssnhi_app/users/screens/for_id/view_for_id/view_for_id.dart';
 
 class ForIdCard extends StatelessWidget {
   const ForIdCard({
@@ -39,11 +39,15 @@ class ForIdCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Employee No: ${forId.empNo}',
+                    forId.empNo.isEmpty
+                        ? 'Employee No: No data'
+                        : 'Employee No: ${forId.empNo}',
                     style: textStyle,
                   ),
                   Text(
-                    'Department: ${forId.empDept}',
+                    forId.empDept.isEmpty
+                        ? 'Department: No chosen department'
+                        : 'Department: ${forId.empDept}',
                     style: textStyle,
                   ),
                 ],
@@ -90,7 +94,7 @@ class ForIdCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => EditForId(
+                  builder: (context) => ViewForId(
                         forIdModel: forId,
                       )));
         },

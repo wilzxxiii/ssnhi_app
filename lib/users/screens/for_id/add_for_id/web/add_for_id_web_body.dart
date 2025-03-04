@@ -105,7 +105,6 @@ class AddForIdWebBody extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
               const Text('Emergency Contact Person Details',
                   style: TextStyle(

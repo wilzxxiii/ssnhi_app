@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:june/june.dart';
@@ -8,6 +9,7 @@ import 'package:ssnhi_app/data/entity/for_id/for_id_db_service.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_model.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/users/screens/loading_screen.dart';
+import 'package:universal_html/html.dart' as html;
 
 class ForIdState extends JuneState {
   String empNo = '';
@@ -93,12 +95,6 @@ class ForIdState extends JuneState {
     setState();
   }
 
-  bool canEdit = false;
-  void goEdit() {
-    canEdit = !canEdit;
-    setState();
-  }
-
   //For dropdown
   List<String> idStatus = [
     'Gathering Info',
@@ -137,15 +133,46 @@ class ForIdState extends JuneState {
     }
   }
 
+  Future<void> downloadSignature(String base64String) async {
+    try {
+      final Uint8List bytes = base64Decode(base64String);
+
+      // Create a blob from the bytes
+      final blob = html.Blob([bytes]);
+
+      // Create a URL for the blob
+      final url = html.Url.createObjectUrlFromBlob(blob);
+
+      // Create an anchor element to trigger download
+      final anchor = html.AnchorElement(href: url)
+        ..setAttribute('download', '$empName.signature.png')
+        ..click();
+
+      // Clean up
+      html.Url.revokeObjectUrl(url);
+    } catch (e) {
+      log('Error downloading signature: $e');
+    }
+  }
+
+// Modified widget with download button
   Widget signatureToImage(String base64String) {
     try {
       final Uint8List bytes = base64Decode(base64String);
-      return Image.memory(
-        bytes,
-        width: 300, // Adjust size as needed
-        height: 300, // Adjust size as needed
-        fit: BoxFit.contain, // Preserve aspect ratio
-        scale: 20,
+      return Column(
+        children: [
+          Image.memory(
+            bytes,
+            width: 200,
+            height: 200,
+            fit: BoxFit.fill,
+            scale: 20,
+          ),
+          ElevatedButton(
+            onPressed: () => downloadSignature(base64String),
+            child: const Text('Download Signature'),
+          ),
+        ],
       );
     } catch (e) {
       return const Text('Invalid signature data');
@@ -170,8 +197,11 @@ class ForIdState extends JuneState {
 
       await dbForId.saveForID(forIdModel);
       if (context.mounted) {
-        Navigator.pop(context);
         clearControllers();
+        sigController.clear();
+        clearForIdModel();
+        Navigator.pop(context);
+
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -217,10 +247,11 @@ class ForIdState extends JuneState {
 
       await dbForId.updateForID(documentId, updateForIdModel);
       if (context.mounted) {
-        Navigator.pop(context);
         clearControllers();
         clearForIdModel();
-        canEdit = false;
+
+        Navigator.pop(context);
+
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -249,52 +280,76 @@ class ForIdState extends JuneState {
   }
 
   Future<void> deleteData(BuildContext context, String documentId) async {
-    try {
-      loading.showLoading(context);
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure you want to delete this? 🌙'),
+          content: const SingleChildScrollView(),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () async {
+                try {
+                  loading.showLoading(context);
 
-      final updateForIdModel = ForIdModel(
-          id: documentId,
-          empNo: '',
-          empName: '',
-          empDept: '',
-          ecName: '',
-          position: '',
-          ecAdd: '',
-          ecPhone: '',
-          signature: '',
-          status: '');
+                  final updateForIdModel = ForIdModel(
+                      id: documentId,
+                      empNo: '',
+                      empName: '',
+                      empDept: '',
+                      ecName: '',
+                      position: '',
+                      ecAdd: '',
+                      ecPhone: '',
+                      signature: '',
+                      status: '');
 
-      await dbForId.deleteForID(updateForIdModel.id);
-      if (context.mounted) {
-        Navigator.pop(context);
-        clearControllers();
-        clearForIdModel();
-        canEdit = false;
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Record deleted ^_^',
-              style: titleStyle,
+                  await dbForId.deleteForID(updateForIdModel.id);
+                  if (context.mounted) {
+                    clearControllers();
+                    clearForIdModel();
+                    Navigator.pop(context);
+
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Record deleted ^_^',
+                          style: titleStyle,
+                        ),
+                      ),
+                    );
+                    Navigator.pop(context);
+                  }
+
+                  setState();
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text(
+                          e.toString(),
+                          style: titleStyle,
+                        ),
+                      ),
+                    );
+                  }
+                }
+              },
             ),
-          ),
-        );
-      }
-
-      setState();
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              e.toString(),
-              style: titleStyle,
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
-          ),
+          ],
         );
-      }
-    }
+      },
+    );
   }
   // Future<void> updateData(BuildContext context, String documentId) async {
   //   try {
@@ -342,6 +397,7 @@ class ForIdState extends JuneState {
 
   //clear controllers  for text fields
   void clearControllers() {
+    clearForIdModel();
     empNoController.clear();
     empPositionController.clear();
     empNameController.clear();
@@ -349,7 +405,6 @@ class ForIdState extends JuneState {
     ecAddController.clear();
     ecPhoneController.clear();
     sigController.clear();
-    clearForIdModel();
     setState();
   }
 }

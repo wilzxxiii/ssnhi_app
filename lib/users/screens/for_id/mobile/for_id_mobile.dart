@@ -4,9 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
-import 'package:ssnhi_app/user_check.dart';
-import 'package:ssnhi_app/users/screens/dashboard/state/dashboard_state.dart';
-import 'package:ssnhi_app/users/screens/for_id/add%20for%20id/add_for_id.dart';
+
+import 'package:ssnhi_app/users/screens/for_id/add_for_id/add_for_id.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/users/screens/for_id/for_id_card.dart';
 
@@ -16,7 +15,7 @@ class ForIdMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authState = June.getState(() => AuthState());
-    final webState = June.getState(() => DashboardState());
+    // final webState = June.getState(() => DashboardState());
     return JuneBuilder(
       () => ForIdState(),
       builder: (vm) {
@@ -52,14 +51,9 @@ class ForIdMobile extends StatelessWidget {
               onPressed: () {
                 vm.clearForIdModel();
                 vm.clearControllers();
-                vm.canEdit = false;
-                webState.showMoonDashboard();
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UserChecker(),
-                    ),
-                    (r) => false);
+
+                // webState.showMoonDashboard();
+                Navigator.pop(context);
               },
               icon: const FaIcon(Icons.arrow_back_ios_new),
             ),
