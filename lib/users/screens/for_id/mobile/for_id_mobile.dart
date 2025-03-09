@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
-import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 
 import 'package:ssnhi_app/users/screens/for_id/add_for_id/add_for_id.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
@@ -14,7 +13,6 @@ class ForIdMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authState = June.getState(() => AuthState());
     // final webState = June.getState(() => DashboardState());
     return JuneBuilder(
       () => ForIdState(),
@@ -22,20 +20,8 @@ class ForIdMobile extends StatelessWidget {
         return Scaffold(
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-              if (authState.user == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Colors.red,
-                    content: Text(
-                      'You need an account to add a record. 💀',
-                      style: titleStyle,
-                    ),
-                  ),
-                );
-              } else {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddForID(vm: vm)));
-              }
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AddForID(vm: vm)));
             },
             backgroundColor: mainColor,
             hoverColor: hoverColor,

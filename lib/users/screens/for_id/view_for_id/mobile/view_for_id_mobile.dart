@@ -44,14 +44,19 @@ class ViewForIdMobile extends StatelessWidget {
             },
             icon: const FaIcon(Icons.arrow_back_ios_new),
           ),
-          title: const Text(
-            'Viewing 👀',
-            style: titleStyle,
-          ),
+          title: forIdModel.empName.isEmpty
+              ? const Text(
+                  'Whoops! Seems like you forgot to enter a name',
+                  style: titleStyle,
+                )
+              : Text(
+                  '${forIdModel.empName} 👀',
+                  style: titleStyle,
+                ),
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -94,6 +99,15 @@ class ViewForIdMobile extends StatelessWidget {
                         color: Colors.blue[900],
                         fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
+                const Text('Position:', style: titleStyleDark),
+                const SizedBox(height: 8),
+                SelectableText(
+                    forIdModel.position.isEmpty ? 'None' : forIdModel.position,
+                    style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.blue[900],
+                        fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
                 const Text('Signature:', style: titleStyleDark),
                 const SizedBox(height: 8),
                 forIdModel.signature.isEmpty
@@ -105,7 +119,7 @@ class ViewForIdMobile extends StatelessWidget {
                     : Center(
                         child:
                             forIdState.signatureToImage(forIdModel.signature)),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 const Center(
                   child: Text(
                     '🆘 Emergency Contact Details 🆘',

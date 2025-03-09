@@ -25,12 +25,9 @@ class UserDashboardMobileView extends StatelessWidget {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: iconColor),
         centerTitle: true,
-        title: SizedBox(
-          height: 100,
-          child: Image.asset(
-            'brando_white.png',
-            height: 93,
-          ),
+        title: const Text(
+          'Brando ❤️‍🔥',
+          style: titleStyle,
         ),
         toolbarHeight: 80,
         elevation: 10,

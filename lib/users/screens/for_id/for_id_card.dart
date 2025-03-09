@@ -65,10 +65,15 @@ class ForIdCard extends StatelessWidget {
                     'Status:',
                     style: textStyle,
                   ),
-                  Text(
-                    forId.status,
-                    style: textStyle,
-                  ),
+                  forId.status.isEmpty
+                      ? const Text(
+                          'No status ',
+                          style: textStyle,
+                        )
+                      : Text(
+                          forId.status,
+                          style: textStyle,
+                        ),
                   if (forId.status == 'Gathering Info')
                     const SpinKitPulse(
                       size: 14,

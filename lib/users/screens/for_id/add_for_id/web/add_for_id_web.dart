@@ -4,7 +4,7 @@ import 'package:june/june.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 // import 'package:ssnhi_app/screens/chat/chat_agent.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/users/screens/for_id/add_for_id/mobile/add_for_id_mobile_body.dart';
+import 'package:ssnhi_app/users/screens/for_id/add_for_id/web/add_for_id_web_body.dart';
 
 class AddForIdWeb extends StatelessWidget {
   final ForIdState vm;
@@ -52,7 +52,7 @@ class AddForIdWeb extends StatelessWidget {
             elevation: 10,
             backgroundColor: mainColor,
           ),
-          body: AddForIdMobileBody(vm: vm),
+          body: AddForIdWebBody(vm: vm),
         ),
       ),
     );
