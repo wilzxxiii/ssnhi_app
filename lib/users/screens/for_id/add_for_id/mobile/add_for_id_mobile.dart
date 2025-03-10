@@ -34,9 +34,7 @@ class AddForIdMobile extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              if (vm.forIdformKey.currentState!.validate()) {
-                await forIdState.saveData(context);
-              }
+              await forIdState.saveData(context);
             },
             icon: const FaIcon(
               Icons.save,

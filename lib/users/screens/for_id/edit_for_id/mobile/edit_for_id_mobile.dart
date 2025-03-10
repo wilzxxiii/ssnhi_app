@@ -6,7 +6,6 @@ import 'package:june/june.dart';
 import 'package:signature/signature.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_model.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
-import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
@@ -19,7 +18,6 @@ class EditForIdMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authState = June.getState(() => AuthState());
     return JuneBuilder(() => ForIdState(), builder: (forIdState) {
       return Scaffold(
         appBar: AppBar(
@@ -49,19 +47,7 @@ class EditForIdMobile extends StatelessWidget {
             const SizedBox(width: 10),
             IconButton(
                 onPressed: () async {
-                  if (authState.user == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.red,
-                        content: Text(
-                          'You need an account to delete data. 💀',
-                          style: titleStyle,
-                        ),
-                      ),
-                    );
-                  } else {
-                    forIdState.deleteData(context, forIdModel.id);
-                  }
+                  forIdState.deleteData(context, forIdModel.id);
                 },
                 icon: const Icon(Icons.delete, color: lightBackground)),
           ],

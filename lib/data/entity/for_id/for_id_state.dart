@@ -179,6 +179,30 @@ class ForIdState extends JuneState {
     }
   }
 
+  // Modified widget with download button
+  Widget signatureToImageForGuest(String base64String) {
+    try {
+      final Uint8List bytes = base64Decode(base64String);
+      return Column(
+        children: [
+          Image.memory(
+            bytes,
+            width: 200,
+            height: 200,
+            fit: BoxFit.fill,
+            scale: 20,
+          ),
+          // ElevatedButton(
+          //   onPressed: () => downloadSignature(base64String),
+          //   child: const Text('Download Signature'),
+          // ),
+        ],
+      );
+    } catch (e) {
+      return const Text('Invalid signature data');
+    }
+  }
+
   Future<void> saveData(BuildContext context) async {
     try {
       loading.showLoading(context);
@@ -206,7 +230,7 @@ class ForIdState extends JuneState {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-              'Record saved ^_^',
+              'Record saved 🫡',
               style: titleStyle,
             ),
           ),
@@ -256,7 +280,7 @@ class ForIdState extends JuneState {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-              'Record updated ^_^',
+              'Record updated 🫡',
               style: titleStyle,
             ),
           ),
@@ -316,7 +340,7 @@ class ForIdState extends JuneState {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text(
-                          'Record deleted ^_^',
+                          'Record deleted 🫡',
                           style: titleStyle,
                         ),
                       ),

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ssnhi_app/guest/for_id/guest_for_id.dart';
 import 'package:ssnhi_app/guest/maintenance/guest_dashboard_maintenance.dart';
-// import 'package:june/june.dart';
-// import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/users/screens/authentication/sign%20in/sign_in.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/users/screens/for_id/for_id_screen.dart';
 import 'package:universal_html/html.dart' as html;
 
 class GuestDashboarMobile extends StatelessWidget {
@@ -127,7 +125,7 @@ class GuestDashboarMobile extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ForID()));
+                                    builder: (context) => const GuestForID()));
                           },
                         ),
                       ),
