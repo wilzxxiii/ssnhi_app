@@ -37,13 +37,11 @@ class GuestDashboarMobile extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: false,
-        backgroundColor: lightBackground,
+        backgroundColor: Colors.black,
         title: const Text(
-          'Believe in something, Brando.🌙',
-          style: titleStyleDark,
+          'Believe in something 🌙',
+          style: titleStyle,
         ),
-        elevation: 5,
-        shadowColor: Colors.blue,
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -137,13 +135,13 @@ class GuestDashboarMobile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               width: MediaQuery.of(context).size.width,
-              color: Colors.black,
+              color: Colors.white,
               child: Center(
                 child: Column(
                   children: [
                     const Text(
-                      'Copyright © 2025. Brando, All Rights Reserved. Support the dev by buying his art here: ',
-                      style: titleStyle,
+                      'Copyright © 2025. Brando, All Rights Reserved. Buy my art here: ',
+                      style: titleStyleDark,
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -154,7 +152,7 @@ class GuestDashboarMobile extends StatelessWidget {
                           },
                           child: const Text(
                             'Echow.xyz',
-                            style: titleStyle,
+                            style: titleStyleDark,
                           )),
                     )
                   ],
