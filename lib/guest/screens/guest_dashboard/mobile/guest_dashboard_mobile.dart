@@ -138,6 +138,8 @@ class GuestDashboarMobile extends StatelessWidget {
               color: Colors.white,
               child: Center(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
                       'Copyright © 2025. Brando, All Rights Reserved. Buy my art here: ',
@@ -145,15 +147,23 @@ class GuestDashboarMobile extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: TextButton(
-                          onPressed: () {
-                            _openInNewTab(
-                                'https://echow.xyz/user/0xa5e2460c562438a47f385322b8e1108A4DC788a9');
-                          },
-                          child: const Text(
-                            'Echow.xyz',
-                            style: titleStyleDark,
-                          )),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.black, //<-- SEE HERE
+                          elevation: 10,
+                        ),
+                        onPressed: () {
+                          _openInNewTab(
+                              'https://echow.xyz/user/0xa5e2460c562438a47f385322b8e1108A4DC788a9');
+                        },
+                        child: const Text(
+                          'Echow.xyz 🌙',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),

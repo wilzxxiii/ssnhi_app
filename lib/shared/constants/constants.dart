@@ -14,3 +14,5 @@ const iconColor = Colors.white70;
 const darkIconColor = Colors.black87;
 
 const double appBarHeight = 100;
+
+const String appTitle = "Brando ❤️‍🔥";

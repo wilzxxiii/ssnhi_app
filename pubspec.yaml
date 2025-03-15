@@ -81,7 +81,8 @@ dependencies:
   #extra
   universal_html: ^2.2.4
   fl_chart: ^0.70.2
-  
+  modal_bottom_sheet: ^3.0.0
+ 
   
   
  

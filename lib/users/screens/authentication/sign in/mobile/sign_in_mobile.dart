@@ -20,13 +20,8 @@ class SignInMobilePage extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        leading: Image.asset(
-          'logo_white.png',
-
-          // height: 93,
-        ),
         title: const Text(
-          'Believe in something 🌙',
+          appTitle,
           style: titleStyle,
         ),
         centerTitle: true,
