@@ -142,7 +142,7 @@ class GuestDashboarMobile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
-                      'Copyright © 2025. Brando, All Rights Reserved. Buy my art here: ',
+                      'Copyright © 2025. Brando, All Rights Reserved. Buy my art(?) here: ',
                       style: titleStyleDark,
                     ),
                     Align(

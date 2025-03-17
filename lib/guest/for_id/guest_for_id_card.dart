@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_model.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
-import 'package:ssnhi_app/guest/view_for_id/view_for_id_guest.dart';
+import 'package:ssnhi_app/guest/view_for_id/mobile/view_for_id_mobile_guest.dart';
+import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class GuestForIdCard extends StatelessWidget {
   const GuestForIdCard({
@@ -95,13 +96,29 @@ class GuestForIdCard extends StatelessWidget {
           ],
         ),
         onTap: () {
-          vm.loadForIdModel(forId);
-          Navigator.push(
+          if (Responsive.isMobile(context) == true) {
+            vm.loadForIdModel(forId);
+            Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ViewForIdGuest(
-                        forIdModel: forId,
-                      )));
+                builder: (context) => ViewForIdMobileGuest(
+                  forIdModel: forId,
+                ),
+              ),
+            );
+          } else {
+            vm.loadForIdModel(forId);
+            showModalBottomSheet(
+                context: context,
+                builder: (context) => ViewForIdMobileGuest(forIdModel: forId));
+          }
+          // vm.loadForIdModel(forId);
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => ViewForIdGuest(
+          //               forIdModel: forId,
+          //             )));
         },
       ),
     );

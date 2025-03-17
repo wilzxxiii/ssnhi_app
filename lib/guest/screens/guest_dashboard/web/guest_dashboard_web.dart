@@ -3,9 +3,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/guest/charts/maintenance_chart.dart';
+import 'package:ssnhi_app/guest/charts/monthly/monthly_summary_chart.dart';
 import 'package:ssnhi_app/guest/charts/performer_chart.dart';
 import 'package:ssnhi_app/guest/charts/request_per_department_chart.dart';
-import 'package:ssnhi_app/guest/for_id/guest_for_id.dart';
 import 'package:ssnhi_app/guest/for_id/guest_for_id_card.dart';
 import 'package:ssnhi_app/users/screens/authentication/sign%20in/sign_in.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
@@ -27,6 +27,21 @@ class _GuestDashboardWebState extends State<GuestDashboardWeb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Colors.white,
+          hoverColor: Colors.blue,
+          onPressed: () {
+            showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => const Padding(
+                    padding: EdgeInsets.all(100),
+                    child: MonthlySummaryScreen()));
+          },
+          label: const Text(
+            'Let\'s view it by month, shall we? 🤝',
+            style: titleStyleDark,
+          )),
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: true,
@@ -71,9 +86,11 @@ class _GuestDashboardWebState extends State<GuestDashboardWeb> {
                 //     fit: BoxFit.contain),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(40),
+                padding: const EdgeInsets.all(30),
                 child: Container(
-                  padding: const EdgeInsets.all(40),
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(30),
                   decoration: const BoxDecoration(
                     color: Colors.black26,
                     borderRadius: BorderRadius.all(
@@ -86,12 +103,12 @@ class _GuestDashboardWebState extends State<GuestDashboardWeb> {
                       mainAxisExtent: MediaQuery.of(context).size.height * 0.5,
                       crossAxisSpacing: 16, // Horizontal spacing between cards
                       mainAxisSpacing: 16, // Vertical spacing between cards
-                      childAspectRatio: 0.75, // Adjust card height/width ratio
+                      childAspectRatio: 1, // Adjust card height/width ratio
                     ),
                     children: [
                       //Report
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(30),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(
@@ -102,7 +119,7 @@ class _GuestDashboardWebState extends State<GuestDashboardWeb> {
                       ),
                       //For ID
                       Container(
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(30),
                           decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.all(
@@ -137,7 +154,8 @@ class _GuestDashboardWebState extends State<GuestDashboardWeb> {
                                                   child:
                                                       Text('No records found'))
                                               : ListView.builder(
-                                                  itemCount: 4,
+                                                  itemCount: forIdState
+                                                      .forIdList.length,
                                                   itemBuilder:
                                                       (context, index) {
                                                     final forId = forIdState
@@ -154,6 +172,9 @@ class _GuestDashboardWebState extends State<GuestDashboardWeb> {
                           )),
                       //IT Report
                       Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.all(20),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(
@@ -164,6 +185,9 @@ class _GuestDashboardWebState extends State<GuestDashboardWeb> {
                       ),
                       //To be decided
                       Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.all(20),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(
@@ -185,7 +209,7 @@ class _GuestDashboardWebState extends State<GuestDashboardWeb> {
                 child: Row(
                   children: [
                     const Text(
-                      'Copyright © 2025. Brando, All Rights Reserved. Buy my art here: ',
+                      'Copyright © 2025. Brando, All Rights Reserved. Buy my art(?) here: ',
                       style: titleStyle,
                     ),
                     OutlinedButton(

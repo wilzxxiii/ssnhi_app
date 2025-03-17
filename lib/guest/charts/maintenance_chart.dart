@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ssnhi_app/data/google_sheet.dart';
-import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class MaintenanceCategoryView extends StatefulWidget {
   const MaintenanceCategoryView({
@@ -76,7 +76,7 @@ class _MaintenanceCategoryViewState extends State<MaintenanceCategoryView> {
       child: Column(
         children: [
           const Text(
-            'Summary of Job Order per Category',
+            'Summary of Job Order per Category 💫',
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold), // Replace titleStyleDark
@@ -111,16 +111,36 @@ class _MaintenanceCategoryViewState extends State<MaintenanceCategoryView> {
                                       if (event is FlTapUpEvent) {
                                         final categoryName = categoryCounts.keys
                                             .toList()[touchedIndex];
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
+                                        if (Responsive.isMobile(context) ==
+                                            true) {
+                                          showCupertinoModalBottomSheet(
+                                            context: context,
                                             builder: (context) =>
                                                 CategoryDetailsScreen(
                                               categoryName: categoryName,
                                               sheetData: sheetData,
                                             ),
-                                          ),
-                                        );
+                                          );
+                                        } else {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) =>
+                                                CategoryDetailsScreen(
+                                              categoryName: categoryName,
+                                              sheetData: sheetData,
+                                            ),
+                                          );
+                                        }
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) =>
+                                        //         CategoryDetailsScreen(
+                                        //       categoryName: categoryName,
+                                        //       sheetData: sheetData,
+                                        //     ),
+                                        //   ),
+                                        // );
                                       }
                                     });
                                   },
@@ -185,8 +205,8 @@ class CategoryDetailsScreen extends StatelessWidget {
         .where((row) => row['Category'].toString() == categoryName)
         .toList();
 
-    // Define the headers we want to show
-    const desiredHeaders = ['Job Order #', 'Category', 'Status', 'Performer'];
+    // // Define the headers we want to show
+    // const desiredHeaders = ['Job Order #', 'Category', 'Status', 'Performer'];
 
     // Assuming titleStyle is defined elsewhere; replace with your style if needed
     const titleStyle = TextStyle(
@@ -208,136 +228,136 @@ class CategoryDetailsScreen extends StatelessWidget {
           icon: const FaIcon(Icons.arrow_back_ios_new),
         ),
       ),
-      body: performerTasks.isEmpty
-          ? const Center(child: Text('No tasks found for this performer'))
-          : SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  children: performerTasks.map((task) {
-                    return MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CategoryJODetailsSCreen(
-                                task: task,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          color: Colors.blueGrey,
-                          elevation: 4,
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: desiredHeaders.map((header) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '$header: ',
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: performerTasks.isNotEmpty
+            ? ListView.builder(
+                itemCount: performerTasks.length,
+                itemBuilder: (context, index) {
+                  final job = performerTasks[index];
+                  // Use 'Job ID' if available, otherwise use index + 1
+                  return Card(
+                    color: Colors.black,
+                    elevation: 2,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    child: ExpansionTile(
+                      iconColor: Colors.white,
+                      collapsedIconColor: Colors.blue[300],
+                      title: Text(
+                        'Job Order ${job['Job Order #']} ✨',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      subtitle: Text(
+                        'Category : ${job['Category']}',
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.white),
+                      ),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: job.entries.map((entry) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${entry.key}: ',
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        entry.value?.toString() ?? 'N/A',
+                                        softWrap: true,
                                         style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
+                                            color: Colors.white),
                                       ),
-                                      Expanded(
-                                        child: Text(
-                                          task[header]?.toString() ?? 'N/A',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                            ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-    );
-  }
-}
-
-// Task Details Screen
-class CategoryJODetailsSCreen extends StatelessWidget {
-  final Map<String, dynamic> task;
-
-  const CategoryJODetailsSCreen({
-    super.key,
-    required this.task,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 80,
-        title: Text(
-            '${task['Category']} JO ${task['Job Order #'] + " 💖" ?? 'Unknown'}',
-            style: titleStyle),
-        backgroundColor: Colors.black,
-        leading: IconButton(
-          color: Colors.white,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const FaIcon(Icons.arrow_back_ios_new),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: task.entries.map((entry) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${entry.key}: ',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
+                      ],
                     ),
-                    Expanded(
-                      child: Text(
-                        entry.value?.toString() ?? 'N/A',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-        ),
+                  );
+                },
+              )
+            : const Center(
+                child: Text('No job orders found for this category')),
       ),
     );
   }
 }
+
+// // Task Details Screen
+// class CategoryJODetailsSCreen extends StatelessWidget {
+//   final Map<String, dynamic> task;
+
+//   const CategoryJODetailsSCreen({
+//     super.key,
+//     required this.task,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         toolbarHeight: 80,
+//         title: Text(
+//             '${task['Category']} JO ${task['Job Order #'] + " 💖" ?? 'Unknown'}',
+//             style: titleStyle),
+//         backgroundColor: Colors.black,
+//         leading: IconButton(
+//           color: Colors.white,
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//           icon: const FaIcon(Icons.arrow_back_ios_new),
+//         ),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(20),
+//         child: SingleChildScrollView(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: task.entries.map((entry) {
+//               return Padding(
+//                 padding: const EdgeInsets.symmetric(vertical: 8.0),
+//                 child: Row(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       '${entry.key}: ',
+//                       style: const TextStyle(
+//                         fontWeight: FontWeight.bold,
+//                         fontSize: 16,
+//                         color: Colors.black,
+//                       ),
+//                     ),
+//                     Expanded(
+//                       child: Text(
+//                         entry.value?.toString() ?? 'N/A',
+//                         style: const TextStyle(
+//                           fontSize: 16,
+//                           color: Colors.black,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               );
+//             }).toList(),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

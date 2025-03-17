@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:june/june.dart';
 
-import 'package:ssnhi_app/users/screens/authentication/sign%20up/sign_up.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
 import '../../../../../data/user/state/auth_state_june.dart';
@@ -110,29 +109,32 @@ class _SigninFormState extends State<SigninForm> {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  'Don\'t have an account?',
-                  style: titleStyleDark,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignUpPage(),
-                        ));
-                  },
-                  child: const Text(
-                    'Sign up',
-                    style: TextStyle(color: Colors.blue, fontSize: 22),
-                  ),
-                ),
-              ],
-            ),
+
+            //Registration
+            //-----
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     const Text(
+            //       'Don\'t have an account?',
+            //       style: titleStyleDark,
+            //     ),
+            //     TextButton(
+            //       onPressed: () {
+            //         Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (context) => const SignUpPage(),
+            //             ));
+            //       },
+            //       child: const Text(
+            //         'Sign up',
+            //         style: TextStyle(color: Colors.blue, fontSize: 22),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
