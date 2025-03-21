@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
-import 'package:ssnhi_app/guest/for_id/guest_for_id_card.dart';
+import 'package:ssnhi_app/users/screens/dashboard/for_id/guest_for_id_card.dart';
 import 'package:ssnhi_app/users/screens/for_id/add_for_id/add_for_id.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:ssnhi_app/guest/charts/maintenance_chart.dart';
-import 'package:ssnhi_app/guest/charts/monthly/monthly_summary_chart.dart';
-import 'package:ssnhi_app/guest/charts/performer_chart.dart';
-import 'package:ssnhi_app/guest/charts/request_per_department_chart.dart';
+import 'package:ssnhi_app/users/screens/dashboard/charts/maintenance_chart.dart';
+import 'package:ssnhi_app/users/screens/dashboard/charts/monthly/monthly_summary_chart.dart';
+import 'package:ssnhi_app/users/screens/dashboard/charts/performer_chart.dart';
+import 'package:ssnhi_app/users/screens/dashboard/charts/request_per_department_chart.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
 class GuestDashboardMaintenanceReportMobile extends StatelessWidget {

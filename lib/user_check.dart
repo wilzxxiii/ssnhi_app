@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:june/june.dart';
 import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/users/screens/authentication/email_verification_screen.dart';
-import 'package:ssnhi_app/guest/screens/guest_dashboard/guest_dashboard.dart';
+import 'package:ssnhi_app/users/screens/dashboard/guest_dashboard/guest_dashboard.dart';
 import 'package:ssnhi_app/users/screens/dashboard/user_dashboard.dart';
 
 class UserChecker extends StatelessWidget {

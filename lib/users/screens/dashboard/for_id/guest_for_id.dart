@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/guest/for_id/mobile/guest_for_id_mobile.dart';
-import 'package:ssnhi_app/guest/for_id/web/guest_for_id_web.dart';
+import 'package:ssnhi_app/users/screens/dashboard/for_id/mobile/guest_for_id_mobile.dart';
+import 'package:ssnhi_app/users/screens/dashboard/for_id/web/guest_for_id_web.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class GuestForID extends StatelessWidget {

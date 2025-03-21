@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/guest/maintenance/mobile/guest_dashboard_maintenance_mobile.dart';
+import 'package:ssnhi_app/users/screens/dashboard/maintenance/mobile/guest_dashboard_maintenance_mobile.dart';
 
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 

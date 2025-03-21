@@ -1,194 +1,139 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
+import 'package:june/june.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:ssnhi_app/data/google_sheet.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
+import 'package:ssnhi_app/users/screens/dashboard/charts/state/request_per_dept_state.dart';
 
-class RequestPerDepartments extends StatefulWidget {
-  const RequestPerDepartments({
-    super.key,
-  });
-
-  @override
-  State<RequestPerDepartments> createState() => _RequestPerDepartments();
-}
-
-class _RequestPerDepartments extends State<RequestPerDepartments> {
-  List<Map<String, dynamic>> sheetData = [];
-  Map<String, int> categoryCounts = {};
-  bool isLoading = true;
-
-  Future<void> fetchData() async {
-    const url = sheetsUrl;
-
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
-        var values = json['values'] as List;
-        if (values.isEmpty) {
-          setState(() => isLoading = false);
-          return;
-        }
-
-        var headers = values[0];
-        var dataRows = values.length > 1 ? values.sublist(1) : [];
-
-        sheetData = dataRows.map((row) {
-          var rowMap = <String, dynamic>{};
-          for (int i = 0; i < headers.length && i < row.length; i++) {
-            rowMap[headers[i]] = row[i];
-          }
-          return rowMap;
-        }).toList();
-
-        categoryCounts.clear();
-        for (var row in sheetData) {
-          String category = row['Requestor Department'].toString();
-          categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
-        }
-
-        setState(() {
-          isLoading = false;
-        });
-      } else {
-        setState(() => isLoading = false);
-      }
-    } catch (e) {
-      setState(() => isLoading = false);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
+class RequestPerDepartments extends StatelessWidget {
+  const RequestPerDepartments({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : sheetData.isEmpty
-              ? const Center(child: Text('No data found'))
-              : Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+    return JuneBuilder(() => RequestPerDeptState(), builder: (reqDeptState) {
+      return Padding(
+        padding: const EdgeInsets.all(5),
+        child: reqDeptState.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : reqDeptState.sheetData.isEmpty
+                ? const Center(child: Text('No data found'))
+                : Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Center(
-                          child: Text(
-                            'Job Orders by Department 💫',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const Center(
-                          child: Text(
-                            'P.S. You can click department names 🤭',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        DataTable(
-                          columns: const [
-                            DataColumn(
-                              label: Text(
-                                'Department',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Center(
+                            child: Text(
+                              'Job Orders by Department 💫',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            DataColumn(
-                              label: Text(
-                                '# of requests',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
+                          ),
+                          const Center(
+                            child: Text(
+                              'P.S. You can click department names 🤭',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
                               ),
                             ),
-                          ],
-                          rows: () {
-                            final sortedEntries =
-                                categoryCounts.entries.toList();
-                            sortedEntries
-                                .sort((a, b) => b.value.compareTo(a.value));
-                            return sortedEntries.map((entry) {
-                              return DataRow(
-                                cells: [
-                                  DataCell(MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        if (Responsive.isMobile(context) ==
-                                            true) {
-                                          showCupertinoModalBottomSheet(
-                                            context: context,
-                                            builder: (context) =>
-                                                DepartmentDetailsScreen(
-                                              deptName: entry.key,
-                                              sheetData: sheetData,
-                                            ),
-                                          );
-                                        } else {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) =>
-                                                DepartmentDetailsScreen(
-                                              deptName: entry.key,
-                                              sheetData: sheetData,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      child: Text(
-                                        entry.key,
-                                        style: const TextStyle(
-                                          color: Colors.white,
+                          ),
+                          const SizedBox(height: 10),
+                          DataTable(
+                            columns: const [
+                              DataColumn(
+                                label: Text(
+                                  'Department',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  '# of requests',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            rows: () {
+                              final sortedEntries =
+                                  reqDeptState.categoryCounts.entries.toList();
+                              sortedEntries
+                                  .sort((a, b) => b.value.compareTo(a.value));
+                              return sortedEntries.map((entry) {
+                                return DataRow(
+                                  cells: [
+                                    DataCell(MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          if (Responsive.isMobile(context) ==
+                                              true) {
+                                            showCupertinoModalBottomSheet(
+                                              context: context,
+                                              builder: (context) =>
+                                                  DepartmentDetailsScreen(
+                                                deptName: entry.key,
+                                                sheetData:
+                                                    reqDeptState.sheetData,
+                                              ),
+                                            );
+                                          } else {
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) =>
+                                                  DepartmentDetailsScreen(
+                                                deptName: entry.key,
+                                                sheetData:
+                                                    reqDeptState.sheetData,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child: Text(
+                                          entry.key,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )),
-                                  DataCell(Text(
-                                    entry.value.toString(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  )),
-                                ],
-                              );
-                            }).toList();
-                          }(),
-                          columnSpacing: 20,
-                          horizontalMargin: 10,
-                        ),
-                      ],
+                                    )),
+                                    DataCell(Text(
+                                      entry.value.toString(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    )),
+                                  ],
+                                );
+                              }).toList();
+                            }(),
+                            columnSpacing: 20,
+                            horizontalMargin: 10,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-    );
+      );
+    });
   }
 }
 
@@ -224,7 +169,7 @@ class DepartmentDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('$deptName Job Orders 💖', style: titleStyle),
         backgroundColor: Colors.black,
-        toolbarHeight: 80,
+        toolbarHeight: 70,
         leading: IconButton(
           color: Colors.white,
           onPressed: () {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/guest/screens/guest_dashboard/mobile/guest_dashboard_mobile.dart';
-import 'package:ssnhi_app/guest/screens/guest_dashboard/web/guest_dashboard_web.dart';
+import 'package:ssnhi_app/users/screens/dashboard/guest_dashboard/mobile/guest_dashboard_mobile.dart';
+import 'package:ssnhi_app/users/screens/dashboard/guest_dashboard/web/guest_dashboard_web.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class GuestDashboard extends StatelessWidget {

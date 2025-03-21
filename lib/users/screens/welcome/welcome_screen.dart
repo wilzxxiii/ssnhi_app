@@ -66,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
               DelayedDisplay(
                 delay: const Duration(seconds: 4),
                 child: TypeWriter.text(
-                  "Then this project was made  🖤",
+                  "then this project was made  🖤",
                   maintainSize: true,
                   textAlign: TextAlign.center,
                   style: const TextStyle(

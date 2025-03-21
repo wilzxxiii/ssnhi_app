@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:ssnhi_app/users/screens/chat/mobile/chat_agent_mobilescreen.dart';
-
-import 'package:ssnhi_app/shared/utils/responsive.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
 
 class ChatAgentSreen extends StatelessWidget {
   const ChatAgentSreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (Responsive.isMobile(context) == true) {
-      return const ChatAgentMobilescreen();
-    } else {
-      return const SafeArea(
-        child: Padding(
-            padding: EdgeInsets.only(
-              left: 150,
-              right: 150,
-            ),
-            child: ChatAgentMobilescreen()),
-      );
-    }
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: iconColor,
+            )),
+        toolbarHeight: 70,
+        elevation: 10,
+        title: const Text(
+          'Brando, your AI assistant ✨',
+          style: titleStyle,
+        ),
+        backgroundColor: mainColor,
+      ),
+    );
   }
 }
