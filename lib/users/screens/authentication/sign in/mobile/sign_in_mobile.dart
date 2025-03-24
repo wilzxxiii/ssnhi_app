@@ -9,22 +9,21 @@ class SignInMobilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: darkBackground,
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: const FaIcon(
-          Icons.arrow_back_ios_new_outlined,
-          color: iconColor,
-        ),
-      ),
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const FaIcon(
+            Icons.arrow_back_ios_new_outlined,
+            color: iconColor,
+          ),
+        ),
         title: const Text(
           appTitle,
           style: titleStyle,
         ),
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: darkBackground,
         automaticallyImplyLeading: false,
         toolbarHeight: 80,

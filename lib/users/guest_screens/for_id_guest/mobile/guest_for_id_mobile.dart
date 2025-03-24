@@ -1,17 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
-
-import 'package:ssnhi_app/users/screens/for_id/add_for_id/add_for_id.dart';
+import 'package:ssnhi_app/users/guest_screens/for_id_guest/guest_for_id_card.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/users/screens/for_id/for_id_card.dart';
 
-class ForId extends StatelessWidget {
-  const ForId({super.key});
+class GuestForIdMobile extends StatelessWidget {
+  const GuestForIdMobile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,29 +16,6 @@ class ForId extends StatelessWidget {
       () => ForIdState(),
       builder: (vm) {
         return Scaffold(
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              //web
-              // showDialog(
-              //     barrierDismissible: false,
-              //     context: context,
-              //     builder: (context) => Padding(
-              //           padding: const EdgeInsets.all(40.0),
-              //           child: AddForId(vm: vm),
-              //         ));
-
-//mobile
-              showCupertinoModalBottomSheet(
-                  context: context, builder: (context) => AddForId(vm: vm));
-            },
-            backgroundColor: mainColor,
-            hoverColor: hoverColor,
-            tooltip: 'Add record',
-            label: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
           appBar: AppBar(
             iconTheme: const IconThemeData(color: iconColor),
             leading: IconButton(
@@ -118,7 +91,7 @@ class ForId extends StatelessWidget {
                           itemCount: vm.forIdList.length,
                           itemBuilder: (context, index) {
                             final forId = vm.forIdList[index];
-                            return ForIdCard(
+                            return GuestForIdCard(
                               forId: forId,
                               vm: vm,
                             );

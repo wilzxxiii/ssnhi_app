@@ -34,6 +34,9 @@ class ForIdState extends JuneState {
   bool isLoading = true;
   String? errorMessage;
 
+  //for the win
+  bool isCountextMounted = true;
+
   ForIdState() {
     // Initialize the Firestore stream listener
     _initFirestoreListener();
@@ -276,7 +279,7 @@ class ForIdState extends JuneState {
         clearForIdModel();
 
         Navigator.pop(context);
-
+        Navigator.pop(context);
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

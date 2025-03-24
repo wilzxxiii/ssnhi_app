@@ -1,23 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:june/june.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
-import 'package:ssnhi_app/users/screens/for_id/add_for_id/mobile/add_for_id_mobile.dart';
-import 'package:ssnhi_app/shared/utils/responsive.dart';
-import 'package:ssnhi_app/users/screens/for_id/add_for_id/web/add_for_id_web.dart';
-// import 'package:ssnhi_app/screens/dashboard/user_dashboard_menu.dart';
-// import 'package:ssnhi_app/screens/dashboard/user_dashboard_side_panel.dart';
-// import 'package:ssnhi_app/shared/utils/responsive.dart';
+// import 'package:ssnhi_app/screens/chat/chat_agent.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/users/screens/for_id/add_for_id/add_for_id_body.dart';
 
-class AddForID extends StatelessWidget {
-  // final forIdFormKey = GlobalKey<FormState>();
+class AddForId extends StatelessWidget {
   final ForIdState vm;
-  const AddForID({super.key, required this.vm});
+  const AddForId({super.key, required this.vm});
 
   @override
   Widget build(BuildContext context) {
-    if (Responsive.isMobile(context)) {
-      return AddForIdMobile(vm: vm);
-    } else {
-      return AddForIdWeb(vm: vm);
-    }
+    final forIdState = June.getState(() => ForIdState());
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: iconColor),
+        leading: IconButton(
+          onPressed: () {
+            vm.clearControllers();
+            vm.clearForIdModel();
+            Navigator.pop(context);
+          },
+          icon: const FaIcon(Icons.close_rounded),
+        ),
+        title: const Text(
+          'Add Record 💫',
+          style: titleStyle,
+        ),
+        toolbarHeight: appBarHeight,
+        backgroundColor: darkBackground,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await forIdState.saveData(context);
+            },
+            icon: const FaIcon(
+              Icons.save,
+              color: lightBackground,
+              size: 20,
+            ),
+          ),
+          const SizedBox(
+            width: 20,
+          )
+        ],
+      ),
+      body: AddForIdBody(vm: vm),
+    );
   }
 }
