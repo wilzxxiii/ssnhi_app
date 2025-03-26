@@ -1,13 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:june/state_manager/src/simple/controllers.dart';
 import 'package:ssnhi_app/data/google_sheet.dart';
 
 class MonthlySummaryChartState extends JuneState {
-  List<Map<String, dynamic>> sheetData = [];
+  List<Map<String, dynamic>> joData = []; // From "JO Data Draft"
+  List<Map<String, dynamic>> entitiesData = []; // From "Entities"
   bool isLoading = true;
   String? selectedMonth;
   int? selectedYear;
@@ -44,41 +43,51 @@ class MonthlySummaryChartState extends JuneState {
   final List<int> years =
       List.generate(2, (index) => DateTime.now().year + index);
 
-  final String sheetUrl = sheetsUrl; // From google_sheet.dart
-
   Future<void> _fetchData() async {
+    const joDataSheetUrl = sheetsUrl;
+
     try {
-      final response = await http.get(Uri.parse(sheetUrl));
-      if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
+      // Fetch JO Data Draft
+      final joResponse = await http.get(Uri.parse(joDataSheetUrl));
+      if (joResponse.statusCode == 200) {
+        var json = jsonDecode(joResponse.body);
         var values = json['values'] as List;
-        if (values.isEmpty) {
-          isLoading = false;
-          setState();
-          return;
-        }
+        if (values.isNotEmpty) {
+          var headers = values[0];
+          var dataRows = values.sublist(1);
 
-        var headers = values[0];
-        var dataRows = values.sublist(1);
+          joData = dataRows.map((row) {
+            var rowMap = <String, dynamic>{};
+            for (int i = 0; i < headers.length && i < row.length; i++) {
+              rowMap[headers[i]] = row[i];
+            }
+            return rowMap;
+          }).toList();
+        } else {}
+      } else {}
 
-        sheetData = dataRows.map((row) {
-          var rowMap = <String, dynamic>{};
-          for (int i = 0; i < headers.length && i < row.length; i++) {
-            rowMap[headers[i]] = row[i];
-          }
-          return rowMap;
-        }).toList();
+      // Fetch Entities
+      final entitiesResponse = await http.get(Uri.parse(entitiesSheetUrl));
+      if (entitiesResponse.statusCode == 200) {
+        var json = jsonDecode(entitiesResponse.body);
+        var values = json['values'] as List;
+        if (values.isNotEmpty) {
+          var headers = values[0];
+          var dataRows = values.sublist(1);
 
-        isLoading = false;
-        setState();
-      } else {
-        isLoading = false;
-        setState();
-      }
+          entitiesData = dataRows.map((row) {
+            var rowMap = <String, dynamic>{};
+            for (int i = 0; i < headers.length && i < row.length; i++) {
+              rowMap[headers[i]] = row[i];
+            }
+            return rowMap;
+          }).toList();
+        } else {}
+      } else {}
+
+      isLoading = false;
+      setState();
     } catch (e) {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text('Error: $e')),
-      // );
       isLoading = false;
       setState();
     }
@@ -86,8 +95,6 @@ class MonthlySummaryChartState extends JuneState {
 
   void filterData() {
     if (selectedMonth == null || selectedYear == null) {
-      log('Error');
-
       return;
     }
 
@@ -105,27 +112,26 @@ class MonthlySummaryChartState extends JuneState {
       "November": 11,
       "December": 12
     };
-    final monthNum = monthMap[selectedMonth!];
+    final monthNum = monthMap[selectedMonth!]!;
 
-    // Reset counts
     categoryCount.clear();
     performerCount.clear();
     workRequestedCount.clear();
 
-    for (var row in sheetData) {
+    //  Process JO Data Draft for category and work requested counts
+
+    for (var row in joData) {
       var dateStr = row['Date Finished']?.toString() ?? '';
-      if (dateStr.isEmpty) continue;
+      if (dateStr.isEmpty) {
+        continue;
+      }
 
       try {
-        var date = DateFormat('MM/dd/yyyy').parse(dateStr, true);
+        var date = DateFormat('M/d/yyyy').parse(dateStr, true);
         if (date.month == monthNum && date.year == selectedYear!) {
           // Category Count
           var category = row['Category']?.toString() ?? 'Uncategorized';
           categoryCount[category] = (categoryCount[category] ?? 0) + 1;
-
-          // Performer Count
-          var performer = row['Performer']?.toString() ?? 'Unspecified';
-          performerCount[performer] = (performerCount[performer] ?? 0) + 1;
 
           // Work Requested Count per Category
           if (categories.contains(category)) {
@@ -138,6 +144,52 @@ class MonthlySummaryChartState extends JuneState {
         }
       } catch (e) {
         continue;
+      }
+    }
+
+    // Process Entities for performer counts
+    // Create a map of JobOrderNumber to DateCompletedJO
+    Map<String, DateTime> jobOrderDates = {};
+
+    for (var row in joData) {
+      var jobOrderNumber = row['Job Order #']?.toString() ?? '';
+      var dateStr = row['Date Finished']?.toString() ?? '';
+      if (jobOrderNumber.isEmpty || dateStr.isEmpty) {
+        continue;
+      }
+
+      try {
+        var date = DateFormat('M/d/yyyy')
+            .parse(dateStr, true); // Fixed: Use M/d/yyyy format
+        jobOrderDates[jobOrderNumber] = date;
+      } catch (e) {
+        continue;
+      }
+    }
+
+    // Count performers using Entities
+
+    for (var row in entitiesData) {
+      var staffName = row['Staff Name']?.toString() ?? 'Unspecified';
+      var jobOrders = row['Job Orders']
+              ?.toString()
+              .split(", ")
+              .where((jo) => jo.isNotEmpty)
+              .toList() ??
+          [];
+      var count = 0;
+
+      for (var jobOrder in jobOrders) {
+        var date = jobOrderDates[jobOrder];
+        if (date != null &&
+            date.month == monthNum &&
+            date.year == selectedYear!) {
+          count++;
+        }
+      }
+
+      if (count > 0) {
+        performerCount[staffName] = count;
       }
     }
 

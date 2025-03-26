@@ -30,7 +30,7 @@ class GuestForIdCard extends StatelessWidget {
         //   color: Colors.white,
         // ),
         title: Text(
-          'Name: ${forId.empName}',
+          forId.empName.isEmpty ? "We forgot the name" : forId.empName,
           style: textStyle,
         ),
         subtitle: Row(

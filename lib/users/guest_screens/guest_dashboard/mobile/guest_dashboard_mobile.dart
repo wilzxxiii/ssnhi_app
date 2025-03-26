@@ -42,7 +42,7 @@ class GuestDashboarMobile extends StatelessWidget {
         centerTitle: false,
         backgroundColor: Colors.black87,
         title: const Text(
-          'Believe in something 🌙',
+          'Rêveur 🌙',
           style: titleStyle,
         ),
         automaticallyImplyLeading: false,
@@ -107,7 +107,7 @@ class GuestDashboarMobile extends StatelessWidget {
                               color: darkBackground,
                               child: ListTile(
                                 hoverColor: Colors.blue,
-                                minTileHeight: 100,
+                                minTileHeight: 70,
                                 title: const Text(
                                   'Top Performers ❤️‍🔥',
                                   style: titleStyle,
@@ -130,7 +130,7 @@ class GuestDashboarMobile extends StatelessWidget {
                               color: darkBackground,
                               child: ListTile(
                                 hoverColor: Colors.blue,
-                                minTileHeight: 100,
+                                minTileHeight: 70,
                                 title: const Text(
                                   'Request per Departments ✨',
                                   style: titleStyle,

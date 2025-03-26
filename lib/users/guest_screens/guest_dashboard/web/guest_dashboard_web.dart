@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:june/june.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/users/shared_screen/charts/maintenance_chart.dart';
@@ -41,7 +39,7 @@ class GuestDashboardWeb extends StatelessWidget {
                   child: Image.asset('assets/brando_white.png'),
                 ),
                 const Text(
-                  'Believe in Something 🌙',
+                  'Rêveur 🌙',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -79,14 +77,6 @@ class GuestDashboardWeb extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // const Text(
-                    //   'Dashboard Overview',
-                    //   style: TextStyle(
-                    //     fontSize: 28,
-                    //     fontWeight: FontWeight.bold,
-                    //     color: Colors.black87,
-                    //   ),
-                    // ),
                     const SizedBox(height: 16),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,6 +111,7 @@ class GuestDashboardWeb extends StatelessWidget {
                                       const SizedBox(height: 12),
                                       Container(
                                         height: 80,
+                                        padding: const EdgeInsets.all(12),
                                         decoration: const BoxDecoration(
                                             color: Colors.black,
                                             borderRadius: BorderRadius.all(
@@ -131,83 +122,41 @@ class GuestDashboardWeb extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            MouseRegion(
-                                              cursor: SystemMouseCursors.click,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  showCupertinoModalBottomSheet(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          const PerformerChart());
-                                                },
-                                                child: Container(
-                                                  height: 50,
-                                                  width: 200,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          20))),
-
-                                                  // shape: RoundedRectangleBorder(
-                                                  //     borderRadius:
-                                                  //         BorderRadius.circular(
-                                                  //             16)),
-                                                  child: const Center(
-                                                    child: Text(
-                                                      'Top Performers ❤️‍🔥',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  ),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.white,
+                                              ),
+                                              onPressed: () {
+                                                showModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        const PerformerChart());
+                                              },
+                                              child: const Text(
+                                                'Top Performers ❤️‍🔥',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ),
-                                            //Request per departments
-                                            MouseRegion(
-                                              cursor: SystemMouseCursors.click,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  showCupertinoModalBottomSheet(
-                                                      expand: false,
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          const RequestPerDepartments());
-                                                },
-                                                child: Container(
-                                                  height: 50,
-                                                  width: 220,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          20))),
-
-                                                  // shape: RoundedRectangleBorder(
-                                                  //     borderRadius:
-                                                  //         BorderRadius.circular(
-                                                  //             16)),
-                                                  child: const Center(
-                                                    child: Text(
-                                                      'Job Order by Department ✨',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  ),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.white,
+                                                  shadowColor: Colors.blue),
+                                              onPressed: () {
+                                                showModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        const RequestPerDepartments());
+                                              },
+                                              child: const Text(
+                                                'Job Order by Department ✨',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ),
@@ -221,10 +170,15 @@ class GuestDashboardWeb extends StatelessWidget {
                                               backgroundColor: darkBackground,
                                             ),
                                             onPressed: () {
-                                              showCupertinoModalBottomSheet(
+                                              showDialog(
                                                   context: context,
                                                   builder: (context) =>
-                                                      const MonthlySummaryScreen());
+                                                      const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  20),
+                                                          child:
+                                                              MonthlySummaryScreen()));
                                             },
                                             child: const Text(
                                               'View by month 👀',

@@ -339,7 +339,7 @@ class ForIdState extends JuneState {
                     clearControllers();
                     clearForIdModel();
                     Navigator.pop(context);
-
+                    Navigator.pop(context);
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

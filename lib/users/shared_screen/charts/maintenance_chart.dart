@@ -80,16 +80,6 @@ class MaintenanceCategoryView extends StatelessWidget {
                                             ),
                                           );
                                         }
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) =>
-                                        //         CategoryDetailsScreen(
-                                        //       categoryName: categoryName,
-                                        //       sheetData: sheetData,
-                                        //     ),
-                                        //   ),
-                                        // );
                                       }
                                       maintenanceChartState.setState();
                                       // });
@@ -154,10 +144,6 @@ class CategoryDetailsScreen extends StatelessWidget {
         .where((row) => row['Category'].toString() == categoryName)
         .toList();
 
-    // // Define the headers we want to show
-    // const desiredHeaders = ['Job Order #', 'Category', 'Status', 'Performer'];
-
-    // Assuming titleStyle is defined elsewhere; replace with your style if needed
     const titleStyle = TextStyle(
       color: Colors.white,
       fontSize: 20,
@@ -245,68 +231,3 @@ class CategoryDetailsScreen extends StatelessWidget {
     );
   }
 }
-
-// // Task Details Screen
-// class CategoryJODetailsSCreen extends StatelessWidget {
-//   final Map<String, dynamic> task;
-
-//   const CategoryJODetailsSCreen({
-//     super.key,
-//     required this.task,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         toolbarHeight: 80,
-//         title: Text(
-//             '${task['Category']} JO ${task['Job Order #'] + " 💖" ?? 'Unknown'}',
-//             style: titleStyle),
-//         backgroundColor: Colors.black,
-//         leading: IconButton(
-//           color: Colors.white,
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//           icon: const FaIcon(Icons.arrow_back_ios_new),
-//         ),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(20),
-//         child: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: task.entries.map((entry) {
-//               return Padding(
-//                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-//                 child: Row(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       '${entry.key}: ',
-//                       style: const TextStyle(
-//                         fontWeight: FontWeight.bold,
-//                         fontSize: 16,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                     Expanded(
-//                       child: Text(
-//                         entry.value?.toString() ?? 'N/A',
-//                         style: const TextStyle(
-//                           fontSize: 16,
-//                           color: Colors.black,
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               );
-//             }).toList(),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

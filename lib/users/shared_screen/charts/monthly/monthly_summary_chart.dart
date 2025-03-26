@@ -13,6 +13,7 @@ import 'package:ssnhi_app/users/shared_screen/charts/state/monthly_summary_chart
 
 class MonthlySummaryScreen extends StatelessWidget {
   const MonthlySummaryScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return JuneBuilder(() => MonthlySummaryChartState(),
@@ -37,47 +38,70 @@ class MonthlySummaryScreen extends StatelessWidget {
         body: monthlySumState.isLoading
             ? const Center(child: CircularProgressIndicator())
             : ListView(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(15),
                 children: [
                   // Month and Year Dropdowns
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      DropdownButton<String>(
-                        hint: const Text('Select Month'),
-                        value: monthlySumState.selectedMonth,
-                        items: monthlySumState.months.map((month) {
-                          return DropdownMenuItem<String>(
-                            value: month,
-                            child: Text(month),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          monthlySumState.selectedMonth = value;
-                          monthlySumState.setState();
-                        },
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        child: DropdownButton<String>(
+                          hint: const Text('Select Month'),
+                          underline: const Text(''),
+                          value: monthlySumState.selectedMonth,
+                          items: monthlySumState.months.map((month) {
+                            return DropdownMenuItem<String>(
+                              value: month,
+                              child: Text(month),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            monthlySumState.selectedMonth = value;
+                            monthlySumState.setState();
+                          },
+                        ),
                       ),
-                      DropdownButton<int>(
-                        hint: const Text('Select Year'),
-                        value: monthlySumState.selectedYear,
-                        items: monthlySumState.years.map((year) {
-                          return DropdownMenuItem<int>(
-                            value: year,
-                            child: Text(year.toString()),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          monthlySumState.selectedYear = value;
-                          monthlySumState.setState();
-                        },
+                      const SizedBox(width: 20),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        child: DropdownButton<int>(
+                          elevation: 10,
+                          hint: const Text('Select Year'),
+                          underline: const Text(''),
+                          value: monthlySumState.selectedYear,
+                          items: monthlySumState.years.map((year) {
+                            return DropdownMenuItem<int>(
+                              value: year,
+                              child: Text(year.toString()),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            monthlySumState.selectedYear = value;
+                            monthlySumState.setState();
+                          },
+                        ),
                       ),
-                      SizedBox(
-                        child: OutlinedButton(
-                          onPressed: monthlySumState.filterData,
-                          child: const Text(
-                            'Filter Data',
-                            style: titleStyleDark,
-                          ),
+                      const SizedBox(width: 20),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: darkBackground,
+                        ),
+                        onPressed: () {
+                          monthlySumState.filterData();
+                        },
+                        child: const Text(
+                          'Filter Data',
+                          style: titleStyle,
                         ),
                       ),
                     ],
@@ -107,13 +131,13 @@ class MonthlySummaryScreen extends StatelessWidget {
                                 final categoryName = monthlySumState
                                     .categoryCount.keys
                                     .toList()[monthlySumState.touchedIndex];
-                                if (Responsive.isMobile(context) == true) {
+                                if (Responsive.isMobile(context)) {
                                   showCupertinoModalBottomSheet(
                                     context: context,
                                     builder: (context) =>
                                         MonthlyCategoryDetailsScreen(
                                       categoryName: categoryName,
-                                      sheetData: monthlySumState.sheetData,
+                                      sheetData: monthlySumState.joData,
                                       selectedMonth:
                                           monthlySumState.selectedMonth,
                                       selectedYear:
@@ -126,7 +150,8 @@ class MonthlySummaryScreen extends StatelessWidget {
                                     builder: (context) =>
                                         MonthlyCategoryDetailsScreen(
                                       categoryName: categoryName,
-                                      sheetData: monthlySumState.sheetData,
+                                      sheetData: monthlySumState
+                                          .joData, // Updated to joData
                                       selectedMonth:
                                           monthlySumState.selectedMonth,
                                       selectedYear:
@@ -180,7 +205,7 @@ class MonthlySummaryScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Performer Bar Chart
+                  //Performer Bar chart
                   if (monthlySumState.performerCount.isNotEmpty)
                     Container(
                       padding: const EdgeInsets.all(30),
@@ -190,8 +215,7 @@ class MonthlySummaryScreen extends StatelessWidget {
                           Radius.circular(20),
                         ),
                       ),
-                      width:
-                          double.infinity, // Ensures the table takes full width
+                      width: double.infinity,
                       child: DataTable(
                         columns: const [
                           DataColumn(
@@ -213,40 +237,41 @@ class MonthlySummaryScreen extends StatelessWidget {
                             ),
                           ),
                         ],
-                        rows:
-                            monthlySumState.performerCount.entries.map((entry) {
-                          return DataRow(
-                            cells: [
-                              DataCell(Text(
-                                entry.key,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              )),
-                              DataCell(Text(
-                                entry.value.toString(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              )),
-                            ],
-                          );
-                        }).toList(),
-                        border: TableBorder.all(
-                            color: Colors.grey), // Optional: adds borders
-                        columnSpacing: 20, // Adjust spacing between columns
-                        // Adjust row height if needed
+                        rows: monthlySumState.performerCount.entries
+                            .toList()
+                            .map((entry) => DataRow(
+                                  cells: [
+                                    DataCell(Text(
+                                      entry.key,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    )),
+                                    DataCell(Text(
+                                      entry.value.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    )),
+                                  ],
+                                ))
+                            .toList()
+                          ..sort((a, b) => int.parse(
+                                  (b.cells[1].child as Text).data!)
+                              .compareTo(
+                                  int.parse((a.cells[1].child as Text).data!))),
+                        border: TableBorder.all(color: Colors.grey),
+                        columnSpacing: 20,
                       ),
                     )
-                  //if emptyviovdpfifb
                   else
                     const Text('No performer data for the selected period'),
 
                   const SizedBox(height: 16),
 
-                  // Work Requested Pie Charts
+                  // Work Requested Data Tables
                   ...monthlySumState.categories.map((cat) {
                     final data = monthlySumState.workRequestedCount[cat] ?? {};
                     return Column(
@@ -269,8 +294,7 @@ class MonthlySummaryScreen extends StatelessWidget {
                                 Radius.circular(20),
                               ),
                             ),
-                            width: double
-                                .infinity, // Ensures the table takes full width
+                            width: double.infinity,
                             child: DataTable(
                               columns: const [
                                 DataColumn(
@@ -293,28 +317,31 @@ class MonthlySummaryScreen extends StatelessWidget {
                                 ),
                               ],
                               rows: [
-                                // Rows for each work requested item
-                                ...data.entries.map((entry) {
-                                  return DataRow(
-                                    cells: [
-                                      DataCell(Text(
-                                        entry.key,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                        ),
-                                      )),
-                                      DataCell(Text(
-                                        entry.value.toString(),
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                        ),
-                                      )),
-                                    ],
-                                  );
-                                }),
-                                // Total row
+                                ...data.entries
+                                    .toList()
+                                    .map((entry) => DataRow(
+                                          cells: [
+                                            DataCell(Text(
+                                              entry.key,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            )),
+                                            DataCell(Text(
+                                              entry.value.toString(),
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            )),
+                                          ],
+                                        ))
+                                    .toList()
+                                  ..sort((a, b) => int.parse(
+                                          (b.cells[1].child as Text).data!)
+                                      .compareTo(int.parse(
+                                          (a.cells[1].child as Text).data!))),
                                 DataRow(
                                   cells: [
                                     const DataCell(Text(
@@ -336,10 +363,8 @@ class MonthlySummaryScreen extends StatelessWidget {
                                   ],
                                 ),
                               ],
-                              border: TableBorder.all(
-                                  color: Colors.grey), // Optional: adds borders
-                              columnSpacing:
-                                  20, // Adjust spacing between columns
+                              border: TableBorder.all(color: Colors.grey),
+                              columnSpacing: 20,
                             ),
                           )
                         else

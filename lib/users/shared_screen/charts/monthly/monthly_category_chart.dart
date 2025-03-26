@@ -33,27 +33,34 @@ class MonthlyCategoryDetailsScreen extends StatelessWidget {
       "November": 11,
       "December": 12
     };
-    final monthNum = monthMap[selectedMonth];
+    final monthNum = monthMap[selectedMonth] ?? 0;
 
-    // Filter job orders by category, month, and year
-    final filteredJobOrders = sheetData.where((row) {
+    // Filter sheetData for the selected category, month, and year
+    final categoryTasks = sheetData.where((row) {
+      var category = row['Category']?.toString() ?? 'Uncategorized';
       var dateStr = row['Date Finished']?.toString() ?? '';
       if (dateStr.isEmpty) return false;
 
       try {
-        var date = DateFormat('MM/dd/yyyy').parse(dateStr, true);
-        return row['Category'] == categoryName &&
+        var date = DateFormat('M/d/yyyy').parse(dateStr, true);
+        return category == categoryName &&
             date.month == monthNum &&
-            date.year == selectedYear;
+            date.year == selectedYear!;
       } catch (e) {
-        debugPrint('Error parsing date "$dateStr": $e');
         return false;
       }
     }).toList();
 
+    const titleStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    );
+
     return Scaffold(
-      backgroundColor: scaffoldColor,
       appBar: AppBar(
+        title: Text('$categoryName - Details 💖', style: titleStyle),
+        backgroundColor: darkBackground,
         toolbarHeight: appBarHeight,
         leading: IconButton(
           color: Colors.white,
@@ -62,20 +69,14 @@ class MonthlyCategoryDetailsScreen extends StatelessWidget {
           },
           icon: const FaIcon(Icons.close_rounded),
         ),
-        title: Text(
-          'Job Orders for $categoryName - $selectedMonth $selectedYear 💖',
-          style: titleStyle,
-        ),
-        backgroundColor: darkBackground,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: filteredJobOrders.isNotEmpty
+        child: categoryTasks.isNotEmpty
             ? ListView.builder(
-                itemCount: filteredJobOrders.length,
+                itemCount: categoryTasks.length,
                 itemBuilder: (context, index) {
-                  final job = filteredJobOrders[index];
-                  // Use 'Job ID' if available, otherwise use index + 1
+                  final job = categoryTasks[index];
                   return Card(
                     color: Colors.black,
                     elevation: 2,
@@ -87,6 +88,11 @@ class MonthlyCategoryDetailsScreen extends StatelessWidget {
                         'Job Order ${job['Job Order #']} ✨',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      subtitle: Text(
+                        'Work Requested: ${job['Work Requested'] ?? 'N/A'}',
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.white),
                       ),
                       children: [
                         Padding(

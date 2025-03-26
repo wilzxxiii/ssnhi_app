@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:june/state_manager/src/simple/controllers.dart';
 import 'package:ssnhi_app/data/google_sheet.dart';
 
 class PerformerChartState extends JuneState {
   List<Map<String, dynamic>> sheetData = [];
-  Map<String, int> categoryCounts = {};
+  Map<String, int> staffTotals = {};
   bool isLoading = true;
 
   PerformerChartState() {
@@ -14,7 +13,7 @@ class PerformerChartState extends JuneState {
   }
 
   Future<void> _fetchData() async {
-    const url = sheetsUrl;
+    const url = entitiesSheetUrl;
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -38,10 +37,12 @@ class PerformerChartState extends JuneState {
           return rowMap;
         }).toList();
 
-        categoryCounts.clear();
+        staffTotals.clear();
         for (var row in sheetData) {
-          String category = row['Performer'].toString();
-          categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
+          String staffName = row['Staff Name']?.toString() ?? 'Unknown';
+          // Parse Total JO as an integer, default to 0 if empty or invalid
+          int totalJo = int.tryParse(row['Total JO']?.toString() ?? '0') ?? 0;
+          staffTotals[staffName] = totalJo;
         }
 
         isLoading = false;
