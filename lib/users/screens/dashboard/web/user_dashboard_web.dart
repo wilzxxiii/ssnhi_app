@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/users/screens/for_id/add_for_id/add_for_id.dart';
@@ -51,8 +51,18 @@ class UserDashboardWebView extends StatelessWidget {
             style: titleStyle,
           ),
           automaticallyImplyLeading: false,
-          toolbarHeight: 80,
-          backgroundColor: mainColor,
+          toolbarHeight: appBarHeight,
+          backgroundColor: darkBackground,
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  await authState.userLogOut(context);
+                },
+                icon: const FaIcon(Icons.logout_rounded)),
+            const SizedBox(
+              width: 20,
+            )
+          ],
         ),
         body: Column(
           children: [
@@ -105,7 +115,7 @@ class UserDashboardWebView extends StatelessWidget {
                                             child: MaintenanceCategoryView()),
                                         const SizedBox(height: 12),
                                         Container(
-                                          height: 80,
+                                          height: 60,
                                           width:
                                               MediaQuery.of(context).size.width,
                                           decoration: const BoxDecoration(
@@ -118,81 +128,42 @@ class UserDashboardWebView extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              MouseRegion(
-                                                cursor:
-                                                    SystemMouseCursors.click,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    showCupertinoModalBottomSheet(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            const PerformerChart());
-                                                  },
-                                                  child: Container(
-                                                    height: 50,
-                                                    width: 200,
-                                                    decoration: const BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    20))),
-
-                                                    // shape: RoundedRectangleBorder(
-                                                    //     borderRadius:
-                                                    //         BorderRadius.circular(
-                                                    //             16)),
-                                                    child: const Center(
-                                                      child: Text(
-                                                        'Top Performers ❤️‍🔥',
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.white,
+                                                ),
+                                                onPressed: () {
+                                                  showModalBottomSheet(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          const PerformerChart());
+                                                },
+                                                child: const Text(
+                                                  'Top Performers ❤️‍🔥',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
                                                   ),
                                                 ),
                                               ),
-                                              //Request per departments
-                                              MouseRegion(
-                                                cursor:
-                                                    SystemMouseCursors.click,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    showCupertinoModalBottomSheet(
-                                                        expand: false,
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            const RequestPerDepartments());
-                                                  },
-                                                  child: Container(
-                                                    height: 50,
-                                                    width: 220,
-                                                    decoration: const BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    20))),
-
-                                                    // shape: RoundedRectangleBorder(
-                                                    //     borderRadius:
-                                                    //         BorderRadius.circular(
-                                                    //             16)),
-                                                    child: const Center(
-                                                      child: Text(
-                                                        'Job Order by Department ✨',
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    shadowColor: Colors.blue),
+                                                onPressed: () {
+                                                  showModalBottomSheet(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          const RequestPerDepartments());
+                                                },
+                                                child: const Text(
+                                                  'Job Order by Department ✨',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
                                                   ),
                                                 ),
                                               ),
@@ -206,10 +177,15 @@ class UserDashboardWebView extends StatelessWidget {
                                                 backgroundColor: darkBackground,
                                               ),
                                               onPressed: () {
-                                                showCupertinoModalBottomSheet(
+                                                showDialog(
                                                     context: context,
                                                     builder: (context) =>
-                                                        const MonthlySummaryScreen());
+                                                        const Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    20),
+                                                            child:
+                                                                MonthlySummaryScreen()));
                                               },
                                               child: const Text(
                                                 'View by month 👀',
@@ -269,7 +245,7 @@ class UserDashboardWebView extends StatelessWidget {
                                                           darkBackground,
                                                     ),
                                                     onPressed: () {
-                                                      showCupertinoModalBottomSheet(
+                                                      showModalBottomSheet(
                                                           context: context,
                                                           builder: (context) =>
                                                               AddForId(

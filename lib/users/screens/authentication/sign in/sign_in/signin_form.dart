@@ -47,49 +47,55 @@ class _SigninFormState extends State<SigninForm> {
             ),
             // const Spacer(),
             const SizedBox(height: 20),
-            TextFormField(
-              controller: emailCtrl,
-              validator: EmailValidator(
-                errorText: 'Please enter a valid email address',
-              ).call,
-              decoration: InputDecoration(
-                label: const Text('E-mail address'),
-                prefixIcon: const Icon(Icons.email),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide:
-                      const BorderSide(width: 20, style: BorderStyle.solid),
+            SizedBox(
+              height: textBoxHeight,
+              child: TextFormField(
+                controller: emailCtrl,
+                validator: EmailValidator(
+                  errorText: 'Please enter a valid email address',
+                ).call,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  label: const Text('E-mail address'),
+                  prefixIcon: const Icon(Icons.email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide:
+                        const BorderSide(width: 10, style: BorderStyle.solid),
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 20),
-            TextFormField(
-              obscureText: showPassword,
-              controller: passwordCtrl,
-              validator: MinLengthValidator(1,
-                      errorText: 'Password should not be empty')
-                  .call,
-              decoration: InputDecoration(
-                label: const Text('Password'),
-                prefixIcon: const Icon(Icons.password_outlined),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                border: OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(width: 20, style: BorderStyle.solid),
-                  borderRadius: BorderRadius.circular(20.0),
+            SizedBox(
+              height: textBoxHeight,
+              child: TextFormField(
+                obscureText: showPassword,
+                controller: passwordCtrl,
+                validator: MinLengthValidator(1,
+                        errorText: 'Password should not be empty')
+                    .call,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  label: const Text('Password'),
+                  prefixIcon: const Icon(Icons.password_outlined),
+                  border: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(width: 10, style: BorderStyle.solid),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          showPassword = !showPassword;
+                        });
+                      },
+                      icon: showPassword
+                          ? const Icon(Icons.remove_red_eye)
+                          : const Icon(Icons.visibility_off)),
                 ),
-                suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    icon: showPassword
-                        ? const Icon(Icons.remove_red_eye)
-                        : const Icon(Icons.visibility_off)),
               ),
             ),
             const SizedBox(height: 20),

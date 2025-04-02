@@ -128,7 +128,7 @@ class MaintenanceCategoryView extends StatelessWidget {
   }
 }
 
-class CategoryDetailsScreen extends StatelessWidget {
+class CategoryDetailsScreen extends StatefulWidget {
   final String categoryName;
   final List<Map<String, dynamic>> sheetData;
 
@@ -139,9 +139,24 @@ class CategoryDetailsScreen extends StatelessWidget {
   });
 
   @override
+  State<CategoryDetailsScreen> createState() => _CategoryDetailsScreenState();
+}
+
+class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
+  String searchQuery = ''; // To store the search input
+
+  @override
   Widget build(BuildContext context) {
-    final performerTasks = sheetData
-        .where((row) => row['Category'].toString() == categoryName)
+    // Filter sheetData for the selected category and search query
+    final performerTasks = widget.sheetData
+        .where((row) => row['Category'].toString() == widget.categoryName)
+        .where((row) =>
+            searchQuery.isEmpty ||
+            row['Job Order #']
+                    ?.toString()
+                    .toLowerCase()
+                    .contains(searchQuery.toLowerCase()) ==
+                true)
         .toList();
 
     const titleStyle = TextStyle(
@@ -152,7 +167,7 @@ class CategoryDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$categoryName Job Orders 💖', style: titleStyle),
+        title: Text('${widget.categoryName} Job Orders 💖', style: titleStyle),
         backgroundColor: darkBackground,
         toolbarHeight: appBarHeight,
         leading: IconButton(
@@ -165,68 +180,96 @@ class CategoryDetailsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: performerTasks.isNotEmpty
-            ? ListView.builder(
-                itemCount: performerTasks.length,
-                itemBuilder: (context, index) {
-                  final job = performerTasks[index];
-                  // Use 'Job ID' if available, otherwise use index + 1
-                  return Card(
-                    color: Colors.black,
-                    elevation: 2,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    child: ExpansionTile(
-                      iconColor: Colors.white,
-                      collapsedIconColor: Colors.blue[300],
-                      title: Text(
-                        'Job Order ${job['Job Order #']} ✨',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                      subtitle: Text(
-                        'Category : ${job['Category']}',
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.white),
-                      ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: job.entries.map((entry) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${entry.key}: ',
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        entry.value?.toString() ?? 'N/A',
-                                        softWrap: true,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+        child: Column(
+          children: [
+            // Search Box
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: TextField(
+                textInputAction: TextInputAction.search,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: 'Search Job Order #',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
                 },
-              )
-            : const Center(
-                child: Text('No job orders found for this category')),
+              ),
+            ),
+            Expanded(
+              child: performerTasks.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: performerTasks.length,
+                      itemBuilder: (context, index) {
+                        final job = performerTasks[index];
+                        return Card(
+                          color: Colors.black,
+                          elevation: 2,
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          child: ExpansionTile(
+                            iconColor: Colors.white,
+                            collapsedIconColor: Colors.blue[300],
+                            title: Text(
+                              'Job Order ${job['Job Order #']} ✨',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              'Performer: ${job['Performer'] ?? 'N/A'}',
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.white),
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: job.entries.map((entry) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${entry.key}: ',
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              entry.value?.toString() ?? 'N/A',
+                                              softWrap: true,
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  : const Center(child: Text('No matching job orders found')),
+            ),
+          ],
+        ),
       ),
     );
   }

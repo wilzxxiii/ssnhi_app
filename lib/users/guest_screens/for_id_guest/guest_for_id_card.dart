@@ -3,7 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_model.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
-import 'package:ssnhi_app/users/guest_screens/for_id_guest/view_for_id/mobile/view_for_id_mobile_guest.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/users/guest_screens/for_id_guest/view_for_id/view_for_id_mobile_guest.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
 
 class GuestForIdCard extends StatelessWidget {
@@ -24,7 +25,7 @@ class GuestForIdCard extends StatelessWidget {
       color: Colors.black,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: ListTile(
-        minTileHeight: 100,
+        minTileHeight: listTileHeight,
         // leading: const Icon(
         //   Icons.account_circle,
         //   color: Colors.white,
@@ -101,12 +102,12 @@ class GuestForIdCard extends StatelessWidget {
             vm.loadForIdModel(forId);
             showCupertinoModalBottomSheet(
                 context: context,
-                builder: (context) => ViewForIdMobileGuest(forIdModel: forId));
+                builder: (context) => ViewForIdGuest(forIdModel: forId));
           } else {
             vm.loadForIdModel(forId);
             showModalBottomSheet(
                 context: context,
-                builder: (context) => ViewForIdMobileGuest(forIdModel: forId));
+                builder: (context) => ViewForIdGuest(forIdModel: forId));
           }
           // vm.loadForIdModel(forId);
           // Navigator.push(

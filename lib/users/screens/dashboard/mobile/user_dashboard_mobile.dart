@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:june/june.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:ssnhi_app/data/user/state/auth_state_june.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/users/screens/dashboard/mobile/user_dashboard_mobile_drawer.dart';
+
 import 'package:ssnhi_app/users/screens/for_id/for_id_screen.dart';
 import 'package:ssnhi_app/users/shared_screen/charts/maintenance_chart.dart';
 import 'package:ssnhi_app/users/shared_screen/charts/monthly/monthly_summary_chart.dart';
@@ -13,6 +16,7 @@ class UserDashboardMobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = June.getState(() => AuthState());
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
       // floatingActionButton: FloatingActionButton(
@@ -21,24 +25,30 @@ class UserDashboardMobileView extends StatelessWidget {
       //         MaterialPageRoute(builder: (context) => const ChatAgentSreen()));
       //   },
       //   backgroundColor: mainColor,
-      //   hoverColor: hoverColor,
-      //   tooltip: 'Chat with AI',
       //   child: const Icon(
       //     Icons.chat,
       //     color: Colors.white,
       //   ),
       // ),
-      drawer: const UserDashboardMobileDrawer(),
+      // drawer: const UserDashboardMobileDrawer(),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: iconColor),
-        centerTitle: true,
-        title: const Text(
-          'Brando ❤️‍🔥',
+        title: Text(
+          'Welcome, ${authState.user!.name} ❤️‍🔥',
           style: titleStyle,
         ),
         toolbarHeight: appBarHeight,
-        elevation: 10,
-        backgroundColor: mainColor,
+        backgroundColor: darkBackground,
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await authState.userLogOut(context);
+              },
+              icon: const FaIcon(Icons.logout_rounded)),
+          const SizedBox(
+            width: 10,
+          )
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +87,7 @@ class UserDashboardMobileView extends StatelessWidget {
                               color: darkBackground,
                               child: ListTile(
                                 hoverColor: Colors.blue,
-                                minTileHeight: 100,
+                                minTileHeight: listTileHeight,
                                 title: const Text(
                                   'Top Performers ❤️‍🔥',
                                   style: titleStyle,
@@ -100,7 +110,7 @@ class UserDashboardMobileView extends StatelessWidget {
                               color: darkBackground,
                               child: ListTile(
                                 hoverColor: Colors.blue,
-                                minTileHeight: 100,
+                                minTileHeight: listTileHeight,
                                 title: const Text(
                                   'Request per Departments ✨',
                                   style: titleStyle,

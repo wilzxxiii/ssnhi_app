@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:june/june.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_model.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
-import 'package:ssnhi_app/shared/utils/responsive.dart';
-import 'package:ssnhi_app/users/screens/for_id/edit_for_id/edit_for_id.dart';
 
-class ViewForId extends StatelessWidget {
+class ViewForIdGuest extends StatelessWidget {
   final ForIdModel forIdModel;
-  const ViewForId({
+  const ViewForIdGuest({
     super.key,
     required this.forIdModel,
   });
@@ -19,41 +16,16 @@ class ViewForId extends StatelessWidget {
   Widget build(BuildContext context) {
     final forIdState = June.getState(() => ForIdState());
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          //web
-          // showDialog(
-          //     context: context,
-          //     builder: (context) => Padding(
-          //           padding: const EdgeInsets.all(40.0),
-          //           child: EditForId(forIdModel: forIdModel),
-          //         ));
-          //mobile
-          if (Responsive.isDesktop(context)) {
-            showModalBottomSheet(
-                context: context,
-                builder: (context) => EditForId(forIdModel: forIdModel));
-          } else {
-            showCupertinoModalBottomSheet(
-                context: context,
-                builder: (context) => EditForId(forIdModel: forIdModel));
-          }
-        },
-        label: const Text(
-          'Edit 🖊️',
-          style: titleStyle,
-        ),
-        backgroundColor: darkBackground,
-        hoverColor: hoverColor,
-      ),
       appBar: AppBar(
         toolbarHeight: appBarHeight,
+        centerTitle: true,
         backgroundColor: darkBackground,
         iconTheme: const IconThemeData(color: iconColor),
         leading: IconButton(
           onPressed: () {
             forIdState.clearForIdModel();
             forIdState.clearControllers();
+
             Navigator.pop(context);
           },
           icon: const FaIcon(Icons.close_rounded),

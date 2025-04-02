@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:fl_chart/fl_chart.dart';
-
 import 'package:june/june.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import 'package:ssnhi_app/users/shared_screen/charts/monthly/monthly_category_chart.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 import 'package:ssnhi_app/shared/utils/responsive.dart';
+import 'package:ssnhi_app/users/shared_screen/charts/monthly/monthly_material_details_screen.dart';
+import 'package:ssnhi_app/users/shared_screen/charts/monthly/monthly_performer_details.dart';
 import 'package:ssnhi_app/users/shared_screen/charts/state/monthly_summary_chart_state.dart';
 
 class MonthlySummaryScreen extends StatelessWidget {
@@ -241,11 +240,49 @@ class MonthlySummaryScreen extends StatelessWidget {
                             .toList()
                             .map((entry) => DataRow(
                                   cells: [
-                                    DataCell(Text(
-                                      entry.key,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
+                                    DataCell(MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          if (Responsive.isMobile(context)) {
+                                            showCupertinoModalBottomSheet(
+                                              context: context,
+                                              builder: (context) =>
+                                                  MonthlyPerformerDetailsScreen(
+                                                performerName: entry.key,
+                                                sheetData: monthlySumState
+                                                    .entitiesData
+                                                    .toList(),
+                                                selectedMonth: monthlySumState
+                                                    .selectedMonth,
+                                                selectedYear: monthlySumState
+                                                    .selectedYear,
+                                              ),
+                                            );
+                                          } else {
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) =>
+                                                  MonthlyPerformerDetailsScreen(
+                                                performerName: entry.key,
+                                                sheetData: monthlySumState
+                                                    .entitiesData
+                                                    .toList(),
+                                                selectedMonth: monthlySumState
+                                                    .selectedMonth,
+                                                selectedYear: monthlySumState
+                                                    .selectedYear,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child: Text(
+                                          entry.key,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     )),
                                     DataCell(Text(
@@ -270,6 +307,99 @@ class MonthlySummaryScreen extends StatelessWidget {
                     const Text('No performer data for the selected period'),
 
                   const SizedBox(height: 16),
+                  const Text(
+                    'Materials Used ✨',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  //Bar chart for materials
+                  if (monthlySumState.materialUsedCount.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.all(30),
+                      decoration: const BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                      width: double.infinity,
+                      child: DataTable(
+                        columns: const [
+                          DataColumn(
+                            label: Text(
+                              'Materials Used',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                        rows: monthlySumState.materialUsedCount.entries
+                            .toList()
+                            .map((entry) => DataRow(
+                                  cells: [
+                                    DataCell(
+                                      MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            if (Responsive.isMobile(context)) {
+                                              showCupertinoModalBottomSheet(
+                                                context: context,
+                                                builder: (context) =>
+                                                    MonthlyMaterialDetailsScreen(
+                                                  materialName: entry.key,
+                                                  sheetData: monthlySumState
+                                                      .joData
+                                                      .toList(),
+                                                  selectedMonth: monthlySumState
+                                                      .selectedMonth,
+                                                  selectedYear: monthlySumState
+                                                      .selectedYear,
+                                                ),
+                                              );
+                                            } else {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) =>
+                                                    MonthlyMaterialDetailsScreen(
+                                                  materialName: entry.key,
+                                                  sheetData: monthlySumState
+                                                      .joData
+                                                      .toList(),
+                                                  selectedMonth: monthlySumState
+                                                      .selectedMonth,
+                                                  selectedYear: monthlySumState
+                                                      .selectedYear,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Text(
+                                            entry.key,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ))
+                            .toList(),
+                        border: TableBorder.all(color: Colors.grey),
+                        columnSpacing: 20,
+                      ),
+                    )
+                  else
+                    const Text('No materials used for the selected period'),
 
                   // Work Requested Data Tables
                   ...monthlySumState.categories.map((cat) {

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:june/state_manager/src/simple/controllers.dart';
-import 'package:ssnhi_app/data/google_sheet.dart';
+import 'package:ssnhi_app/shared/utils/google_sheet.dart';
 
 class MonthlySummaryChartState extends JuneState {
   List<Map<String, dynamic>> joData = []; // From "JO Data Draft"
@@ -14,6 +14,7 @@ class MonthlySummaryChartState extends JuneState {
 
   Map<String, int> categoryCount = {};
   Map<String, int> performerCount = {};
+  Map<String, int> materialUsedCount = {};
   Map<String, Map<String, int>> workRequestedCount = {};
   final List<String> categories = [
     "Aircon",
@@ -116,6 +117,7 @@ class MonthlySummaryChartState extends JuneState {
 
     categoryCount.clear();
     performerCount.clear();
+    materialUsedCount.clear();
     workRequestedCount.clear();
 
     //  Process JO Data Draft for category and work requested counts
@@ -132,6 +134,34 @@ class MonthlySummaryChartState extends JuneState {
           // Category Count
           var category = row['Category']?.toString() ?? 'Uncategorized';
           categoryCount[category] = (categoryCount[category] ?? 0) + 1;
+
+          // Materials Used Count - Skip if null or empty
+          var materials = row['Material Used']?.toString();
+          if (materials != null && materials.isNotEmpty) {
+            if (materials.contains(',')) {
+              var materialList =
+                  materials.split(',').map((m) => m.trim()).toList();
+              for (var material in materialList) {
+                if (material.isNotEmpty) {
+                  // Skip empty items in comma-separated list
+                  materialUsedCount[material] =
+                      (materialUsedCount[material] ?? 0) + 1;
+                }
+              }
+            } else {
+              materialUsedCount[materials] =
+                  (materialUsedCount[materials] ?? 0) + 1;
+            }
+          }
+
+          // // Materials Used
+          // if (categories.contains(category)) {
+          //   var materialsUsed =
+          //       row['Materials Used']?.toString() ?? 'Unspecified';
+          //   materialsUsed[mat] ??= {};
+          //   materialsUsed[category]![materialsUsed] =
+          //       (workRequestedCount[category]![materialsUsed] ?? 0) + 1;
+          // }
 
           // Work Requested Count per Category
           if (categories.contains(category)) {

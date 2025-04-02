@@ -22,3 +22,8 @@ const sheetsUrl =
 const entitiesRangeRange = 'Entities!A1:D';
 const entitiesSheetUrl =
     'https://sheets.googleapis.com/v4/spreadsheets/$sheetId/values/$entitiesRangeRange?key=$googleCloudApiKey';
+
+//For Materials
+const materialsRange = 'Materials!A1:F';
+const materialsSheetUrl =
+    'https://sheets.googleapis.com/v4/spreadsheets/$sheetId/values/$materialsRange?key=$googleCloudApiKey';

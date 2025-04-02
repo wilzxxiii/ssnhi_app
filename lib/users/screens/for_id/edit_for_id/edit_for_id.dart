@@ -66,37 +66,43 @@ class EditForId extends StatelessWidget {
                         fontSize: 22,
                       )),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    controller: forIdState.empNameController,
-                    keyboardType: TextInputType.name,
-                    // initialValue: forIdModel.empName,
-                    decoration: InputDecoration(
-                      label: const Text('Name'),
-                      contentPadding: const EdgeInsets.all(20),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            width: 20, style: BorderStyle.solid),
+                  SizedBox(
+                    height: textBoxHeight,
+                    child: TextFormField(
+                      controller: forIdState.empNameController,
+                      keyboardType: TextInputType.name,
+                      // initialValue: forIdModel.empName,
+                      decoration: InputDecoration(
+                        label: const Text('Name'),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              width: 10, style: BorderStyle.solid),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    controller: forIdState.empNoController,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.number,
+                  SizedBox(
+                    height: textBoxHeight,
+                    child: TextFormField(
+                      controller: forIdState.empNoController,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
 
-                    // initialValue: forIdModel.empNo,
-                    validator:
-                        MinLengthValidator(0, errorText: 'Shouldn\'t be empty.')
-                            .call,
-                    decoration: InputDecoration(
-                      label: const Text('Employee Number'),
-                      contentPadding: const EdgeInsets.all(20),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            width: 20, style: BorderStyle.solid),
+                      // initialValue: forIdModel.empNo,
+                      validator: MinLengthValidator(0,
+                              errorText: 'Shouldn\'t be empty.')
+                          .call,
+                      decoration: InputDecoration(
+                        label: const Text('Employee Number'),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              width: 10, style: BorderStyle.solid),
+                        ),
                       ),
                     ),
                   ),
@@ -126,22 +132,25 @@ class EditForId extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    keyboardType: TextInputType.name,
-                    // initialValue: forIdModel.position,
+                  SizedBox(
+                    height: textBoxHeight,
+                    child: TextFormField(
+                      keyboardType: TextInputType.name,
+                      // initialValue: forIdModel.position,
 
-                    textInputAction: TextInputAction.next,
-                    controller: forIdState.empPositionController,
-                    validator:
-                        MinLengthValidator(0, errorText: 'Shouldn\'t be empty.')
-                            .call,
-                    decoration: InputDecoration(
-                      label: const Text('Position'),
-                      contentPadding: const EdgeInsets.all(20),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            width: 20, style: BorderStyle.solid),
+                      textInputAction: TextInputAction.next,
+                      controller: forIdState.empPositionController,
+                      validator: MinLengthValidator(0,
+                              errorText: 'Shouldn\'t be empty.')
+                          .call,
+                      decoration: InputDecoration(
+                        label: const Text('Position'),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              width: 10, style: BorderStyle.solid),
+                        ),
                       ),
                     ),
                   ),
@@ -150,56 +159,65 @@ class EditForId extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 22,
                       )),
-                  TextFormField(
-                    controller: forIdState.ecNameController,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.name,
+                  SizedBox(
+                    height: textBoxHeight,
+                    child: TextFormField(
+                      controller: forIdState.ecNameController,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
 
-                    // initialValue: forIdState.ecName,
-                    decoration: InputDecoration(
-                      label: const Text('Name'),
-                      prefixIcon: const Icon(Icons.person_2_rounded),
-                      contentPadding: const EdgeInsets.all(20),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            width: 10, style: BorderStyle.solid),
+                      // initialValue: forIdState.ecName,
+                      decoration: InputDecoration(
+                        label: const Text('Name'),
+                        prefixIcon: const Icon(Icons.person_2_rounded),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              width: 10, style: BorderStyle.solid),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    controller: forIdState.ecAddController,
+                  SizedBox(
+                    height: textBoxHeight,
+                    child: TextFormField(
+                      controller: forIdState.ecAddController,
 
-                    // initialValue: forIdState.ecAdd,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.streetAddress,
-                    decoration: InputDecoration(
-                      label: const Text('Address'),
-                      prefixIcon: const Icon(Icons.pin_drop_rounded),
-                      contentPadding: const EdgeInsets.all(20),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            width: 10, style: BorderStyle.solid),
+                      // initialValue: forIdState.ecAdd,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.streetAddress,
+                      decoration: InputDecoration(
+                        label: const Text('Address'),
+                        prefixIcon: const Icon(Icons.pin_drop_rounded),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: const BorderSide(
+                              width: 10, style: BorderStyle.solid),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    controller: forIdState.ecPhoneController,
-                    keyboardType: TextInputType.number,
-                    textInputAction: TextInputAction.next,
+                  SizedBox(
+                    height: textBoxHeight,
+                    child: TextFormField(
+                      controller: forIdState.ecPhoneController,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
 
-                    // initialValue: forIdModel.ecPhone,
-                    decoration: InputDecoration(
-                      label: const Text('Contact Number'),
-                      prefixIcon: const Icon(Icons.phone),
-                      contentPadding: const EdgeInsets.all(20),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 10, style: BorderStyle.solid),
-                        borderRadius: BorderRadius.circular(20.0),
+                      // initialValue: forIdModel.ecPhone,
+                      decoration: InputDecoration(
+                        label: const Text('Contact Number'),
+                        prefixIcon: const Icon(Icons.phone),
+                        contentPadding: const EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 10, style: BorderStyle.solid),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
                       ),
                     ),
                   ),

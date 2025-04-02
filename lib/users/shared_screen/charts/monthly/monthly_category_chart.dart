@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:ssnhi_app/shared/constants/constants.dart';
 
-class MonthlyCategoryDetailsScreen extends StatelessWidget {
+class MonthlyCategoryDetailsScreen extends StatefulWidget {
   final String categoryName;
   final List<Map<String, dynamic>> sheetData;
   final String? selectedMonth;
@@ -16,6 +16,15 @@ class MonthlyCategoryDetailsScreen extends StatelessWidget {
     required this.selectedMonth,
     required this.selectedYear,
   });
+
+  @override
+  State<MonthlyCategoryDetailsScreen> createState() =>
+      _MonthlyCategoryDetailsScreenState();
+}
+
+class _MonthlyCategoryDetailsScreenState
+    extends State<MonthlyCategoryDetailsScreen> {
+  String searchQuery = ''; // To store the search input
 
   @override
   Widget build(BuildContext context) {
@@ -33,33 +42,33 @@ class MonthlyCategoryDetailsScreen extends StatelessWidget {
       "November": 11,
       "December": 12
     };
-    final monthNum = monthMap[selectedMonth] ?? 0;
+    final monthNum = monthMap[widget.selectedMonth] ?? 0;
 
-    // Filter sheetData for the selected category, month, and year
-    final categoryTasks = sheetData.where((row) {
+    // Filter sheetData for the selected category, month, year, and search query
+    final categoryTasks = widget.sheetData.where((row) {
       var category = row['Category']?.toString() ?? 'Uncategorized';
       var dateStr = row['Date Finished']?.toString() ?? '';
       if (dateStr.isEmpty) return false;
 
       try {
         var date = DateFormat('M/d/yyyy').parse(dateStr, true);
-        return category == categoryName &&
+        return category == widget.categoryName &&
             date.month == monthNum &&
-            date.year == selectedYear!;
+            date.year == widget.selectedYear! &&
+            (searchQuery.isEmpty ||
+                row['Job Order #']
+                        ?.toString()
+                        .toLowerCase()
+                        .contains(searchQuery.toLowerCase()) ==
+                    true);
       } catch (e) {
         return false;
       }
     }).toList();
 
-    const titleStyle = TextStyle(
-      color: Colors.white,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    );
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('$categoryName - Details 💖', style: titleStyle),
+        title: Text('${widget.categoryName} - Details 💖', style: titleStyle),
         backgroundColor: darkBackground,
         toolbarHeight: appBarHeight,
         leading: IconButton(
@@ -72,67 +81,94 @@ class MonthlyCategoryDetailsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: categoryTasks.isNotEmpty
-            ? ListView.builder(
-                itemCount: categoryTasks.length,
-                itemBuilder: (context, index) {
-                  final job = categoryTasks[index];
-                  return Card(
-                    color: Colors.black,
-                    elevation: 2,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    child: ExpansionTile(
-                      iconColor: Colors.white,
-                      collapsedIconColor: Colors.blue[300],
-                      title: Text(
-                        'Job Order ${job['Job Order #']} ✨',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                      subtitle: Text(
-                        'Work Requested: ${job['Work Requested'] ?? 'N/A'}',
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.white),
-                      ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: job.entries.map((entry) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${entry.key}: ',
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        entry.value?.toString() ?? 'N/A',
-                                        softWrap: true,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+        child: Column(
+          children: [
+            // Search Box
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search Job Order #',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
                 },
-              )
-            : const Center(
-                child: Text('No job orders found for this category')),
+              ),
+            ),
+            Expanded(
+              child: categoryTasks.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: categoryTasks.length,
+                      itemBuilder: (context, index) {
+                        final job = categoryTasks[index];
+                        return Card(
+                          color: Colors.black,
+                          elevation: 2,
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          child: ExpansionTile(
+                            iconColor: Colors.white,
+                            collapsedIconColor: Colors.blue[300],
+                            title: Text(
+                              'Job Order ${job['Job Order #']} ✨',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              'Work Requested: ${job['Work Requested'] ?? 'N/A'}',
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.white),
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: job.entries.map((entry) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${entry.key}: ',
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              entry.value?.toString() ?? 'N/A',
+                                              softWrap: true,
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  : const Center(child: Text('No matching job orders found')),
+            ),
+          ],
+        ),
       ),
     );
   }

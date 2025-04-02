@@ -3,6 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_model.dart';
 import 'package:ssnhi_app/data/entity/for_id/for_id_state.dart';
+import 'package:ssnhi_app/shared/constants/constants.dart';
+import 'package:ssnhi_app/shared/utils/responsive.dart';
 import 'package:ssnhi_app/users/screens/for_id/view_for_id/view_for_id.dart';
 
 class ForIdCard extends StatelessWidget {
@@ -23,7 +25,7 @@ class ForIdCard extends StatelessWidget {
       color: Colors.blueGrey,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: ListTile(
-        minTileHeight: 100,
+        minTileHeight: listTileHeight,
         // leading: const Icon(
         //   Icons.account_circle,
         //   color: Colors.white,
@@ -97,13 +99,23 @@ class ForIdCard extends StatelessWidget {
         ),
         onTap: () {
           vm.loadForIdModel(forId);
-          showCupertinoModalBottomSheet(
-            isDismissible: false,
-            context: context,
-            builder: (context) => ViewForId(
-              forIdModel: forId,
-            ),
-          );
+          if (Responsive.isMobile(context)) {
+            showCupertinoModalBottomSheet(
+              isDismissible: false,
+              context: context,
+              builder: (context) => ViewForId(
+                forIdModel: forId,
+              ),
+            );
+          } else {
+            showModalBottomSheet(
+              isDismissible: false,
+              context: context,
+              builder: (context) => ViewForId(
+                forIdModel: forId,
+              ),
+            );
+          }
         },
       ),
     );

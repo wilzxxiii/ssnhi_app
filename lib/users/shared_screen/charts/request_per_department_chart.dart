@@ -154,7 +154,7 @@ class RequestPerDepartments extends StatelessWidget {
 }
 
 // Updated Performer Details Screen with Clickable Rows
-class DepartmentDetailsScreen extends StatelessWidget {
+class DepartmentDetailsScreen extends StatefulWidget {
   final String deptName;
   final List<Map<String, dynamic>> sheetData;
 
@@ -165,16 +165,29 @@ class DepartmentDetailsScreen extends StatelessWidget {
   });
 
   @override
+  State<DepartmentDetailsScreen> createState() =>
+      _DepartmentDetailsScreenState();
+}
+
+class _DepartmentDetailsScreenState extends State<DepartmentDetailsScreen> {
+  String searchQuery = ''; // To store the search input
+
+  @override
   Widget build(BuildContext context) {
-    // Filter sheetData for the selected performer
-    final deptRequests = sheetData
-        .where((row) => row['Requestor Department'].toString() == deptName)
+    // Filter sheetData for the selected department and search query
+    final deptRequests = widget.sheetData
+        .where(
+            (row) => row['Requestor Department'].toString() == widget.deptName)
+        .where((row) =>
+            searchQuery.isEmpty ||
+            row['Job Order #']
+                    ?.toString()
+                    .toLowerCase()
+                    .contains(searchQuery.toLowerCase()) ==
+                true)
         .toList();
 
-    // // Define the headers we want to show
-    // const desiredHeaders = ['Job Order #', 'Category', 'Status', 'Performer'];
-
-    // Assuming titleStyle is defined elsewhere; replace with your style if needed
+    // Assuming titleStyle and darkBackground are defined elsewhere
     const titleStyle = TextStyle(
       color: Colors.white,
       fontSize: 20,
@@ -183,7 +196,7 @@ class DepartmentDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$deptName Job Orders 💖', style: titleStyle),
+        title: Text('${widget.deptName} Job Orders 💖', style: titleStyle),
         backgroundColor: darkBackground,
         toolbarHeight: appBarHeight,
         leading: IconButton(
@@ -196,133 +209,97 @@ class DepartmentDetailsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: deptRequests.isNotEmpty
-            ? ListView.builder(
-                itemCount: deptRequests.length,
-                itemBuilder: (context, index) {
-                  final job = deptRequests[index];
-                  // Use 'Job ID' if available, otherwise use index + 1
-                  return Card(
-                    color: Colors.black,
-                    elevation: 2,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    child: ExpansionTile(
-                      iconColor: Colors.white,
-                      collapsedIconColor: Colors.blue[300],
-                      title: Text(
-                        'Job Order ${job['Job Order #']} ✨',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                      subtitle: Text(
-                        'Category : ${job['Category']}',
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.white),
-                      ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: job.entries.map((entry) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${entry.key}: ',
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        entry.value?.toString() ?? 'N/A',
-                                        softWrap: true,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+        child: Column(
+          children: [
+            // Search Box
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: TextField(
+                textInputAction: TextInputAction.search,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: 'Search Job Order #',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
                 },
-              )
-            : const Center(
-                child: Text('No job orders found for this category')),
+              ),
+            ),
+            Expanded(
+              child: deptRequests.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: deptRequests.length,
+                      itemBuilder: (context, index) {
+                        final job = deptRequests[index];
+                        return Card(
+                          color: Colors.black,
+                          elevation: 2,
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          child: ExpansionTile(
+                            iconColor: Colors.white,
+                            collapsedIconColor: Colors.blue[300],
+                            title: Text(
+                              'Job Order ${job['Job Order #']} ✨',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              'Category: ${job['Category'] ?? 'N/A'}',
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.white),
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: job.entries.map((entry) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${entry.key}: ',
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              entry.value?.toString() ?? 'N/A',
+                                              softWrap: true,
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  : const Center(child: Text('No matching job orders found')),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
-// Task Details Screen
-// class DepartmentJODetailsScreen extends StatelessWidget {
-//   final Map<String, dynamic> task;
-
-//   const DepartmentJODetailsScreen({
-//     super.key,
-//     required this.task,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         toolbarHeight: 80,
-//         title: Text('${task['Requestor Department'] + " JO 💖" ?? 'Unknown'}',
-//             style: titleStyle),
-//         backgroundColor: Colors.black,
-//         leading: IconButton(
-//           color: Colors.white,
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//           icon: const FaIcon(Icons.arrow_back_ios_new),
-//         ),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(20),
-//         child: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: task.entries.map((entry) {
-//               return Padding(
-//                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-//                 child: Row(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       '${entry.key}: ',
-//                       style: const TextStyle(
-//                         fontWeight: FontWeight.bold,
-//                         fontSize: 16,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                     Expanded(
-//                       child: Text(
-//                         entry.value?.toString() ?? 'N/A',
-//                         style: const TextStyle(
-//                           fontSize: 16,
-//                           color: Colors.black,
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               );
-//             }).toList(),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

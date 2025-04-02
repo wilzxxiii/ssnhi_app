@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:june/june.dart';
@@ -110,7 +111,7 @@ class GuestDashboardWeb extends StatelessWidget {
                                           child: MaintenanceCategoryView()),
                                       const SizedBox(height: 12),
                                       Container(
-                                        height: 80,
+                                        height: 60,
                                         padding: const EdgeInsets.all(12),
                                         decoration: const BoxDecoration(
                                             color: Colors.black,
@@ -127,10 +128,15 @@ class GuestDashboardWeb extends StatelessWidget {
                                                 backgroundColor: Colors.white,
                                               ),
                                               onPressed: () {
-                                                showModalBottomSheet(
+                                                showCupertinoModalPopup(
                                                     context: context,
                                                     builder: (context) =>
-                                                        const PerformerChart());
+                                                        const Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    50),
+                                                            child:
+                                                                PerformerChart()));
                                               },
                                               child: const Text(
                                                 'Top Performers ❤️‍🔥',
@@ -146,10 +152,15 @@ class GuestDashboardWeb extends StatelessWidget {
                                                   backgroundColor: Colors.white,
                                                   shadowColor: Colors.blue),
                                               onPressed: () {
-                                                showModalBottomSheet(
+                                                showCupertinoModalPopup(
                                                     context: context,
                                                     builder: (context) =>
-                                                        const RequestPerDepartments());
+                                                        const Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    50),
+                                                            child:
+                                                                RequestPerDepartments()));
                                               },
                                               child: const Text(
                                                 'Job Order by Department ✨',
@@ -160,6 +171,25 @@ class GuestDashboardWeb extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
+                                            // ElevatedButton(
+                                            //   style: ElevatedButton.styleFrom(
+                                            //       backgroundColor: Colors.white,
+                                            //       shadowColor: Colors.blue),
+                                            //   onPressed: () {
+                                            //     showModalBottomSheet(
+                                            //         context: context,
+                                            //         builder: (context) =>
+                                            //             const MaterialUsedScreen());
+                                            //   },
+                                            //   child: const Text(
+                                            //     'Materials Used ✨',
+                                            //     style: TextStyle(
+                                            //       fontSize: 18,
+                                            //       fontWeight: FontWeight.w600,
+                                            //       color: Colors.black,
+                                            //     ),
+                                            //   ),
+                                            // ),
                                           ],
                                         ),
                                       ),

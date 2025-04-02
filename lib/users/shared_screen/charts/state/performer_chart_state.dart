@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:june/state_manager/src/simple/controllers.dart';
-import 'package:ssnhi_app/data/google_sheet.dart';
+import 'package:ssnhi_app/shared/utils/google_sheet.dart';
 
 class PerformerChartState extends JuneState {
   List<Map<String, dynamic>> sheetData = [];

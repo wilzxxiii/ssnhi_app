@@ -14,6 +14,7 @@ class AddForId extends StatelessWidget {
   Widget build(BuildContext context) {
     final forIdState = June.getState(() => ForIdState());
     return Scaffold(
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: iconColor),
         leading: IconButton(

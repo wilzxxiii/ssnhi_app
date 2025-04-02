@@ -1,20 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:june/state_manager/state_manager.dart';
+import 'package:june/state_manager/src/simple/controllers.dart';
 import 'package:ssnhi_app/shared/utils/google_sheet.dart';
 
-class MaintenanceChartState extends JuneState {
+class MaterialUsedState extends JuneState {
   List<Map<String, dynamic>> sheetData = [];
-  Map<String, int> categoryCounts = {};
+  Map<String, int> materialsUsed = {};
   bool isLoading = true;
-  int touchedIndex = -1;
 
-  MaintenanceChartState() {
+  MaterialUsedState() {
     _fetchData();
   }
 
   Future<void> _fetchData() async {
-    const url = sheetsUrl;
+    const url = materialsSheetUrl;
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -23,6 +22,7 @@ class MaintenanceChartState extends JuneState {
         var values = json['values'] as List;
         if (values.isEmpty) {
           isLoading = false;
+          setState();
           return;
         }
 
@@ -37,10 +37,13 @@ class MaintenanceChartState extends JuneState {
           return rowMap;
         }).toList();
 
-        categoryCounts.clear();
+        materialsUsed.clear();
         for (var row in sheetData) {
-          String category = row['Category'].toString();
-          categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
+          String materialUsedName =
+              row['Material Used']?.toString() ?? 'Unknown';
+          // Parse Total JO as an integer, default to 0 if empty or invalid
+          int totalJo = int.tryParse(row['Quantity']?.toString() ?? '0') ?? 0;
+          materialsUsed[materialUsedName] = totalJo;
         }
 
         isLoading = false;

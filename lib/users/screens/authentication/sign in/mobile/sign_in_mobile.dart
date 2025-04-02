@@ -26,7 +26,7 @@ class SignInMobilePage extends StatelessWidget {
         centerTitle: false,
         backgroundColor: darkBackground,
         automaticallyImplyLeading: false,
-        toolbarHeight: 80,
+        toolbarHeight: appBarHeight,
       ),
       body: const SingleChildScrollView(
         child: Center(

@@ -173,8 +173,14 @@ class ForIdState extends JuneState {
             scale: 20,
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black,
+            ),
             onPressed: () => downloadSignature(base64String),
-            child: const Text('Download Signature'),
+            child: const Text(
+              'Download Signature',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       );

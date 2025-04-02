@@ -21,4 +21,7 @@ final singingMyBlues = Colors.blue[700];
 
 final scaffoldColor = Colors.blueGrey[50];
 
+const double listTileHeight = 80;
+const double textBoxHeight = 45;
+
 //  Color(0xffF7F7F7);
